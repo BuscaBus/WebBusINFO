@@ -15,6 +15,7 @@ VARIÁVEIS
 */
 
 let todasLinhas = [];
+let idLinhaParaExcluir = null;
 
 
 /*
@@ -84,6 +85,10 @@ document.addEventListener(
 
             configurarEventosModal();
 
+            await carregarModalExclusao();
+
+            configurarEventosModalExclusao();
+
         } catch (erro) {
 
             console.error(
@@ -143,6 +148,132 @@ async function carregarModalLinha() {
     container.innerHTML = html;
 }
 
+/*
+==========================================================
+CARREGAR MODAL DE EXCLUSÃO
+==========================================================
+*/
+
+async function carregarModalExclusao() {
+
+    const resposta =
+        await fetch(
+            "./modals/exclusao.html"
+        );
+
+
+    if (!resposta.ok) {
+
+        throw new Error(
+            `Erro ${resposta.status} ao carregar modals/exclusao.html`
+        );
+    }
+
+
+    const html =
+        await resposta.text();
+
+
+    const container =
+        document.getElementById(
+            "containerModalExclusao"
+        );
+
+
+    if (!container) {
+
+        throw new Error(
+            "containerModalExclusao não encontrado no index.html."
+        );
+    }
+
+
+    container.innerHTML =
+        html;
+}
+
+/*
+==========================================================
+CONFIGURAR EVENTOS DA MODAL DE EXCLUSÃO
+==========================================================
+*/
+
+function configurarEventosModalExclusao() {
+
+    const modal =
+        document.getElementById(
+            "modalExclusao"
+        );
+
+
+    const btnFechar =
+        document.getElementById(
+            "btnFecharExclusao"
+        );
+
+
+    const btnCancelar =
+        document.getElementById(
+            "btnCancelarExclusao"
+        );
+
+
+    const btnConfirmar =
+        document.getElementById(
+            "btnConfirmarExclusao"
+        );
+
+
+    if (btnFechar) {
+
+        btnFechar.addEventListener(
+            "click",
+            fecharModalExclusao
+        );
+    }
+
+
+    if (btnCancelar) {
+
+        btnCancelar.addEventListener(
+            "click",
+            fecharModalExclusao
+        );
+    }
+
+
+    if (btnConfirmar) {
+
+        btnConfirmar.addEventListener(
+            "click",
+            confirmarExclusaoLinha
+        );
+    }
+
+
+    /*
+    ------------------------------------------------------
+    CLICAR FORA DA MODAL
+    ------------------------------------------------------
+    */
+
+    if (modal) {
+
+        modal.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    event.target === modal
+                ) {
+
+                    fecharModalExclusao();
+                }
+
+            }
+        );
+    }
+}
 
 /*
 ==========================================================
@@ -1306,11 +1437,42 @@ EXCLUIR LINHA
 ==========================================================
 */
 
-async function excluirLinha(idLinha) {
+/*
+==========================================================
+ABRIR MODAL DE EXCLUSÃO
+==========================================================
+*/
+
+function excluirLinha(idLinha) {
+
+    const modal =
+        document.getElementById(
+            "modalExclusao"
+        );
+
+
+    const descricao =
+        document.getElementById(
+            "descricaoExclusao"
+        );
+
+
+    if (
+        !modal ||
+        !descricao
+    ) {
+
+        alert(
+            "A janela de confirmação ainda não foi carregada."
+        );
+
+        return;
+    }
+
 
     /*
     ------------------------------------------------------
-    LOCALIZAR REGISTRO NA LISTA
+    LOCALIZAR REGISTRO
     ------------------------------------------------------
     */
 
@@ -1326,43 +1488,108 @@ async function excluirLinha(idLinha) {
 
     /*
     ------------------------------------------------------
-    NOME PARA EXIBIR NA CONFIRMAÇÃO
+    GUARDAR ID
     ------------------------------------------------------
     */
 
-    let descricao =
-        "esta linha";
+    idLinhaParaExcluir =
+        idLinha;
 
+
+    /*
+    ------------------------------------------------------
+    MOSTRAR DESCRIÇÃO
+    ------------------------------------------------------
+    */
 
     if (registro) {
 
-        descricao =
+        descricao.textContent =
             `${registro.cod} - ${registro.linha}`;
+
+    } else {
+
+        descricao.textContent =
+            `ID ${idLinha}`;
     }
 
 
     /*
     ------------------------------------------------------
-    CONFIRMAÇÃO
+    ABRIR MODAL
     ------------------------------------------------------
     */
 
-    const confirmar =
-        window.confirm(
-            `Deseja realmente excluir ${descricao}?\n\n` +
-            "Esta operação removerá o registro da planilha."
+    modal.classList.add(
+        "ativo"
+    );
+}
+
+
+/*
+==========================================================
+FECHAR MODAL DE EXCLUSÃO
+==========================================================
+*/
+
+function fecharModalExclusao() {
+
+    const modal =
+        document.getElementById(
+            "modalExclusao"
+        );
+
+
+    if (modal) {
+
+        modal.classList.remove(
+            "ativo"
+        );
+    }
+
+
+    idLinhaParaExcluir =
+        null;
+}
+
+
+/*
+==========================================================
+CONFIRMAR EXCLUSÃO
+==========================================================
+*/
+
+async function confirmarExclusaoLinha() {
+
+    if (!idLinhaParaExcluir) {
+
+        return;
+    }
+
+
+    const idLinha =
+        idLinhaParaExcluir;
+
+
+    const botao =
+        document.getElementById(
+            "btnConfirmarExclusao"
         );
 
 
     /*
     ------------------------------------------------------
-    CANCELADO
+    BLOQUEAR BOTÃO
     ------------------------------------------------------
     */
 
-    if (!confirmar) {
+    if (botao) {
 
-        return;
+        botao.disabled =
+            true;
+
+        botao.textContent =
+            "EXCLUINDO...";
     }
 
 
@@ -1370,7 +1597,7 @@ async function excluirLinha(idLinha) {
 
         /*
         --------------------------------------------------
-        ENVIAR EXCLUSÃO PARA API
+        ENVIAR PARA API
         --------------------------------------------------
         */
 
@@ -1393,12 +1620,6 @@ async function excluirLinha(idLinha) {
             );
 
 
-        /*
-        --------------------------------------------------
-        VERIFICAR HTTP
-        --------------------------------------------------
-        */
-
         if (!resposta.ok) {
 
             throw new Error(
@@ -1410,19 +1631,13 @@ async function excluirLinha(idLinha) {
 
         /*
         --------------------------------------------------
-        LER RETORNO
+        RETORNO
         --------------------------------------------------
         */
 
         const resultado =
             await resposta.json();
 
-
-        /*
-        --------------------------------------------------
-        VERIFICAR API
-        --------------------------------------------------
-        */
 
         if (!resultado.sucesso) {
 
@@ -1431,6 +1646,15 @@ async function excluirLinha(idLinha) {
                 "Não foi possível excluir a linha."
             );
         }
+
+
+        /*
+        --------------------------------------------------
+        FECHAR MODAL
+        --------------------------------------------------
+        */
+
+        fecharModalExclusao();
 
 
         /*
@@ -1447,7 +1671,7 @@ async function excluirLinha(idLinha) {
 
         /*
         --------------------------------------------------
-        ATUALIZAR TABELA
+        ATUALIZAR LISTAGEM
         --------------------------------------------------
         */
 
@@ -1466,6 +1690,24 @@ async function excluirLinha(idLinha) {
             "Não foi possível excluir a linha.\n\n" +
             erro.message
         );
+
+
+    } finally {
+
+        /*
+        --------------------------------------------------
+        REATIVAR BOTÃO
+        --------------------------------------------------
+        */
+
+        if (botao) {
+
+            botao.disabled =
+                false;
+
+            botao.textContent =
+                "EXCLUIR";
+        }
     }
 }
 
