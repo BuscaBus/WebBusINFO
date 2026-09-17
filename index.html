@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -11,29 +12,48 @@
 
     <title>Cadastro de Linhas</title>
 
+
+    <!-- CSS PRINCIPAL -->
     <link
         rel="stylesheet"
-        href="css/style.css"
+        href="./css/style.css"
     >
 
-    <link
-    rel="stylesheet"
-    href="css/style.css"
-    >
 
+    <!-- CSS DA MODAL -->
     <link
         rel="stylesheet"
-        href="css/modal-linha.css"
+        href="./css/modal-linha.css"
     >
+
 </head>
+
 
 <body>
 
+    <!-- =====================================================
+         CABEÇALHO
+    ====================================================== -->
+
     <header>
-        <h1>Cadastro de Linhas</h1>
+
+        <h1>
+            Cadastro de Linhas
+        </h1>
+
     </header>
 
+
+    <!-- =====================================================
+         CONTEÚDO PRINCIPAL
+    ====================================================== -->
+
     <main>
+
+
+        <!-- =================================================
+             BARRA DE AÇÕES
+        ================================================== -->
 
         <section class="barra-acoes">
 
@@ -45,14 +65,20 @@
                 + NOVA LINHA
             </button>
 
+
             <input
                 type="text"
                 id="pesquisa"
                 placeholder="Pesquisar linha..."
+                autocomplete="off"
             >
 
         </section>
 
+
+        <!-- =================================================
+             TABELA
+        ================================================== -->
 
         <section class="tabela-container">
 
@@ -61,26 +87,60 @@
                 <thead>
 
                     <tr>
-                        <th>Empresa</th>
-                        <th>Cód.</th>
-                        <th>Linha</th>
-                        <th>Tipo</th>
-                        <th>Embarque Ida</th>
-                        <th>Embarque Volta</th>
-                        <th>Tarifa Cartão</th>
-                        <th>Tarifa Dinheiro</th>
-                        <th>Status</th>
-                        <th>Ações</th>
+
+                        <th>
+                            Empresa
+                        </th>
+
+                        <th>
+                            Cód.
+                        </th>
+
+                        <th>
+                            Linha
+                        </th>
+
+                        <th>
+                            Tipo
+                        </th>
+
+                        <th>
+                            Embarque Ida
+                        </th>
+
+                        <th>
+                            Embarque Volta
+                        </th>
+
+                        <th>
+                            Tarifa Cartão
+                        </th>
+
+                        <th>
+                            Tarifa Dinheiro
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Ações
+                        </th>
+
                     </tr>
 
                 </thead>
 
+
                 <tbody id="listaLinhas">
 
                     <tr>
+
                         <td colspan="10">
                             Carregando dados...
                         </td>
+
                     </tr>
 
                 </tbody>
@@ -89,17 +149,38 @@
 
         </section>
 
+
+        <!-- =================================================
+             MENSAGENS
+        ================================================== -->
+
         <div
             id="mensagem"
             class="mensagem"
         ></div>
 
+
     </main>
-    
-     <!-- MODAIS -->
+
+
+    <!-- =====================================================
+         MODAL
+
+         O conteúdo de:
+         modals/linha.html
+
+         será carregado aqui pelo JavaScript.
+    ====================================================== -->
+
     <div id="containerModal"></div>
 
-    <script src="js/script.js"></script>
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script src="./js/script.js"></script>
+
 
 </body>
 
