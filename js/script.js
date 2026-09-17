@@ -358,7 +358,6 @@ function abrirNovaLinha() {
         },
         100
     );
-}
 
 
 /*
