@@ -246,14 +246,10 @@ ABRIR NOVA LINHA
 function abrirNovaLinha() {
 
     const modal =
-        document.getElementById(
-            "modalLinha"
-        );
+        document.getElementById("modalLinha");
 
     const formulario =
-        document.getElementById(
-            "formLinha"
-        );
+        document.getElementById("formLinha");
 
     if (!modal || !formulario) {
 
@@ -263,6 +259,34 @@ function abrirNovaLinha() {
 
         return;
     }
+
+    formulario.reset();
+
+    document
+        .getElementById("id_linha")
+        .value = "";
+
+    document
+        .getElementById("tituloModal")
+        .textContent = "Nova Linha";
+
+    document
+        .getElementById("status")
+        .value = "Ativa";
+
+    modal.classList.add("ativo");
+
+    setTimeout(
+        function () {
+
+            document
+                .getElementById("empresa")
+                .focus();
+
+        },
+        100
+    );
+}
 
 
     /*
