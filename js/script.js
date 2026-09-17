@@ -65,7 +65,7 @@ document.addEventListener(
 
         /*
         --------------------------------------------------
-        CARREGAR REGISTROS
+        CARREGAR LINHAS
         --------------------------------------------------
         */
 
@@ -113,6 +113,7 @@ async function carregarModalLinha() {
             "./modals/linha.html"
         );
 
+
     if (!resposta.ok) {
 
         throw new Error(
@@ -120,13 +121,16 @@ async function carregarModalLinha() {
         );
     }
 
+
     const html =
         await resposta.text();
+
 
     const container =
         document.getElementById(
             "containerModal"
         );
+
 
     if (!container) {
 
@@ -134,6 +138,7 @@ async function carregarModalLinha() {
             "containerModal não encontrado no index.html."
         );
     }
+
 
     container.innerHTML = html;
 }
@@ -152,15 +157,18 @@ function configurarEventosModal() {
             "btnFecharModal"
         );
 
+
     const btnCancelar =
         document.getElementById(
             "btnCancelar"
         );
 
+
     const formulario =
         document.getElementById(
             "formLinha"
         );
+
 
     const modal =
         document.getElementById(
@@ -170,7 +178,7 @@ function configurarEventosModal() {
 
     /*
     ------------------------------------------------------
-    FECHAR
+    BOTÃO FECHAR
     ------------------------------------------------------
     */
 
@@ -185,7 +193,7 @@ function configurarEventosModal() {
 
     /*
     ------------------------------------------------------
-    CANCELAR
+    BOTÃO CANCELAR
     ------------------------------------------------------
     */
 
@@ -200,7 +208,7 @@ function configurarEventosModal() {
 
     /*
     ------------------------------------------------------
-    SALVAR
+    FORMULÁRIO
     ------------------------------------------------------
     */
 
@@ -231,6 +239,7 @@ function configurarEventosModal() {
 
                     fecharModal();
                 }
+
             }
         );
     }
@@ -246,12 +255,27 @@ ABRIR NOVA LINHA
 function abrirNovaLinha() {
 
     const modal =
-        document.getElementById("modalLinha");
+        document.getElementById(
+            "modalLinha"
+        );
+
 
     const formulario =
-        document.getElementById("formLinha");
+        document.getElementById(
+            "formLinha"
+        );
 
-    if (!modal || !formulario) {
+
+    /*
+    ------------------------------------------------------
+    VERIFICAR SE A MODAL FOI CARREGADA
+    ------------------------------------------------------
+    */
+
+    if (
+        !modal ||
+        !formulario
+    ) {
 
         alert(
             "O formulário ainda não foi carregado."
@@ -259,34 +283,6 @@ function abrirNovaLinha() {
 
         return;
     }
-
-    formulario.reset();
-
-    document
-        .getElementById("id_linha")
-        .value = "";
-
-    document
-        .getElementById("tituloModal")
-        .textContent = "Nova Linha";
-
-    document
-        .getElementById("status")
-        .value = "Ativa";
-
-    modal.classList.add("ativo");
-
-    setTimeout(
-        function () {
-
-            document
-                .getElementById("empresa")
-                .focus();
-
-        },
-        100
-    );
-}
 
 
     /*
@@ -304,9 +300,15 @@ function abrirNovaLinha() {
     ------------------------------------------------------
     */
 
-    document
-        .getElementById("id_linha")
-        .value = "";
+    const campoId =
+        document.getElementById(
+            "id_linha"
+        );
+
+    if (campoId) {
+
+        campoId.value = "";
+    }
 
 
     /*
@@ -315,9 +317,16 @@ function abrirNovaLinha() {
     ------------------------------------------------------
     */
 
-    document
-        .getElementById("tituloModal")
-        .textContent = "Nova Linha";
+    const titulo =
+        document.getElementById(
+            "tituloModal"
+        );
+
+    if (titulo) {
+
+        titulo.textContent =
+            "Nova Linha";
+    }
 
 
     /*
@@ -326,14 +335,21 @@ function abrirNovaLinha() {
     ------------------------------------------------------
     */
 
-    document
-        .getElementById("status")
-        .value = "Ativa";
+    const status =
+        document.getElementById(
+            "status"
+        );
+
+    if (status) {
+
+        status.value =
+            "Ativa";
+    }
 
 
     /*
     ------------------------------------------------------
-    ABRIR
+    ABRIR MODAL
     ------------------------------------------------------
     */
 
@@ -344,20 +360,27 @@ function abrirNovaLinha() {
 
     /*
     ------------------------------------------------------
-    FOCO
+    FOCO NO PRIMEIRO CAMPO
     ------------------------------------------------------
     */
 
     setTimeout(
         function () {
 
-            document
-                .getElementById("empresa")
-                .focus();
+            const empresa =
+                document.getElementById(
+                    "empresa"
+                );
+
+            if (empresa) {
+
+                empresa.focus();
+            }
 
         },
         100
     );
+}
 
 
 /*
@@ -372,6 +395,7 @@ function fecharModal() {
         document.getElementById(
             "modalLinha"
         );
+
 
     if (modal) {
 
@@ -401,31 +425,29 @@ async function salvarLinha(event) {
 
     /*
     ------------------------------------------------------
-    PEGAR ID
+    ID DA LINHA
     ------------------------------------------------------
     */
 
+    const campoId =
+        document.getElementById(
+            "id_linha"
+        );
+
+
     const idLinha =
-        document
-            .getElementById("id_linha")
-            .value;
+        campoId
+            ? campoId.value
+            : "";
 
 
     /*
     ------------------------------------------------------
-    MONTAR OBJETO
+    DADOS DO FORMULÁRIO
     ------------------------------------------------------
     */
 
     const dados = {
-
-        /*
-        Se não existir ID:
-        CADASTRAR
-
-        Se existir ID:
-        futuramente EDITAR
-        */
 
         acao:
             idLinha
@@ -553,15 +575,15 @@ async function salvarLinha(event) {
         }
 
 
+        /*
+        --------------------------------------------------
+        RETORNO DA API
+        --------------------------------------------------
+        */
+
         const resultado =
             await resposta.json();
 
-
-        /*
-        --------------------------------------------------
-        VERIFICAR RETORNO
-        --------------------------------------------------
-        */
 
         if (!resultado.sucesso) {
 
@@ -589,13 +611,17 @@ async function salvarLinha(event) {
 
         mostrarMensagem(
             resultado.mensagem ||
-            "Linha cadastrada com sucesso."
+            (
+                idLinha
+                    ? "Linha atualizada com sucesso."
+                    : "Linha cadastrada com sucesso."
+            )
         );
 
 
         /*
         --------------------------------------------------
-        RECARREGAR LISTAGEM
+        ATUALIZAR LISTAGEM
         --------------------------------------------------
         */
 
@@ -609,12 +635,20 @@ async function salvarLinha(event) {
             erro
         );
 
+
         alert(
             "Não foi possível salvar a linha.\n\n" +
             erro.message
         );
 
+
     } finally {
+
+        /*
+        --------------------------------------------------
+        REATIVAR BOTÃO
+        --------------------------------------------------
+        */
 
         if (botao) {
 
@@ -640,6 +674,7 @@ async function carregarLinhas() {
             "listaLinhas"
         );
 
+
     if (!tbody) {
 
         console.error(
@@ -649,6 +684,12 @@ async function carregarLinhas() {
         return;
     }
 
+
+    /*
+    ------------------------------------------------------
+    CARREGANDO
+    ------------------------------------------------------
+    */
 
     tbody.innerHTML = `
         <tr>
@@ -660,6 +701,12 @@ async function carregarLinhas() {
 
 
     try {
+
+        /*
+        --------------------------------------------------
+        CONSULTAR API
+        --------------------------------------------------
+        */
 
         const resposta =
             await fetch(
@@ -676,6 +723,12 @@ async function carregarLinhas() {
         }
 
 
+        /*
+        --------------------------------------------------
+        JSON
+        --------------------------------------------------
+        */
+
         const resultado =
             await resposta.json();
 
@@ -689,9 +742,21 @@ async function carregarLinhas() {
         }
 
 
+        /*
+        --------------------------------------------------
+        GUARDAR DADOS
+        --------------------------------------------------
+        */
+
         todasLinhas =
             resultado.dados || [];
 
+
+        /*
+        --------------------------------------------------
+        EXIBIR
+        --------------------------------------------------
+        */
 
         exibirLinhas(
             todasLinhas
@@ -737,16 +802,23 @@ function exibirLinhas(linhas) {
 
 
     if (!tbody) {
+
         return;
     }
 
+
+    /*
+    ------------------------------------------------------
+    LIMPAR TABELA
+    ------------------------------------------------------
+    */
 
     tbody.innerHTML = "";
 
 
     /*
     ------------------------------------------------------
-    NENHUM REGISTRO
+    SEM REGISTROS
     ------------------------------------------------------
     */
 
@@ -766,18 +838,24 @@ function exibirLinhas(linhas) {
 
     /*
     ------------------------------------------------------
-    CRIAR LINHAS DA TABELA
+    CRIAR REGISTROS
     ------------------------------------------------------
     */
 
     linhas.forEach(
-        item => {
+        function (item) {
 
             const tr =
                 document.createElement(
                     "tr"
                 );
 
+
+            /*
+            --------------------------------------------------
+            STATUS
+            --------------------------------------------------
+            */
 
             const statusClasse =
                 String(
@@ -789,6 +867,12 @@ function exibirLinhas(linhas) {
                     ? "status-ativa"
                     : "status-inativa";
 
+
+            /*
+            --------------------------------------------------
+            CONTEÚDO
+            --------------------------------------------------
+            */
 
             tr.innerHTML = `
 
@@ -860,7 +944,7 @@ function exibirLinhas(linhas) {
 
 /*
 ==========================================================
-PESQUISAR
+PESQUISAR LINHAS
 ==========================================================
 */
 
@@ -873,6 +957,7 @@ function pesquisarLinhas() {
 
 
     if (!campoPesquisa) {
+
         return;
     }
 
@@ -886,7 +971,7 @@ function pesquisarLinhas() {
 
     /*
     ------------------------------------------------------
-    SEM PESQUISA
+    SEM TERMO
     ------------------------------------------------------
     */
 
@@ -908,7 +993,7 @@ function pesquisarLinhas() {
 
     const filtradas =
         todasLinhas.filter(
-            item => {
+            function (item) {
 
                 return (
 
@@ -978,10 +1063,10 @@ function pesquisarLinhas() {
 
 /*
 ==========================================================
-EDITAR
+EDITAR LINHA
 
-Por enquanto apenas confirma o ID.
-Implementaremos completamente na Etapa 5.
+Implementaremos completamente na próxima etapa.
+Por enquanto mostra o ID interno.
 ==========================================================
 */
 
@@ -1002,10 +1087,10 @@ function editarLinha(idLinha) {
 
 /*
 ==========================================================
-EXCLUIR
+EXCLUIR LINHA
 
-Por enquanto apenas confirma o ID.
-Implementaremos posteriormente.
+Implementaremos completamente depois da edição.
+Por enquanto mostra o ID interno.
 ==========================================================
 */
 
@@ -1032,6 +1117,12 @@ FORMATAR TARIFA
 
 function formatarTarifa(valor) {
 
+    /*
+    ------------------------------------------------------
+    VAZIO
+    ------------------------------------------------------
+    */
+
     if (
         valor === null ||
         valor === undefined ||
@@ -1042,12 +1133,24 @@ function formatarTarifa(valor) {
     }
 
 
+    /*
+    ------------------------------------------------------
+    CONVERTER
+    ------------------------------------------------------
+    */
+
     const numero =
         Number(
             String(valor)
                 .replace(",", ".")
         );
 
+
+    /*
+    ------------------------------------------------------
+    VALOR INVÁLIDO
+    ------------------------------------------------------
+    */
 
     if (
         isNaN(numero)
@@ -1058,6 +1161,12 @@ function formatarTarifa(valor) {
         );
     }
 
+
+    /*
+    ------------------------------------------------------
+    FORMATO BRASILEIRO
+    ------------------------------------------------------
+    */
 
     return numero.toLocaleString(
         "pt-BR",
@@ -1087,22 +1196,27 @@ function escaparHTML(valor) {
 
 
     return String(valor)
+
         .replaceAll(
             "&",
             "&amp;"
         )
+
         .replaceAll(
             "<",
             "&lt;"
         )
+
         .replaceAll(
             ">",
             "&gt;"
         )
+
         .replaceAll(
             '"',
             "&quot;"
         )
+
         .replaceAll(
             "'",
             "&#039;"
@@ -1125,6 +1239,7 @@ function mostrarMensagem(texto) {
 
 
     if (!elemento) {
+
         return;
     }
 
@@ -1134,7 +1249,9 @@ function mostrarMensagem(texto) {
 
 
     /*
-    Limpa a mensagem depois de 5 segundos
+    ------------------------------------------------------
+    LIMPAR APÓS 5 SEGUNDOS
+    ------------------------------------------------------
     */
 
     setTimeout(
