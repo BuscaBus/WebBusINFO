@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cadastro de Linhas</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <link
+    rel="stylesheet"
+    href="css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/modal-linha.css"
+    >
+</head>
+
+<body>
+
+    <header>
+        <h1>Cadastro de Linhas</h1>
+    </header>
+
+    <main>
+
+        <section class="barra-acoes">
+
+            <button
+                type="button"
+                id="btnNovaLinha"
+                class="btn-novo"
+            >
+                + NOVA LINHA
+            </button>
+
+            <input
+                type="text"
+                id="pesquisa"
+                placeholder="Pesquisar linha..."
+            >
+
+        </section>
+
+
+        <section class="tabela-container">
+
+            <table id="tabelaLinhas">
+
+                <thead>
+
+                    <tr>
+                        <th>Empresa</th>
+                        <th>Cód.</th>
+                        <th>Linha</th>
+                        <th>Tipo</th>
+                        <th>Embarque Ida</th>
+                        <th>Embarque Volta</th>
+                        <th>Tarifa Cartão</th>
+                        <th>Tarifa Dinheiro</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="listaLinhas">
+
+                    <tr>
+                        <td colspan="10">
+                            Carregando dados...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+        <div
+            id="mensagem"
+            class="mensagem"
+        ></div>
+
+    </main>
+    
+     <!-- MODAIS -->
+    <div id="containerModal"></div>
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>

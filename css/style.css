@@ -1,0 +1,158 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f8;
+    color: #333;
+}
+
+
+/* ===============================
+   CABEÇALHO
+================================ */
+
+header {
+    padding: 20px;
+    text-align: center;
+    background: #ffffff;
+    border-bottom: 1px solid #ddd;
+}
+
+header h1 {
+    margin: 0;
+}
+
+
+/* ===============================
+   CONTEÚDO
+================================ */
+
+main {
+    width: 96%;
+    max-width: 1500px;
+    margin: 30px auto;
+}
+
+
+/* ===============================
+   BARRA DE AÇÕES
+================================ */
+
+.barra-acoes {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.btn-novo {
+    padding: 11px 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#pesquisa {
+    width: 320px;
+    max-width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+/* ===============================
+   TABELA
+================================ */
+
+.tabela-container {
+    overflow-x: auto;
+    background: #fff;
+    border-radius: 6px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    white-space: nowrap;
+}
+
+th {
+    background: #eeeeee;
+}
+
+tbody tr:hover {
+    background: #f7f7f7;
+}
+
+
+/* ===============================
+   STATUS
+================================ */
+
+.status-ativa {
+    font-weight: bold;
+}
+
+.status-inativa {
+    opacity: 0.65;
+}
+
+
+/* ===============================
+   BOTÕES
+================================ */
+
+.btn-editar,
+.btn-excluir {
+    padding: 7px 10px;
+    margin: 2px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-editar {
+    background: #e8e8e8;
+}
+
+.btn-excluir {
+    background: #e8e8e8;
+}
+
+
+/* ===============================
+   MENSAGENS
+================================ */
+
+.mensagem {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+
+/* ===============================
+   CELULAR
+================================ */
+
+@media (max-width: 700px) {
+
+    .barra-acoes {
+        flex-direction: column;
+    }
+
+    #pesquisa {
+        width: 100%;
+    }
+}
