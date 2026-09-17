@@ -1300,18 +1300,173 @@ Por enquanto mostra o ID interno.
 ==========================================================
 */
 
-function excluirLinha(idLinha) {
+/*
+==========================================================
+EXCLUIR LINHA
+==========================================================
+*/
 
-    console.log(
-        "Excluir id_linha:",
-        idLinha
-    );
+async function excluirLinha(idLinha) {
+
+    /*
+    ------------------------------------------------------
+    LOCALIZAR REGISTRO NA LISTA
+    ------------------------------------------------------
+    */
+
+    const registro =
+        todasLinhas.find(
+            function (item) {
+
+                return Number(item.id_linha) ===
+                    Number(idLinha);
+            }
+        );
 
 
-    alert(
-        "Excluir id_linha: " +
-        idLinha
-    );
+    /*
+    ------------------------------------------------------
+    NOME PARA EXIBIR NA CONFIRMAÇÃO
+    ------------------------------------------------------
+    */
+
+    let descricao =
+        "esta linha";
+
+
+    if (registro) {
+
+        descricao =
+            `${registro.cod} - ${registro.linha}`;
+    }
+
+
+    /*
+    ------------------------------------------------------
+    CONFIRMAÇÃO
+    ------------------------------------------------------
+    */
+
+    const confirmar =
+        window.confirm(
+            `Deseja realmente excluir ${descricao}?\n\n` +
+            "Esta operação removerá o registro da planilha."
+        );
+
+
+    /*
+    ------------------------------------------------------
+    CANCELADO
+    ------------------------------------------------------
+    */
+
+    if (!confirmar) {
+
+        return;
+    }
+
+
+    try {
+
+        /*
+        --------------------------------------------------
+        ENVIAR EXCLUSÃO PARA API
+        --------------------------------------------------
+        */
+
+        const resposta =
+            await fetch(
+                API_URL,
+                {
+                    method: "POST",
+
+                    body:
+                        JSON.stringify(
+                            {
+                                acao: "excluir",
+
+                                id_linha:
+                                    idLinha
+                            }
+                        )
+                }
+            );
+
+
+        /*
+        --------------------------------------------------
+        VERIFICAR HTTP
+        --------------------------------------------------
+        */
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                "Erro HTTP: " +
+                resposta.status
+            );
+        }
+
+
+        /*
+        --------------------------------------------------
+        LER RETORNO
+        --------------------------------------------------
+        */
+
+        const resultado =
+            await resposta.json();
+
+
+        /*
+        --------------------------------------------------
+        VERIFICAR API
+        --------------------------------------------------
+        */
+
+        if (!resultado.sucesso) {
+
+            throw new Error(
+                resultado.mensagem ||
+                "Não foi possível excluir a linha."
+            );
+        }
+
+
+        /*
+        --------------------------------------------------
+        MENSAGEM
+        --------------------------------------------------
+        */
+
+        mostrarMensagem(
+            resultado.mensagem ||
+            "Linha excluída com sucesso."
+        );
+
+
+        /*
+        --------------------------------------------------
+        ATUALIZAR TABELA
+        --------------------------------------------------
+        */
+
+        await carregarLinhas();
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao excluir linha:",
+            erro
+        );
+
+
+        alert(
+            "Não foi possível excluir a linha.\n\n" +
+            erro.message
+        );
+    }
 }
 
 /*
