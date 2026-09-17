@@ -1070,20 +1070,226 @@ Por enquanto mostra o ID interno.
 ==========================================================
 */
 
-function editarLinha(idLinha) {
+/*
+==========================================================
+EDITAR LINHA
+==========================================================
+*/
+
+async function editarLinha(idLinha) {
 
     console.log(
-        "Editar id_linha:",
+        "Carregando id_linha:",
         idLinha
     );
 
 
-    alert(
-        "Editar id_linha: " +
-        idLinha
-    );
+    /*
+    ------------------------------------------------------
+    VERIFICAR MODAL
+    ------------------------------------------------------
+    */
+
+    const modal =
+        document.getElementById(
+            "modalLinha"
+        );
+
+
+    if (!modal) {
+
+        alert(
+            "O formulário ainda não foi carregado."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        /*
+        --------------------------------------------------
+        BUSCAR REGISTRO NA API
+        --------------------------------------------------
+        */
+
+        const resposta =
+            await fetch(
+                `${API_URL}?acao=buscar&id_linha=${encodeURIComponent(idLinha)}`
+            );
+
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                "Erro HTTP: " +
+                resposta.status
+            );
+        }
+
+
+        const resultado =
+            await resposta.json();
+
+
+        /*
+        --------------------------------------------------
+        VERIFICAR RETORNO
+        --------------------------------------------------
+        */
+
+        if (!resultado.sucesso) {
+
+            throw new Error(
+                resultado.mensagem ||
+                "Não foi possível localizar a linha."
+            );
+        }
+
+
+        /*
+        --------------------------------------------------
+        DADOS RETORNADOS
+        --------------------------------------------------
+        */
+
+        const linha =
+            resultado.dados;
+
+
+        if (!linha) {
+
+            throw new Error(
+                "Registro não encontrado."
+            );
+        }
+
+
+        /*
+        --------------------------------------------------
+        PREENCHER ID INTERNO
+        --------------------------------------------------
+        */
+
+        document
+            .getElementById("id_linha")
+            .value =
+            linha.id_linha ?? idLinha;
+
+
+        /*
+        --------------------------------------------------
+        PREENCHER FORMULÁRIO
+        --------------------------------------------------
+        */
+
+        document
+            .getElementById("empresa")
+            .value =
+            linha.empresa ?? "";
+
+
+        document
+            .getElementById("cod")
+            .value =
+            linha.cod ?? "";
+
+
+        document
+            .getElementById("linha")
+            .value =
+            linha.linha ?? "";
+
+
+        document
+            .getElementById("tipo")
+            .value =
+            linha.tipo ?? "";
+
+
+        document
+            .getElementById("embarque_ida")
+            .value =
+            linha.embarque_ida ?? "";
+
+
+        document
+            .getElementById("embarque_volta")
+            .value =
+            linha.embarque_volta ?? "";
+
+
+        document
+            .getElementById("tarifa_cartao")
+            .value =
+            normalizarNumeroFormulario(
+                linha.tarifa_cartao
+            );
+
+
+        document
+            .getElementById("tarifa_dinheiro")
+            .value =
+            normalizarNumeroFormulario(
+                linha.tarifa_dinheiro
+            );
+
+
+        document
+            .getElementById("status")
+            .value =
+            linha.status ?? "Ativa";
+
+
+        /*
+        --------------------------------------------------
+        ALTERAR TÍTULO
+        --------------------------------------------------
+        */
+
+        document
+            .getElementById("tituloModal")
+            .textContent =
+            "Editar Linha";
+
+
+        /*
+        --------------------------------------------------
+        ABRIR MODAL
+        --------------------------------------------------
+        */
+
+        modal.classList.add(
+            "ativo"
+        );
+
+
+        /*
+        --------------------------------------------------
+        FOCO
+        --------------------------------------------------
+        */
+
+        document
+            .getElementById("empresa")
+            .focus();
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao editar linha:",
+            erro
+        );
+
+
+        alert(
+            "Não foi possível carregar a linha.\n\n" +
+            erro.message
+        );
+    }
 }
-
 
 /*
 ==========================================================
@@ -1108,6 +1314,27 @@ function excluirLinha(idLinha) {
     );
 }
 
+/*
+==========================================================
+NORMALIZAR NÚMERO PARA FORMULÁRIO
+==========================================================
+*/
+
+function normalizarNumeroFormulario(valor) {
+
+    if (
+        valor === null ||
+        valor === undefined ||
+        valor === ""
+    ) {
+
+        return "";
+    }
+
+
+    return String(valor)
+        .replace(",", ".");
+}
 
 /*
 ==========================================================
