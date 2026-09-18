@@ -156,3 +156,40 @@ tbody tr:hover {
         width: 100%;
     }
 }
+
+/*
+==========================================================
+PAGINAÇÃO
+==========================================================
+*/
+
+.paginacao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+
+.paginacao button {
+    padding: 8px 14px;
+
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    cursor: pointer;
+}
+
+
+.paginacao button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+#infoPagina {
+    font-weight: bold;
+}

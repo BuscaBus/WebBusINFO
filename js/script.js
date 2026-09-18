@@ -17,6 +17,9 @@ VARIÁVEIS
 let todasLinhas = [];
 let idLinhaParaExcluir = null;
 
+let paginaAtual = 1;
+const itensPorPagina = 15;
+let linhasFiltradas = [];
 
 /*
 ==========================================================
@@ -62,6 +65,40 @@ document.addEventListener(
                 abrirNovaLinha
             );
         }
+
+        /*
+----------------------------------------------------------
+PAGINAÇÃO
+----------------------------------------------------------
+*/
+
+const btnPaginaAnterior =
+    document.getElementById(
+        "btnPaginaAnterior"
+    );
+
+const btnProximaPagina =
+    document.getElementById(
+        "btnProximaPagina"
+    );
+
+
+if (btnPaginaAnterior) {
+
+    btnPaginaAnterior.addEventListener(
+        "click",
+        paginaAnterior
+    );
+}
+
+
+if (btnProximaPagina) {
+
+    btnProximaPagina.addEventListener(
+        "click",
+        proximaPagina
+    );
+}
 
 
         /*
@@ -931,18 +968,144 @@ function exibirLinhas(linhas) {
             "listaLinhas"
         );
 
-
     if (!tbody) {
+        return;
+    }
+
+    /*
+==========================================================
+ATUALIZAR PAGINAÇÃO
+==========================================================
+*/
+
+function atualizarPaginacao() {
+
+    const infoPagina =
+        document.getElementById(
+            "infoPagina"
+        );
+
+    const btnAnterior =
+        document.getElementById(
+            "btnPaginaAnterior"
+        );
+
+    const btnProxima =
+        document.getElementById(
+            "btnProximaPagina"
+        );
+
+
+    if (
+        !infoPagina ||
+        !btnAnterior ||
+        !btnProxima
+    ) {
 
         return;
     }
 
 
+    const totalItens =
+        linhasFiltradas.length;
+
+
+    const totalPaginas =
+        Math.max(
+            1,
+            Math.ceil(
+                totalItens /
+                itensPorPagina
+            )
+        );
+
+
     /*
     ------------------------------------------------------
-    LIMPAR TABELA
+    INFORMAÇÃO
     ------------------------------------------------------
     */
+
+    infoPagina.textContent =
+        `Página ${paginaAtual} de ${totalPaginas}`;
+
+
+    /*
+    ------------------------------------------------------
+    BOTÕES
+    ------------------------------------------------------
+    */
+
+    btnAnterior.disabled =
+        paginaAtual <= 1;
+
+
+    btnProxima.disabled =
+        paginaAtual >= totalPaginas;
+}
+
+
+/*
+==========================================================
+PÁGINA ANTERIOR
+==========================================================
+*/
+
+function paginaAnterior() {
+
+    if (paginaAtual <= 1) {
+        return;
+    }
+
+
+    paginaAtual--;
+
+
+    exibirLinhas(
+        linhasFiltradas
+    );
+}
+
+
+/*
+==========================================================
+PRÓXIMA PÁGINA
+==========================================================
+*/
+
+function proximaPagina() {
+
+    const totalPaginas =
+        Math.ceil(
+            linhasFiltradas.length /
+            itensPorPagina
+        );
+
+
+    if (
+        paginaAtual >=
+        totalPaginas
+    ) {
+
+        return;
+    }
+
+
+    paginaAtual++;
+
+
+    exibirLinhas(
+        linhasFiltradas
+    );
+}
+
+    /*
+    ------------------------------------------------------
+    GUARDAR LISTA ATUAL
+    ------------------------------------------------------
+    */
+
+    linhasFiltradas = linhas;
 
     tbody.innerHTML = "";
 
@@ -963,8 +1126,60 @@ function exibirLinhas(linhas) {
             </tr>
         `;
 
+        atualizarPaginacao();
+
         return;
     }
+
+
+    /*
+    ------------------------------------------------------
+    CALCULAR PÁGINA
+    ------------------------------------------------------
+    */
+
+    const totalPaginas =
+        Math.ceil(
+            linhas.length /
+            itensPorPagina
+        );
+
+
+    /*
+    ------------------------------------------------------
+    CORRIGIR PÁGINA ATUAL
+    ------------------------------------------------------
+    */
+
+    if (paginaAtual > totalPaginas) {
+        paginaAtual = totalPaginas;
+    }
+
+    if (paginaAtual < 1) {
+        paginaAtual = 1;
+    }
+
+
+    /*
+    ------------------------------------------------------
+    RECORTAR 15 REGISTROS
+    ------------------------------------------------------
+    */
+
+    const inicio =
+        (paginaAtual - 1) *
+        itensPorPagina;
+
+    const fim =
+        inicio +
+        itensPorPagina;
+
+
+    const linhasPagina =
+        linhas.slice(
+            inicio,
+            fim
+        );
 
 
     /*
@@ -973,7 +1188,7 @@ function exibirLinhas(linhas) {
     ------------------------------------------------------
     */
 
-    linhas.forEach(
+    linhasPagina.forEach(
         function (item) {
 
             const tr =
@@ -981,12 +1196,6 @@ function exibirLinhas(linhas) {
                     "tr"
                 );
 
-
-            /*
-            --------------------------------------------------
-            STATUS
-            --------------------------------------------------
-            */
 
             const statusClasse =
                 String(
@@ -998,12 +1207,6 @@ function exibirLinhas(linhas) {
                     ? "status-ativa"
                     : "status-inativa";
 
-
-            /*
-            --------------------------------------------------
-            CONTEÚDO
-            --------------------------------------------------
-            */
 
             tr.innerHTML = `
 
@@ -1070,8 +1273,16 @@ function exibirLinhas(linhas) {
             );
         }
     );
-}
 
+
+    /*
+    ------------------------------------------------------
+    ATUALIZAR CONTROLES
+    ------------------------------------------------------
+    */
+
+    atualizarPaginacao();
+}
 
 /*
 ==========================================================
@@ -1108,12 +1319,14 @@ function pesquisarLinhas() {
 
     if (!termo) {
 
-        exibirLinhas(
-            todasLinhas
-        );
+    paginaAtual = 1;
 
-        return;
-    }
+    exibirLinhas(
+        todasLinhas
+    );
+
+    return;
+}
 
 
     /*
@@ -1184,6 +1397,12 @@ function pesquisarLinhas() {
                 );
             }
         );
+    
+    paginaAtual = 1;
+
+exibirLinhas(
+    filtradas
+);   
 
 
     exibirLinhas(
