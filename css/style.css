@@ -71,6 +71,7 @@ main {
 
 .tabela-container {
     overflow-x: auto;
+    overflow-y: visible;
     background: #fff;
     border-radius: 6px;
 }
