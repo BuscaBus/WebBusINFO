@@ -555,3 +555,38 @@ CELULAR
     }
 
 }
+
+/*
+==========================================================
+MENU DO FILTRO - GARANTIR QUE INICIE FECHADO
+==========================================================
+*/
+
+#menuFiltro {
+    display: none;
+    position: absolute;
+    z-index: 9999;
+
+    width: 260px;
+    max-height: 420px;
+
+    padding: 12px;
+
+    background: #ffffff;
+
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+
+/*
+==========================================================
+ABRIR MENU
+==========================================================
+*/
+
+#menuFiltro.ativo {
+    display: block;
+}
