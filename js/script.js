@@ -18,7 +18,7 @@ let todasLinhas = [];
 let idLinhaParaExcluir = null;
 
 let paginaAtual = 1;
-const itensPorPagina = 15;
+const itensPorPagina = 10;
 let linhasFiltradas = [];
 
 /*
