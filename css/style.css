@@ -194,3 +194,47 @@ PAGINAÇÃO
 #infoPagina {
     font-weight: bold;
 }
+
+/*
+==========================================================
+FILTROS NO CABEÇALHO
+==========================================================
+*/
+
+.cabecalho-filtro {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+
+.cabecalho-filtro span {
+    font-weight: bold;
+}
+
+
+.filtro-coluna {
+    width: 100%;
+    min-width: 80px;
+
+    padding: 6px;
+
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    background: #fff;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+
+.btn-limpar-filtros {
+    padding: 6px 10px;
+
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    background: #fff;
+
+    cursor: pointer;
+}

@@ -90,52 +90,143 @@
             <table id="tabelaLinhas">
 
                 <thead>
+    <tr>
 
-                    <tr>
+        <th>
+            <div class="cabecalho-filtro">
+                <span>Empresa</span>
 
-                        <th>
-                            Empresa
-                        </th>
+                <input
+                    type="text"
+                    id="filtroEmpresa"
+                    class="filtro-coluna"
+                    placeholder="Filtrar..."
+                >
+            </div>
+        </th>
 
-                        <th>
-                            Cód.
-                        </th>
+        <th>
+            <div class="cabecalho-filtro">
+                <span>Cód.</span>
 
-                        <th>
-                            Linha
-                        </th>
+                <input
+                    type="text"
+                    id="filtroCod"
+                    class="filtro-coluna"
+                    placeholder="Filtrar..."
+                >
+            </div>
+        </th>
 
-                        <th>
-                            Tipo
-                        </th>
+        <th>
+            <div class="cabecalho-filtro">
+                <span>Linha</span>
 
-                        <th>
-                            Embarque Ida
-                        </th>
+                <input
+                    type="text"
+                    id="filtroLinha"
+                    class="filtro-coluna"
+                    placeholder="Filtrar..."
+                >
+            </div>
+        </th>
 
-                        <th>
-                            Embarque Volta
-                        </th>
+        <th>
+            <div class="cabecalho-filtro">
+                <span>Tipo</span>
 
-                        <th>
-                            Tarifa Cartão
-                        </th>
+                <input
+                    type="text"
+                    id="filtroTipo"
+                    class="filtro-coluna"
+                    placeholder="Filtrar..."
+                >
+            </div>
+        </th>
 
-                        <th>
-                            Tarifa Dinheiro
-                        </th>
+        <th>
+            <div class="cabecalho-filtro">
+                <span>Embarque Ida</span>
 
-                        <th>
-                            Status
-                        </th>
+                <input
+                    type="text"
+                    id="filtroEmbarqueIda"
+                    class="filtro-coluna"
+                    placeholder="Filtrar..."
+                >
+            </div>
+        </th>
 
-                        <th>
-                            Ações
-                        </th>
+        <th>
+            <div class="cabecalho-filtro">
+                <span>Embarque Volta</span>
 
-                    </tr>
+                <input
+                    type="text"
+                    id="filtroEmbarqueVolta"
+                    class="filtro-coluna"
+                    placeholder="Filtrar..."
+                >
+            </div>
+        </th>
 
-                </thead>
+        <th>
+            <div class="cabecalho-filtro">
+                <span>Tarifa Cartão</span>
+
+                <input
+                    type="text"
+                    id="filtroTarifaCartao"
+                    class="filtro-coluna"
+                    placeholder="Filtrar..."
+                >
+            </div>
+        </th>
+
+        <th>
+            <div class="cabecalho-filtro">
+                <span>Tarifa Dinheiro</span>
+
+                <input
+                    type="text"
+                    id="filtroTarifaDinheiro"
+                    class="filtro-coluna"
+                    placeholder="Filtrar..."
+                >
+            </div>
+        </th>
+
+        <th>
+            <div class="cabecalho-filtro">
+                <span>Status</span>
+
+                <select
+                    id="filtroStatus"
+                    class="filtro-coluna"
+                >
+                    <option value="">Todos</option>
+                    <option value="Ativa">Ativa</option>
+                    <option value="Inativa">Inativa</option>
+                </select>
+            </div>
+        </th>
+
+        <th>
+            <div class="cabecalho-filtro">
+                <span>Ações</span>
+
+                <button
+                    type="button"
+                    id="btnLimparFiltros"
+                    class="btn-limpar-filtros"
+                >
+                    Limpar
+                </button>
+            </div>
+        </th>
+
+    </tr>
+</thead>
 
 
                 <tbody id="listaLinhas">
