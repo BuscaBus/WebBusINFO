@@ -12,33 +12,31 @@
 
     <title>Cadastro de Linhas</title>
 
-
-    <!-- CSS PRINCIPAL -->
     <link
         rel="stylesheet"
         href="./css/style.css"
     >
 
-
-    <!-- CSS DA MODAL -->
     <link
         rel="stylesheet"
         href="./css/modal-linha.css"
     >
 
     <link
-    rel="stylesheet"
-    href="./css/modal-exclusao.css"
->
+        rel="stylesheet"
+        href="./css/modal-exclusao.css"
+    >
 
 </head>
 
 
 <body>
 
-    <!-- =====================================================
-         CABEÇALHO
-    ====================================================== -->
+    <!--
+    ==========================================================
+    CABEÇALHO
+    ==========================================================
+    -->
 
     <header>
 
@@ -49,185 +47,306 @@
     </header>
 
 
-    <!-- =====================================================
-         CONTEÚDO PRINCIPAL
-    ====================================================== -->
+    <!--
+    ==========================================================
+    CONTEÚDO
+    ==========================================================
+    -->
 
     <main>
 
 
-        <!-- =================================================
-             BARRA DE AÇÕES
-        ================================================== -->
+        <!--
+        ======================================================
+        BARRA DE AÇÕES
+        ======================================================
+        -->
 
-        <section class="barra-acoes">
+        <div class="barra-acoes">
 
             <button
                 type="button"
                 id="btnNovaLinha"
                 class="btn-novo"
             >
-                + NOVA LINHA
+                NOVA LINHA
             </button>
 
 
             <input
                 type="text"
                 id="pesquisa"
-                placeholder="Pesquisar linha..."
+                placeholder="Pesquisar linhas..."
                 autocomplete="off"
             >
 
-        </section>
+        </div>
 
 
-        <!-- =================================================
-             TABELA
-        ================================================== -->
+        <!--
+        ======================================================
+        TABELA
+        ======================================================
+        -->
 
-        <section class="tabela-container">
+        <div class="tabela-container">
 
             <table id="tabelaLinhas">
 
+
+                <!--
+                ==================================================
+                CABEÇALHO
+                ==================================================
+                -->
+
                 <thead>
-    <tr>
 
-        <th>
-            <div class="cabecalho-filtro">
-                <span>Empresa</span>
+                    <tr>
 
-                <input
-                    type="text"
-                    id="filtroEmpresa"
-                    class="filtro-coluna"
-                    placeholder="Filtrar..."
-                >
-            </div>
-        </th>
 
-        <th>
-            <div class="cabecalho-filtro">
-                <span>Cód.</span>
+                        <!-- EMPRESA -->
 
-                <input
-                    type="text"
-                    id="filtroCod"
-                    class="filtro-coluna"
-                    placeholder="Filtrar..."
-                >
-            </div>
-        </th>
+                        <th>
 
-        <th>
-            <div class="cabecalho-filtro">
-                <span>Linha</span>
+                            <div class="cabecalho-coluna">
 
-                <input
-                    type="text"
-                    id="filtroLinha"
-                    class="filtro-coluna"
-                    placeholder="Filtrar..."
-                >
-            </div>
-        </th>
+                                <span>
+                                    Empresa
+                                </span>
 
-        <th>
-            <div class="cabecalho-filtro">
-                <span>Tipo</span>
+                                <button
+                                    type="button"
+                                    class="btn-filtro"
+                                    data-coluna="empresa"
+                                    title="Filtrar Empresa"
+                                    aria-label="Filtrar Empresa"
+                                >
+                                    ▼
+                                </button>
 
-                <input
-                    type="text"
-                    id="filtroTipo"
-                    class="filtro-coluna"
-                    placeholder="Filtrar..."
-                >
-            </div>
-        </th>
+                            </div>
 
-        <th>
-            <div class="cabecalho-filtro">
-                <span>Embarque Ida</span>
+                        </th>
 
-                <input
-                    type="text"
-                    id="filtroEmbarqueIda"
-                    class="filtro-coluna"
-                    placeholder="Filtrar..."
-                >
-            </div>
-        </th>
 
-        <th>
-            <div class="cabecalho-filtro">
-                <span>Embarque Volta</span>
+                        <!-- CÓDIGO -->
 
-                <input
-                    type="text"
-                    id="filtroEmbarqueVolta"
-                    class="filtro-coluna"
-                    placeholder="Filtrar..."
-                >
-            </div>
-        </th>
+                        <th>
 
-        <th>
-            <div class="cabecalho-filtro">
-                <span>Tarifa Cartão</span>
+                            <div class="cabecalho-coluna">
 
-                <input
-                    type="text"
-                    id="filtroTarifaCartao"
-                    class="filtro-coluna"
-                    placeholder="Filtrar..."
-                >
-            </div>
-        </th>
+                                <span>
+                                    Cód.
+                                </span>
 
-        <th>
-            <div class="cabecalho-filtro">
-                <span>Tarifa Dinheiro</span>
+                                <button
+                                    type="button"
+                                    class="btn-filtro"
+                                    data-coluna="cod"
+                                    title="Filtrar Código"
+                                    aria-label="Filtrar Código"
+                                >
+                                    ▼
+                                </button>
 
-                <input
-                    type="text"
-                    id="filtroTarifaDinheiro"
-                    class="filtro-coluna"
-                    placeholder="Filtrar..."
-                >
-            </div>
-        </th>
+                            </div>
 
-        <th>
-            <div class="cabecalho-filtro">
-                <span>Status</span>
+                        </th>
 
-                <select
-                    id="filtroStatus"
-                    class="filtro-coluna"
-                >
-                    <option value="">Todos</option>
-                    <option value="Ativa">Ativa</option>
-                    <option value="Inativa">Inativa</option>
-                </select>
-            </div>
-        </th>
 
-        <th>
-            <div class="cabecalho-filtro">
-                <span>Ações</span>
+                        <!-- LINHA -->
 
-                <button
-                    type="button"
-                    id="btnLimparFiltros"
-                    class="btn-limpar-filtros"
-                >
-                    Limpar
-                </button>
-            </div>
-        </th>
+                        <th>
 
-    </tr>
-</thead>
+                            <div class="cabecalho-coluna">
 
+                                <span>
+                                    Linha
+                                </span>
+
+                                <button
+                                    type="button"
+                                    class="btn-filtro"
+                                    data-coluna="linha"
+                                    title="Filtrar Linha"
+                                    aria-label="Filtrar Linha"
+                                >
+                                    ▼
+                                </button>
+
+                            </div>
+
+                        </th>
+
+
+                        <!-- TIPO -->
+
+                        <th>
+
+                            <div class="cabecalho-coluna">
+
+                                <span>
+                                    Tipo
+                                </span>
+
+                                <button
+                                    type="button"
+                                    class="btn-filtro"
+                                    data-coluna="tipo"
+                                    title="Filtrar Tipo"
+                                    aria-label="Filtrar Tipo"
+                                >
+                                    ▼
+                                </button>
+
+                            </div>
+
+                        </th>
+
+
+                        <!-- EMBARQUE IDA -->
+
+                        <th>
+
+                            <div class="cabecalho-coluna">
+
+                                <span>
+                                    Embarque Ida
+                                </span>
+
+                                <button
+                                    type="button"
+                                    class="btn-filtro"
+                                    data-coluna="embarque_ida"
+                                    title="Filtrar Embarque Ida"
+                                    aria-label="Filtrar Embarque Ida"
+                                >
+                                    ▼
+                                </button>
+
+                            </div>
+
+                        </th>
+
+
+                        <!-- EMBARQUE VOLTA -->
+
+                        <th>
+
+                            <div class="cabecalho-coluna">
+
+                                <span>
+                                    Embarque Volta
+                                </span>
+
+                                <button
+                                    type="button"
+                                    class="btn-filtro"
+                                    data-coluna="embarque_volta"
+                                    title="Filtrar Embarque Volta"
+                                    aria-label="Filtrar Embarque Volta"
+                                >
+                                    ▼
+                                </button>
+
+                            </div>
+
+                        </th>
+
+
+                        <!-- TARIFA CARTÃO -->
+
+                        <th>
+
+                            <div class="cabecalho-coluna">
+
+                                <span>
+                                    Tarifa Cartão
+                                </span>
+
+                                <button
+                                    type="button"
+                                    class="btn-filtro"
+                                    data-coluna="tarifa_cartao"
+                                    title="Filtrar Tarifa Cartão"
+                                    aria-label="Filtrar Tarifa Cartão"
+                                >
+                                    ▼
+                                </button>
+
+                            </div>
+
+                        </th>
+
+
+                        <!-- TARIFA DINHEIRO -->
+
+                        <th>
+
+                            <div class="cabecalho-coluna">
+
+                                <span>
+                                    Tarifa Dinheiro
+                                </span>
+
+                                <button
+                                    type="button"
+                                    class="btn-filtro"
+                                    data-coluna="tarifa_dinheiro"
+                                    title="Filtrar Tarifa Dinheiro"
+                                    aria-label="Filtrar Tarifa Dinheiro"
+                                >
+                                    ▼
+                                </button>
+
+                            </div>
+
+                        </th>
+
+
+                        <!-- STATUS -->
+
+                        <th>
+
+                            <div class="cabecalho-coluna">
+
+                                <span>
+                                    Status
+                                </span>
+
+                                <button
+                                    type="button"
+                                    class="btn-filtro"
+                                    data-coluna="status"
+                                    title="Filtrar Status"
+                                    aria-label="Filtrar Status"
+                                >
+                                    ▼
+                                </button>
+
+                            </div>
+
+                        </th>
+
+
+                        <!-- AÇÕES -->
+
+                        <th>
+                            Ações
+                        </th>
+
+
+                    </tr>
+
+                </thead>
+
+
+                <!--
+                ==================================================
+                REGISTROS
+                ==================================================
+                -->
 
                 <tbody id="listaLinhas">
 
@@ -241,42 +360,51 @@
 
                 </tbody>
 
+
             </table>
-             <br>   
-            <div
-            
-    id="paginacao"
-    class="paginacao"
->
 
-    <button
-        type="button"
-        id="btnPaginaAnterior"
-    >
-        &laquo; Anterior
-    </button>
+        </div>
 
 
-    <span id="infoPagina">
-        Página 1 de 1
-    </span>
+        <!--
+        ======================================================
+        PAGINAÇÃO
+        ======================================================
+        -->
+
+        <div
+            id="paginacao"
+            class="paginacao"
+        >
+
+            <button
+                type="button"
+                id="btnPaginaAnterior"
+            >
+                &laquo; Anterior
+            </button>
 
 
-    <button
-        type="button"
-        id="btnProximaPagina"
-    >
-        Próxima &raquo;
-    </button>
-
-</div>
-
-        </section>
+            <span id="infoPagina">
+                Página 1 de 1
+            </span>
 
 
-        <!-- =================================================
-             MENSAGENS
-        ================================================== -->
+            <button
+                type="button"
+                id="btnProximaPagina"
+            >
+                Próxima &raquo;
+            </button>
+
+        </div>
+
+
+        <!--
+        ======================================================
+        MENSAGENS
+        ======================================================
+        -->
 
         <div
             id="mensagem"
@@ -287,25 +415,113 @@
     </main>
 
 
-    <!-- =====================================================
-         MODAL
-
-         O conteúdo de:
-         modals/linha.html
-
-         será carregado aqui pelo JavaScript.
-    ====================================================== -->
+    <!--
+    ==========================================================
+    MODAL CADASTRO / EDIÇÃO
+    ==========================================================
+    -->
 
     <div id="containerModal"></div>
+
+
+    <!--
+    ==========================================================
+    MODAL EXCLUSÃO
+    ==========================================================
+    -->
+
     <div id="containerModalExclusao"></div>
 
 
-    <!-- =====================================================
-         JAVASCRIPT
-    ====================================================== -->
+    <!--
+    ==========================================================
+    MENU FLUTUANTE DO FILTRO
+    ==========================================================
+    -->
 
-    <script src="./js/script.js?v=7"></script>
+    <div
+        id="menuFiltro"
+        class="menu-filtro"
+    >
 
+        <div class="menu-filtro-titulo">
+
+            <span id="tituloFiltro">
+                Filtrar
+            </span>
+
+        </div>
+
+
+        <div class="menu-filtro-pesquisa">
+
+            <input
+                type="text"
+                id="pesquisaFiltro"
+                placeholder="Pesquisar..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <div class="menu-filtro-opcoes">
+
+            <label class="opcao-filtro">
+
+                <input
+                    type="checkbox"
+                    id="selecionarTodosFiltro"
+                >
+
+                <span>
+                    Selecionar todos
+                </span>
+
+            </label>
+
+
+            <div id="listaOpcoesFiltro">
+
+                <!--
+                Opções serão criadas
+                pelo JavaScript
+                -->
+
+            </div>
+
+        </div>
+
+
+        <div class="menu-filtro-acoes">
+
+            <button
+                type="button"
+                id="btnLimparFiltro"
+            >
+                LIMPAR
+            </button>
+
+
+            <button
+                type="button"
+                id="btnAplicarFiltro"
+            >
+                APLICAR
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!--
+    ==========================================================
+    JAVASCRIPT
+    ==========================================================
+    -->
+
+    <script src="./js/script.js?v=9"></script>
 
 </body>
 

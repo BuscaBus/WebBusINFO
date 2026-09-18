@@ -20,6 +20,8 @@ let idLinhaParaExcluir = null;
 let paginaAtual = 1;
 const itensPorPagina = 11;
 let linhasFiltradas = [];
+let colunaFiltroAtual = null;
+let filtrosAtivos = {};
 
 /*
 ==========================================================
@@ -1270,11 +1272,699 @@ function proximaPagina() {
 
 /*
 ==========================================================
-PESQUISAR LINHAS
+CONFIGURAR FILTROS
 ==========================================================
 */
 
-function pesquisarLinhas() {
+function configurarFiltros() {
+
+    const botoes =
+        document.querySelectorAll(
+            ".btn-filtro"
+        );
+
+    const menu =
+        document.getElementById(
+            "menuFiltro"
+        );
+
+    const pesquisa =
+        document.getElementById(
+            "pesquisaFiltro"
+        );
+
+    const selecionarTodos =
+        document.getElementById(
+            "selecionarTodosFiltro"
+        );
+
+    const btnAplicar =
+        document.getElementById(
+            "btnAplicarFiltro"
+        );
+
+    const btnLimpar =
+        document.getElementById(
+            "btnLimparFiltro"
+        );
+
+
+    /*
+    ------------------------------------------------------
+    TRIÂNGULOS
+    ------------------------------------------------------
+    */
+
+    botoes.forEach(
+        function (botao) {
+
+            botao.addEventListener(
+                "click",
+                function (event) {
+
+                    event.stopPropagation();
+
+                    abrirFiltro(
+                        botao
+                    );
+                }
+            );
+        }
+    );
+
+
+    /*
+    ------------------------------------------------------
+    PESQUISA INTERNA
+    ------------------------------------------------------
+    */
+
+    if (pesquisa) {
+
+        pesquisa.addEventListener(
+            "input",
+            pesquisarOpcoesFiltro
+        );
+    }
+
+
+    /*
+    ------------------------------------------------------
+    SELECIONAR TODOS
+    ------------------------------------------------------
+    */
+
+    if (selecionarTodos) {
+
+        selecionarTodos.addEventListener(
+            "change",
+            function () {
+
+                const checkboxes =
+                    document.querySelectorAll(
+                        "#listaOpcoesFiltro input[type='checkbox']"
+                    );
+
+
+                checkboxes.forEach(
+                    function (checkbox) {
+
+                        /*
+                        Não alterar opções escondidas
+                        pela pesquisa.
+                        */
+
+                        const label =
+                            checkbox.closest(
+                                ".opcao-filtro"
+                            );
+
+                        if (
+                            label &&
+                            label.style.display !== "none"
+                        ) {
+
+                            checkbox.checked =
+                                selecionarTodos.checked;
+                        }
+                    }
+                );
+            }
+        );
+    }
+
+
+    /*
+    ------------------------------------------------------
+    APLICAR
+    ------------------------------------------------------
+    */
+
+    if (btnAplicar) {
+
+        btnAplicar.addEventListener(
+            "click",
+            aplicarFiltroAtual
+        );
+    }
+
+
+    /*
+    ------------------------------------------------------
+    LIMPAR
+    ------------------------------------------------------
+    */
+
+    if (btnLimpar) {
+
+        btnLimpar.addEventListener(
+            "click",
+            limparFiltroAtual
+        );
+    }
+
+
+    /*
+    ------------------------------------------------------
+    FECHAR CLICANDO FORA
+    ------------------------------------------------------
+    */
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            if (!menu) {
+                return;
+            }
+
+
+            if (
+                menu.contains(
+                    event.target
+                )
+            ) {
+
+                return;
+            }
+
+
+            if (
+                event.target.closest(
+                    ".btn-filtro"
+                )
+            ) {
+
+                return;
+            }
+
+
+            fecharFiltro();
+        }
+    );
+}
+
+
+/*
+==========================================================
+ABRIR FILTRO
+==========================================================
+*/
+
+function abrirFiltro(botao) {
+
+    const menu =
+        document.getElementById(
+            "menuFiltro"
+        );
+
+    const titulo =
+        document.getElementById(
+            "tituloFiltro"
+        );
+
+    const pesquisa =
+        document.getElementById(
+            "pesquisaFiltro"
+        );
+
+
+    if (!menu) {
+        return;
+    }
+
+
+    colunaFiltroAtual =
+        botao.dataset.coluna;
+
+
+    /*
+    ------------------------------------------------------
+    TÍTULO
+    ------------------------------------------------------
+    */
+
+    const th =
+        botao.closest("th");
+
+    const span =
+        th
+            ? th.querySelector(
+                ".cabecalho-coluna span"
+            )
+            : null;
+
+
+    if (titulo) {
+
+        titulo.textContent =
+            span
+                ? span.textContent.trim()
+                : "Filtrar";
+    }
+
+
+    /*
+    ------------------------------------------------------
+    LIMPAR PESQUISA DO MENU
+    ------------------------------------------------------
+    */
+
+    if (pesquisa) {
+
+        pesquisa.value = "";
+    }
+
+
+    /*
+    ------------------------------------------------------
+    CRIAR OPÇÕES
+    ------------------------------------------------------
+    */
+
+    carregarOpcoesFiltro();
+
+
+    /*
+    ------------------------------------------------------
+    POSICIONAR MENU
+    ------------------------------------------------------
+    */
+
+    const posicao =
+        botao.getBoundingClientRect();
+
+
+    menu.style.left =
+        (
+            posicao.left +
+            window.scrollX
+        ) + "px";
+
+
+    menu.style.top =
+        (
+            posicao.bottom +
+            window.scrollY +
+            4
+        ) + "px";
+
+
+    /*
+    ------------------------------------------------------
+    ABRIR
+    ------------------------------------------------------
+    */
+
+    menu.classList.add(
+        "ativo"
+    );
+
+
+    /*
+    ------------------------------------------------------
+    FOCO
+    ------------------------------------------------------
+    */
+
+    if (pesquisa) {
+
+        setTimeout(
+            function () {
+
+                pesquisa.focus();
+
+            },
+            50
+        );
+    }
+}
+
+
+/*
+==========================================================
+CARREGAR OPÇÕES DO FILTRO
+==========================================================
+*/
+
+function carregarOpcoesFiltro() {
+
+    const lista =
+        document.getElementById(
+            "listaOpcoesFiltro"
+        );
+
+    const selecionarTodos =
+        document.getElementById(
+            "selecionarTodosFiltro"
+        );
+
+
+    if (
+        !lista ||
+        !colunaFiltroAtual
+    ) {
+
+        return;
+    }
+
+
+    lista.innerHTML = "";
+
+
+    /*
+    ------------------------------------------------------
+    VALORES ÚNICOS
+    ------------------------------------------------------
+    */
+
+    const valores =
+        todasLinhas
+            .map(
+                function (item) {
+
+                    return String(
+                        item[colunaFiltroAtual] ?? ""
+                    ).trim();
+                }
+            )
+            .filter(
+                function (
+                    valor,
+                    indice,
+                    array
+                ) {
+
+                    return (
+                        valor !== "" &&
+                        array.indexOf(valor) === indice
+                    );
+                }
+            )
+            .sort(
+                function (a, b) {
+
+                    return a.localeCompare(
+                        b,
+                        "pt-BR",
+                        {
+                            numeric: true,
+                            sensitivity: "base"
+                        }
+                    );
+                }
+            );
+
+
+    /*
+    ------------------------------------------------------
+    FILTRO JÁ EXISTENTE
+    ------------------------------------------------------
+    */
+
+    const selecionados =
+        filtrosAtivos[
+            colunaFiltroAtual
+        ] || [];
+
+
+    /*
+    ------------------------------------------------------
+    CRIAR CHECKBOXES
+    ------------------------------------------------------
+    */
+
+    valores.forEach(
+        function (valor) {
+
+            const label =
+                document.createElement(
+                    "label"
+                );
+
+
+            label.className =
+                "opcao-filtro";
+
+
+            const checkbox =
+                document.createElement(
+                    "input"
+                );
+
+
+            checkbox.type =
+                "checkbox";
+
+
+            checkbox.value =
+                valor;
+
+
+            /*
+            Se ainda não existe filtro,
+            todas começam selecionadas.
+            */
+
+            checkbox.checked =
+                selecionados.length === 0 ||
+                selecionados.includes(
+                    valor
+                );
+
+
+            const span =
+                document.createElement(
+                    "span"
+                );
+
+
+            span.textContent =
+                valor;
+
+
+            label.appendChild(
+                checkbox
+            );
+
+
+            label.appendChild(
+                span
+            );
+
+
+            lista.appendChild(
+                label
+            );
+        }
+    );
+
+
+    /*
+    ------------------------------------------------------
+    SELECIONAR TODOS
+    ------------------------------------------------------
+    */
+
+    if (selecionarTodos) {
+
+        selecionarTodos.checked =
+            selecionados.length === 0 ||
+            selecionados.length ===
+            valores.length;
+    }
+}
+
+
+/*
+==========================================================
+PESQUISAR OPÇÕES DO FILTRO
+==========================================================
+*/
+
+function pesquisarOpcoesFiltro() {
+
+    const pesquisa =
+        document.getElementById(
+            "pesquisaFiltro"
+        );
+
+
+    if (!pesquisa) {
+        return;
+    }
+
+
+    const termo =
+        pesquisa
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    const opcoes =
+        document.querySelectorAll(
+            "#listaOpcoesFiltro .opcao-filtro"
+        );
+
+
+    opcoes.forEach(
+        function (opcao) {
+
+            const texto =
+                opcao.textContent
+                    .trim()
+                    .toLowerCase();
+
+
+            opcao.style.display =
+                texto.includes(termo)
+                    ? "flex"
+                    : "none";
+        }
+    );
+}
+
+
+/*
+==========================================================
+APLICAR FILTRO ATUAL
+==========================================================
+*/
+
+function aplicarFiltroAtual() {
+
+    if (!colunaFiltroAtual) {
+        return;
+    }
+
+
+    const checkboxes =
+        Array.from(
+            document.querySelectorAll(
+                "#listaOpcoesFiltro input[type='checkbox']"
+            )
+        );
+
+
+    /*
+    ------------------------------------------------------
+    VALORES SELECIONADOS
+    ------------------------------------------------------
+    */
+
+    const selecionados =
+        checkboxes
+            .filter(
+                function (checkbox) {
+
+                    return checkbox.checked;
+                }
+            )
+            .map(
+                function (checkbox) {
+
+                    return checkbox.value;
+                }
+            );
+
+
+    /*
+    ------------------------------------------------------
+    TODOS SELECIONADOS = SEM FILTRO
+    ------------------------------------------------------
+    */
+
+    if (
+        selecionados.length ===
+        checkboxes.length
+    ) {
+
+        delete filtrosAtivos[
+            colunaFiltroAtual
+        ];
+
+    } else {
+
+        filtrosAtivos[
+            colunaFiltroAtual
+        ] =
+            selecionados;
+    }
+
+
+    paginaAtual = 1;
+
+
+    fecharFiltro();
+
+
+    aplicarTodosFiltros();
+}
+
+
+/*
+==========================================================
+LIMPAR FILTRO ATUAL
+==========================================================
+*/
+
+function limparFiltroAtual() {
+
+    if (!colunaFiltroAtual) {
+        return;
+    }
+
+
+    delete filtrosAtivos[
+        colunaFiltroAtual
+    ];
+
+
+    paginaAtual = 1;
+
+
+    fecharFiltro();
+
+
+    aplicarTodosFiltros();
+}
+
+
+/*
+==========================================================
+FECHAR MENU DO FILTRO
+==========================================================
+*/
+
+function fecharFiltro() {
+
+    const menu =
+        document.getElementById(
+            "menuFiltro"
+        );
+
+
+    if (menu) {
+
+        menu.classList.remove(
+            "ativo"
+        );
+    }
+
+
+    colunaFiltroAtual =
+        null;
+}
+
+
+/*
+==========================================================
+APLICAR PESQUISA + FILTROS
+==========================================================
+*/
+
+function aplicarTodosFiltros() {
 
     const campoPesquisa =
         document.getElementById(
@@ -1282,17 +1972,172 @@ function pesquisarLinhas() {
         );
 
 
-    if (!campoPesquisa) {
-
-        return;
-    }
-
-
     const termo =
         campoPesquisa
-            .value
-            .trim()
-            .toLowerCase();
+            ? campoPesquisa
+                .value
+                .trim()
+                .toLowerCase()
+            : "";
+
+
+    /*
+    ------------------------------------------------------
+    FILTRAR
+    ------------------------------------------------------
+    */
+
+    const resultado =
+        todasLinhas.filter(
+            function (item) {
+
+
+                /*
+                --------------------------------------------------
+                PESQUISA GERAL
+                --------------------------------------------------
+                */
+
+                if (termo) {
+
+                    const encontrou =
+                        [
+                            item.empresa,
+                            item.cod,
+                            item.linha,
+                            item.tipo,
+                            item.embarque_ida,
+                            item.embarque_volta,
+                            item.tarifa_cartao,
+                            item.tarifa_dinheiro,
+                            item.status
+                        ]
+                            .some(
+                                function (valor) {
+
+                                    return String(
+                                        valor ?? ""
+                                    )
+                                        .toLowerCase()
+                                        .includes(
+                                            termo
+                                        );
+                                }
+                            );
+
+
+                    if (!encontrou) {
+
+                        return false;
+                    }
+                }
+
+
+                /*
+                --------------------------------------------------
+                FILTROS DAS COLUNAS
+                --------------------------------------------------
+                */
+
+                for (
+                    const coluna
+                    in filtrosAtivos
+                ) {
+
+                    const permitidos =
+                        filtrosAtivos[
+                            coluna
+                        ];
+
+
+                    if (
+                        !permitidos.includes(
+                            String(
+                                item[coluna] ?? ""
+                            ).trim()
+                        )
+                    ) {
+
+                        return false;
+                    }
+                }
+
+
+                return true;
+            }
+        );
+
+
+    /*
+    ------------------------------------------------------
+    MOSTRAR RESULTADO
+    ------------------------------------------------------
+    */
+
+    exibirLinhas(
+        resultado
+    );
+
+
+    atualizarIndicadoresFiltros();
+}
+
+
+/*
+==========================================================
+INDICAR FILTROS ATIVOS
+==========================================================
+*/
+
+function atualizarIndicadoresFiltros() {
+
+    const botoes =
+        document.querySelectorAll(
+            ".btn-filtro"
+        );
+
+
+    botoes.forEach(
+        function (botao) {
+
+            const coluna =
+                botao.dataset.coluna;
+
+
+            if (
+                Object.prototype
+                    .hasOwnProperty.call(
+                        filtrosAtivos,
+                        coluna
+                    )
+            ) {
+
+                botao.classList.add(
+                    "filtro-ativo"
+                );
+
+            } else {
+
+                botao.classList.remove(
+                    "filtro-ativo"
+                );
+            }
+        }
+    );
+}
+
+/*
+==========================================================
+PESQUISAR LINHAS
+==========================================================
+*/
+
+function pesquisarLinhas() {
+
+    paginaAtual = 1;
+
+    aplicarTodosFiltros();
+}
 
 
     /*
@@ -1907,7 +2752,15 @@ async function confirmarExclusaoLinha() {
             botao.textContent =
                 "EXCLUIR";
         }
-    }
+
+        /*
+        ----------------------------------------------------------
+        FILTROS DAS COLUNAS
+        ----------------------------------------------------------
+        */
+
+        configurarFiltros();
+            }
 }
 
 /*
