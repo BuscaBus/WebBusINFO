@@ -972,132 +972,6 @@ function exibirLinhas(linhas) {
         return;
     }
 
-    /*
-==========================================================
-ATUALIZAR PAGINAÇÃO
-==========================================================
-*/
-
-function atualizarPaginacao() {
-
-    const infoPagina =
-        document.getElementById(
-            "infoPagina"
-        );
-
-    const btnAnterior =
-        document.getElementById(
-            "btnPaginaAnterior"
-        );
-
-    const btnProxima =
-        document.getElementById(
-            "btnProximaPagina"
-        );
-
-
-    if (
-        !infoPagina ||
-        !btnAnterior ||
-        !btnProxima
-    ) {
-
-        return;
-    }
-
-
-    const totalItens =
-        linhasFiltradas.length;
-
-
-    const totalPaginas =
-        Math.max(
-            1,
-            Math.ceil(
-                totalItens /
-                itensPorPagina
-            )
-        );
-
-
-    /*
-    ------------------------------------------------------
-    INFORMAÇÃO
-    ------------------------------------------------------
-    */
-
-    infoPagina.textContent =
-        `Página ${paginaAtual} de ${totalPaginas}`;
-
-
-    /*
-    ------------------------------------------------------
-    BOTÕES
-    ------------------------------------------------------
-    */
-
-    btnAnterior.disabled =
-        paginaAtual <= 1;
-
-
-    btnProxima.disabled =
-        paginaAtual >= totalPaginas;
-}
-
-
-/*
-==========================================================
-PÁGINA ANTERIOR
-==========================================================
-*/
-
-function paginaAnterior() {
-
-    if (paginaAtual <= 1) {
-        return;
-    }
-
-
-    paginaAtual--;
-
-
-    exibirLinhas(
-        linhasFiltradas
-    );
-}
-
-
-/*
-==========================================================
-PRÓXIMA PÁGINA
-==========================================================
-*/
-
-function proximaPagina() {
-
-    const totalPaginas =
-        Math.ceil(
-            linhasFiltradas.length /
-            itensPorPagina
-        );
-
-
-    if (
-        paginaAtual >=
-        totalPaginas
-    ) {
-
-        return;
-    }
-
-
-    paginaAtual++;
-
-
-    exibirLinhas(
-        linhasFiltradas
-    );
-}
 
     /*
     ------------------------------------------------------
@@ -1134,7 +1008,7 @@ function proximaPagina() {
 
     /*
     ------------------------------------------------------
-    CALCULAR PÁGINA
+    TOTAL DE PÁGINAS
     ------------------------------------------------------
     */
 
@@ -1147,7 +1021,7 @@ function proximaPagina() {
 
     /*
     ------------------------------------------------------
-    CORRIGIR PÁGINA ATUAL
+    VALIDAR PÁGINA ATUAL
     ------------------------------------------------------
     */
 
@@ -1162,7 +1036,7 @@ function proximaPagina() {
 
     /*
     ------------------------------------------------------
-    RECORTAR 15 REGISTROS
+    DEFINIR REGISTROS DA PÁGINA
     ------------------------------------------------------
     */
 
@@ -1184,7 +1058,7 @@ function proximaPagina() {
 
     /*
     ------------------------------------------------------
-    CRIAR REGISTROS
+    EXIBIR SOMENTE OS REGISTROS DA PÁGINA
     ------------------------------------------------------
     */
 
@@ -1275,13 +1149,123 @@ function proximaPagina() {
     );
 
 
-    /*
-    ------------------------------------------------------
-    ATUALIZAR CONTROLES
-    ------------------------------------------------------
-    */
-
     atualizarPaginacao();
+}
+
+
+/*
+==========================================================
+ATUALIZAR PAGINAÇÃO
+==========================================================
+*/
+
+function atualizarPaginacao() {
+
+    const infoPagina =
+        document.getElementById(
+            "infoPagina"
+        );
+
+    const btnAnterior =
+        document.getElementById(
+            "btnPaginaAnterior"
+        );
+
+    const btnProxima =
+        document.getElementById(
+            "btnProximaPagina"
+        );
+
+
+    if (
+        !infoPagina ||
+        !btnAnterior ||
+        !btnProxima
+    ) {
+
+        return;
+    }
+
+
+    const totalItens =
+        linhasFiltradas.length;
+
+
+    const totalPaginas =
+        Math.max(
+            1,
+            Math.ceil(
+                totalItens /
+                itensPorPagina
+            )
+        );
+
+
+    infoPagina.textContent =
+        `Página ${paginaAtual} de ${totalPaginas}`;
+
+
+    btnAnterior.disabled =
+        paginaAtual <= 1;
+
+
+    btnProxima.disabled =
+        paginaAtual >= totalPaginas;
+}
+
+
+/*
+==========================================================
+PÁGINA ANTERIOR
+==========================================================
+*/
+
+function paginaAnterior() {
+
+    if (paginaAtual <= 1) {
+        return;
+    }
+
+
+    paginaAtual--;
+
+
+    exibirLinhas(
+        linhasFiltradas
+    );
+}
+
+
+/*
+==========================================================
+PRÓXIMA PÁGINA
+==========================================================
+*/
+
+function proximaPagina() {
+
+    const totalPaginas =
+        Math.ceil(
+            linhasFiltradas.length /
+            itensPorPagina
+        );
+
+
+    if (
+        paginaAtual >=
+        totalPaginas
+    ) {
+
+        return;
+    }
+
+
+    paginaAtual++;
+
+
+    exibirLinhas(
+        linhasFiltradas
+    );
 }
 
 /*
@@ -1404,10 +1388,6 @@ exibirLinhas(
     filtradas
 );   
 
-
-    exibirLinhas(
-        filtradas
-    );
 }
 
 
