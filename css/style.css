@@ -177,113 +177,78 @@ main {
     background: #f7f7f7;
 }
 
-
 /* ==========================================================
    LARGURA DAS COLUNAS
 ========================================================== */
 
-
-/* ----------------------------------------------------------
-   1 - EMPRESA
----------------------------------------------------------- */
-
+/* Empresa */
 #tabelaLinhas th:nth-child(1),
 #tabelaLinhas td:nth-child(1) {
     width: 10%;
 }
 
-
-/* ----------------------------------------------------------
-   2 - CÓDIGO
----------------------------------------------------------- */
-
+/* Código */
 #tabelaLinhas th:nth-child(2),
 #tabelaLinhas td:nth-child(2) {
-    width: 6%;
+    width: 5%;
 }
 
-
-/* ----------------------------------------------------------
-   3 - LINHA
-   Maior para permitir nomes mais longos
----------------------------------------------------------- */
-
+/* Linha */
 #tabelaLinhas th:nth-child(3),
 #tabelaLinhas td:nth-child(3) {
-    width: 17%;
+    width: 18%;
 }
 
-
-/* ----------------------------------------------------------
-   4 - TIPO
-   Maior para permitir descrições maiores
----------------------------------------------------------- */
-
+/* Tipo */
 #tabelaLinhas th:nth-child(4),
 #tabelaLinhas td:nth-child(4) {
-    width: 13%;
+    width: 14%;
 }
 
-
-/* ----------------------------------------------------------
-   5 - EMBARQUE IDA
----------------------------------------------------------- */
-
+/* Embarque Ida */
 #tabelaLinhas th:nth-child(5),
 #tabelaLinhas td:nth-child(5) {
     width: 11%;
 }
 
-
-/* ----------------------------------------------------------
-   6 - EMBARQUE VOLTA
----------------------------------------------------------- */
-
+/* Embarque Volta */
 #tabelaLinhas th:nth-child(6),
 #tabelaLinhas td:nth-child(6) {
     width: 11%;
 }
 
-
-/* ----------------------------------------------------------
-   7 - TARIFA CARTÃO
----------------------------------------------------------- */
-
+/* Cartão */
 #tabelaLinhas th:nth-child(7),
 #tabelaLinhas td:nth-child(7) {
-    width: 9%;
-}
-
-
-/* ----------------------------------------------------------
-   8 - TARIFA DINHEIRO
----------------------------------------------------------- */
-
-#tabelaLinhas th:nth-child(8),
-#tabelaLinhas td:nth-child(8) {
-    width: 10%;
-}
-
-
-/* ----------------------------------------------------------
-   9 - STATUS
----------------------------------------------------------- */
-
-#tabelaLinhas th:nth-child(9),
-#tabelaLinhas td:nth-child(9) {
     width: 6%;
 }
 
-
-/* ----------------------------------------------------------
-   10 - AÇÕES
----------------------------------------------------------- */
-
-#tabelaLinhas th:nth-child(10),
-#tabelaLinhas td:nth-child(10) {
+/* Dinheiro */
+#tabelaLinhas th:nth-child(8),
+#tabelaLinhas td:nth-child(8) {
     width: 7%;
 }
 
+/* Status */
+#tabelaLinhas th:nth-child(9),
+#tabelaLinhas td:nth-child(9) {
+    width: 7%;
+}
+
+/* Ações */
+#tabelaLinhas th:nth-child(10),
+#tabelaLinhas td:nth-child(10) {
+    width: 11%;
+}
+
+/* ==========================================================
+   COLUNA AÇÕES
+========================================================== */
+
+#tabelaLinhas td:nth-child(10) {
+    white-space: nowrap;
+    overflow: visible;
+}
 
 /* ==========================================================
    QUEBRA DE TEXTO
@@ -346,19 +311,15 @@ main {
 
 .btn-editar,
 .btn-excluir {
-
     padding: 6px 7px;
-
     margin: 1px;
 
     border: none;
-
     border-radius: 4px;
 
     cursor: pointer;
 
     font-size: 12px;
-
     white-space: nowrap;
 }
 
