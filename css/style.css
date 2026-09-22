@@ -134,63 +134,79 @@ main {
 /* Código */
 #tabelaLinhas th:nth-child(2),
 #tabelaLinhas td:nth-child(2) {
-    width: 7%;
+    width: 6%;
 }
 
 
 /* Linha */
 #tabelaLinhas th:nth-child(3),
 #tabelaLinhas td:nth-child(3) {
-    width: 9%;
+    width: 17%;
 }
 
 
 /* Tipo */
 #tabelaLinhas th:nth-child(4),
 #tabelaLinhas td:nth-child(4) {
-    width: 7%;
+    width: 13%;
 }
 
 
 /* Embarque Ida */
 #tabelaLinhas th:nth-child(5),
 #tabelaLinhas td:nth-child(5) {
-    width: 13%;
+    width: 11%;
 }
 
 
 /* Embarque Volta */
 #tabelaLinhas th:nth-child(6),
 #tabelaLinhas td:nth-child(6) {
-    width: 13%;
+    width: 11%;
 }
 
 
 /* Tarifa Cartão */
 #tabelaLinhas th:nth-child(7),
 #tabelaLinhas td:nth-child(7) {
-    width: 10%;
+    width: 9%;
 }
 
 
 /* Tarifa Dinheiro */
 #tabelaLinhas th:nth-child(8),
 #tabelaLinhas td:nth-child(8) {
-    width: 11%;
+    width: 10%;
 }
 
 
 /* Status */
 #tabelaLinhas th:nth-child(9),
 #tabelaLinhas td:nth-child(9) {
-    width: 8%;
+    width: 6%;
 }
 
 
 /* Ações */
 #tabelaLinhas th:nth-child(10),
 #tabelaLinhas td:nth-child(10) {
-    width: 12%;
+    width: 7%;
+}
+
+/* ===============================
+   QUEBRA DE TEXTO - LINHA E TIPO
+================================ */
+
+#tabelaLinhas td:nth-child(3),
+#tabelaLinhas td:nth-child(4) {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+
+    overflow-wrap: break-word;
+    word-break: normal;
+
+    line-height: 1.35;
 }
 
 /* ===============================
