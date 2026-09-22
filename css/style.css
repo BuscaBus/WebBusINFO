@@ -1,3 +1,7 @@
+/* ==========================================================
+   CONFIGURAÇÃO GERAL
+========================================================== */
+
 * {
     box-sizing: border-box;
 }
@@ -11,21 +15,30 @@ body {
 
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
     background: #f4f6f8;
     color: #333;
 }
 
 
-/* ===============================
+/* ==========================================================
    CABEÇALHO
-================================ */
+========================================================== */
 
 header {
     padding: 20px;
+
     text-align: center;
+
     background: #ffffff;
-    border-bottom: 1px solid #ddd;
+
+    border-bottom:
+        1px solid #ddd;
 }
 
 header h1 {
@@ -33,48 +46,70 @@ header h1 {
 }
 
 
-/* ===============================
+/* ==========================================================
    CONTEÚDO
-================================ */
+========================================================== */
 
 main {
     width: 96%;
     max-width: 1500px;
+
     margin: 30px auto;
 }
 
 
-/* ===============================
+/* ==========================================================
    BARRA DE AÇÕES
-================================ */
+========================================================== */
 
 .barra-acoes {
     display: flex;
+
     justify-content: space-between;
+    align-items: center;
+
     gap: 15px;
+
     margin-bottom: 20px;
 }
 
+
+/* ==========================================================
+   BOTÃO NOVA LINHA
+========================================================== */
+
 .btn-novo {
     padding: 11px 18px;
+
     border: none;
     border-radius: 5px;
+
     cursor: pointer;
+
     font-weight: bold;
 }
+
+
+/* ==========================================================
+   PESQUISA PRINCIPAL
+========================================================== */
 
 #pesquisa {
     width: 320px;
     max-width: 100%;
+
     padding: 10px;
-    border: 1px solid #ccc;
+
+    border:
+        1px solid #ccc;
+
     border-radius: 5px;
 }
 
 
-/* ===============================
-   TABELA
-================================ */
+/* ==========================================================
+   CONTAINER DA TABELA
+========================================================== */
 
 .tabela-container {
     width: 100%;
@@ -82,125 +117,186 @@ main {
 
     overflow: visible;
 
-    background: #fff;
+    background: #ffffff;
+
     border-radius: 6px;
 }
 
+
+/* ==========================================================
+   TABELA
+========================================================== */
 
 #tabelaLinhas {
     width: 100%;
     max-width: 100%;
 
     table-layout: fixed;
+
     border-collapse: collapse;
 }
 
+
+/* ==========================================================
+   CÉLULAS DA TABELA
+========================================================== */
 
 #tabelaLinhas th,
 #tabelaLinhas td {
     padding: 10px 6px;
 
-    border-bottom: 1px solid #ddd;
+    border-bottom:
+        1px solid #ddd;
 
     text-align: left;
+    vertical-align: middle;
+
+    white-space: nowrap;
 
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
+
+/* ==========================================================
+   CABEÇALHO DA TABELA
+========================================================== */
 
 #tabelaLinhas th {
     background: #eeeeee;
+
+    font-weight: bold;
 }
 
+
+/* ==========================================================
+   HOVER DAS LINHAS
+========================================================== */
 
 #tabelaLinhas tbody tr:hover {
     background: #f7f7f7;
 }
 
 
-/* ===============================
+/* ==========================================================
    LARGURA DAS COLUNAS
-================================ */
+========================================================== */
 
-/* Empresa */
+
+/* ----------------------------------------------------------
+   1 - EMPRESA
+---------------------------------------------------------- */
+
 #tabelaLinhas th:nth-child(1),
 #tabelaLinhas td:nth-child(1) {
     width: 10%;
 }
 
 
-/* Código */
+/* ----------------------------------------------------------
+   2 - CÓDIGO
+---------------------------------------------------------- */
+
 #tabelaLinhas th:nth-child(2),
 #tabelaLinhas td:nth-child(2) {
     width: 6%;
 }
 
 
-/* Linha */
+/* ----------------------------------------------------------
+   3 - LINHA
+   Maior para permitir nomes mais longos
+---------------------------------------------------------- */
+
 #tabelaLinhas th:nth-child(3),
 #tabelaLinhas td:nth-child(3) {
     width: 17%;
 }
 
 
-/* Tipo */
+/* ----------------------------------------------------------
+   4 - TIPO
+   Maior para permitir descrições maiores
+---------------------------------------------------------- */
+
 #tabelaLinhas th:nth-child(4),
 #tabelaLinhas td:nth-child(4) {
     width: 13%;
 }
 
 
-/* Embarque Ida */
+/* ----------------------------------------------------------
+   5 - EMBARQUE IDA
+---------------------------------------------------------- */
+
 #tabelaLinhas th:nth-child(5),
 #tabelaLinhas td:nth-child(5) {
     width: 11%;
 }
 
 
-/* Embarque Volta */
+/* ----------------------------------------------------------
+   6 - EMBARQUE VOLTA
+---------------------------------------------------------- */
+
 #tabelaLinhas th:nth-child(6),
 #tabelaLinhas td:nth-child(6) {
     width: 11%;
 }
 
 
-/* Tarifa Cartão */
+/* ----------------------------------------------------------
+   7 - TARIFA CARTÃO
+---------------------------------------------------------- */
+
 #tabelaLinhas th:nth-child(7),
 #tabelaLinhas td:nth-child(7) {
     width: 9%;
 }
 
 
-/* Tarifa Dinheiro */
+/* ----------------------------------------------------------
+   8 - TARIFA DINHEIRO
+---------------------------------------------------------- */
+
 #tabelaLinhas th:nth-child(8),
 #tabelaLinhas td:nth-child(8) {
     width: 10%;
 }
 
 
-/* Status */
+/* ----------------------------------------------------------
+   9 - STATUS
+---------------------------------------------------------- */
+
 #tabelaLinhas th:nth-child(9),
 #tabelaLinhas td:nth-child(9) {
     width: 6%;
 }
 
 
-/* Ações */
+/* ----------------------------------------------------------
+   10 - AÇÕES
+---------------------------------------------------------- */
+
 #tabelaLinhas th:nth-child(10),
 #tabelaLinhas td:nth-child(10) {
     width: 7%;
 }
 
-/* ===============================
-   QUEBRA DE TEXTO - LINHA E TIPO
-================================ */
+
+/* ==========================================================
+   QUEBRA DE TEXTO
+   COLUNAS LINHA E TIPO
+========================================================== */
 
 #tabelaLinhas td:nth-child(3),
 #tabelaLinhas td:nth-child(4) {
+
     white-space: normal;
+
     overflow: visible;
+
     text-overflow: clip;
 
     overflow-wrap: break-word;
@@ -209,9 +305,31 @@ main {
     line-height: 1.35;
 }
 
-/* ===============================
+
+/*
+   Aproxima a largura máxima do texto
+   para cerca de 40 caracteres.
+*/
+
+#tabelaLinhas td:nth-child(3),
+#tabelaLinhas td:nth-child(4) {
+    max-width: 40ch;
+}
+
+
+/* ==========================================================
+   CABEÇALHO LINHA / TIPO
+========================================================== */
+
+#tabelaLinhas th:nth-child(3),
+#tabelaLinhas th:nth-child(4) {
+    white-space: nowrap;
+}
+
+
+/* ==========================================================
    STATUS
-================================ */
+========================================================== */
 
 .status-ativa {
     font-weight: bold;
@@ -222,67 +340,67 @@ main {
 }
 
 
-/* ===============================
-   BOTÕES
-================================ */
+/* ==========================================================
+   BOTÕES EDITAR / EXCLUIR
+========================================================== */
 
 .btn-editar,
 .btn-excluir {
+
     padding: 6px 7px;
+
     margin: 1px;
 
     border: none;
+
     border-radius: 4px;
 
     cursor: pointer;
 
     font-size: 12px;
+
+    white-space: nowrap;
 }
+
 
 .btn-editar {
     background: #e8e8e8;
 }
+
 
 .btn-excluir {
     background: #e8e8e8;
 }
 
 
-/* ===============================
+.btn-editar:hover,
+.btn-excluir:hover {
+    background: #d8d8d8;
+}
+
+
+/* ==========================================================
    MENSAGENS
-================================ */
+========================================================== */
 
 .mensagem {
     margin-top: 15px;
+
     font-weight: bold;
 }
 
 
-/* ===============================
-   CELULAR
-================================ */
-
-@media (max-width: 700px) {
-
-    .barra-acoes {
-        flex-direction: column;
-    }
-
-    #pesquisa {
-        width: 100%;
-    }
-}
-
-/*
-==========================================================
-PAGINAÇÃO
-==========================================================
-*/
+/* ==========================================================
+   PAGINAÇÃO
+========================================================== */
 
 .paginacao {
+
     display: flex;
+
     justify-content: center;
     align-items: center;
+
     gap: 15px;
 
     margin-top: 20px;
@@ -291,9 +409,12 @@ PAGINAÇÃO
 
 
 .paginacao button {
+
     padding: 8px 14px;
 
-    border: 1px solid #ccc;
+    border:
+        1px solid #ccc;
+
     border-radius: 5px;
 
     cursor: pointer;
@@ -301,7 +422,9 @@ PAGINAÇÃO
 
 
 .paginacao button:disabled {
+
     opacity: 0.5;
+
     cursor: not-allowed;
 }
 
@@ -310,92 +433,54 @@ PAGINAÇÃO
     font-weight: bold;
 }
 
-/*
-==========================================================
-FILTROS NO CABEÇALHO
-==========================================================
-*/
 
-.cabecalho-filtro {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-
-.cabecalho-filtro span {
-    font-weight: bold;
-}
-
-
-.filtro-coluna {
-    width: 100%;
-    min-width: 80px;
-
-    padding: 6px;
-
-    border: 1px solid #ccc;
-    border-radius: 4px;
-
-    background: #fff;
-    font-size: 12px;
-    font-weight: normal;
-}
-
-
-.btn-limpar-filtros {
-    padding: 6px 10px;
-
-    border: 1px solid #ccc;
-    border-radius: 4px;
-
-    background: #fff;
-
-    cursor: pointer;
-}
-
-/*
-==========================================================
-CABEÇALHO COM FILTRO
-==========================================================
-*/
+/* ==========================================================
+   CABEÇALHO COM FILTRO
+========================================================== */
 
 .cabecalho-coluna {
+
     display: flex;
+
     align-items: center;
     justify-content: space-between;
 
     width: 100%;
+
     min-width: 0;
 
     gap: 3px;
 }
 
 
+/* ==========================================================
+   TEXTO DO CABEÇALHO
+========================================================== */
+
 .cabecalho-coluna span {
+
     min-width: 0;
 
     overflow: hidden;
+
     text-overflow: ellipsis;
+
     white-space: nowrap;
 }
 
 
-.btn-filtro {
-    flex-shrink: 0;
-}
-
-
-/*
-==========================================================
-BOTÃO TRIÂNGULO DO FILTRO
-==========================================================
-*/
+/* ==========================================================
+   BOTÃO TRIÂNGULO DO FILTRO
+========================================================== */
 
 .btn-filtro {
+
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
+
+    flex-shrink: 0;
 
     width: 22px;
     height: 22px;
@@ -403,11 +488,13 @@ BOTÃO TRIÂNGULO DO FILTRO
     padding: 0;
 
     border: none;
+
     border-radius: 3px;
 
     background: transparent;
 
     font-size: 10px;
+
     color: #555;
 
     cursor: pointer;
@@ -419,39 +506,41 @@ BOTÃO TRIÂNGULO DO FILTRO
 }
 
 
-/*
-==========================================================
-FILTRO ATIVO
-==========================================================
-*/
+/* ==========================================================
+   FILTRO ATIVO
+========================================================== */
 
 .btn-filtro.filtro-ativo {
+
     background: #d9e7f7;
+
     font-weight: bold;
 }
 
 
-/*
-==========================================================
-MENU FLUTUANTE DO FILTRO
-==========================================================
-*/
+/* ==========================================================
+   MENU FLUTUANTE DO FILTRO
+========================================================== */
 
-.menu-filtro {
+#menuFiltro {
+
     display: none;
 
     position: absolute;
 
-    z-index: 1000;
+    z-index: 9999;
 
     width: 260px;
+
     max-height: 420px;
 
     padding: 12px;
 
     background: #ffffff;
 
-    border: 1px solid #cccccc;
+    border:
+        1px solid #cccccc;
+
     border-radius: 6px;
 
     box-shadow:
@@ -460,36 +549,32 @@ MENU FLUTUANTE DO FILTRO
 }
 
 
-/*
-==========================================================
-MENU ABERTO
-==========================================================
-*/
+/* ==========================================================
+   MENU DO FILTRO ABERTO
+========================================================== */
 
-.menu-filtro.ativo {
+#menuFiltro.ativo {
     display: block;
 }
 
 
-/*
-==========================================================
-TÍTULO DO FILTRO
-==========================================================
-*/
+/* ==========================================================
+   TÍTULO DO FILTRO
+========================================================== */
 
 .menu-filtro-titulo {
+
     margin-bottom: 10px;
 
     font-size: 14px;
+
     font-weight: bold;
 }
 
 
-/*
-==========================================================
-PESQUISA DENTRO DO FILTRO
-==========================================================
-*/
+/* ==========================================================
+   PESQUISA DENTRO DO FILTRO
+========================================================== */
 
 .menu-filtro-pesquisa {
     margin-bottom: 10px;
@@ -497,11 +582,14 @@ PESQUISA DENTRO DO FILTRO
 
 
 #pesquisaFiltro {
+
     width: 100%;
 
     padding: 8px;
 
-    border: 1px solid #cccccc;
+    border:
+        1px solid #cccccc;
+
     border-radius: 4px;
 
     outline: none;
@@ -513,35 +601,37 @@ PESQUISA DENTRO DO FILTRO
 }
 
 
-/*
-==========================================================
-ÁREA DAS OPÇÕES
-==========================================================
-*/
+/* ==========================================================
+   ÁREA DAS OPÇÕES DO FILTRO
+========================================================== */
 
 .menu-filtro-opcoes {
+
     max-height: 250px;
 
     overflow-y: auto;
 
     margin-bottom: 12px;
 
-    border-top: 1px solid #eeeeee;
-    border-bottom: 1px solid #eeeeee;
+    border-top:
+        1px solid #eeeeee;
+
+    border-bottom:
+        1px solid #eeeeee;
 
     padding-top: 6px;
     padding-bottom: 6px;
 }
 
 
-/*
-==========================================================
-OPÇÃO DO FILTRO
-==========================================================
-*/
+/* ==========================================================
+   OPÇÃO DO FILTRO
+========================================================== */
 
 .opcao-filtro {
+
     display: flex;
+
     align-items: center;
 
     gap: 7px;
@@ -559,26 +649,24 @@ OPÇÃO DO FILTRO
 }
 
 
-/*
-==========================================================
-CHECKBOX
-==========================================================
-*/
+/* ==========================================================
+   CHECKBOX DO FILTRO
+========================================================== */
 
 .opcao-filtro input[type="checkbox"] {
+
     margin: 0;
 
     cursor: pointer;
 }
 
 
-/*
-==========================================================
-TEXTO DAS OPÇÕES
-==========================================================
-*/
+/* ==========================================================
+   TEXTO DAS OPÇÕES
+========================================================== */
 
 .opcao-filtro span {
+
     overflow: hidden;
 
     text-overflow: ellipsis;
@@ -587,24 +675,21 @@ TEXTO DAS OPÇÕES
 }
 
 
-/*
-==========================================================
-SELECIONAR TODOS
-==========================================================
-*/
+/* ==========================================================
+   SELECIONAR TODOS
+========================================================== */
 
 #selecionarTodosFiltro {
     cursor: pointer;
 }
 
 
-/*
-==========================================================
-AÇÕES DO MENU
-==========================================================
-*/
+/* ==========================================================
+   AÇÕES DO MENU DO FILTRO
+========================================================== */
 
 .menu-filtro-acoes {
+
     display: flex;
 
     justify-content: flex-end;
@@ -613,59 +698,53 @@ AÇÕES DO MENU
 }
 
 
-/*
-==========================================================
-BOTÕES DO MENU
-==========================================================
-*/
+/* ==========================================================
+   BOTÕES DO MENU
+========================================================== */
 
 #btnLimparFiltro,
 #btnAplicarFiltro {
+
     padding: 7px 12px;
 
-    border: 1px solid #cccccc;
+    border:
+        1px solid #cccccc;
+
     border-radius: 4px;
 
     cursor: pointer;
 
     font-size: 12px;
+
     font-weight: bold;
 }
 
 
-/*
-==========================================================
-BOTÃO LIMPAR
-==========================================================
-*/
+/* ==========================================================
+   BOTÃO LIMPAR
+========================================================== */
 
 #btnLimparFiltro {
     background: #eeeeee;
 }
 
 
-/*
-==========================================================
-BOTÃO APLICAR
-==========================================================
-*/
-
-#btnAplicarFiltro {
-    background: #333333;
-    color: #ffffff;
-
-    border-color: #333333;
+#btnLimparFiltro:hover {
+    background: #dddddd;
 }
 
 
-/*
-==========================================================
-EFEITO DOS BOTÕES
-==========================================================
-*/
+/* ==========================================================
+   BOTÃO APLICAR
+========================================================== */
 
-#btnLimparFiltro:hover {
-    background: #dddddd;
+#btnAplicarFiltro {
+
+    background: #333333;
+
+    color: #ffffff;
+
+    border-color: #333333;
 }
 
 
@@ -674,52 +753,122 @@ EFEITO DOS BOTÕES
 }
 
 
-/*
-==========================================================
-CELULAR
-==========================================================
-*/
+/* ==========================================================
+   RESPONSIVIDADE
+========================================================== */
+
+@media (max-width: 1000px) {
+
+    /*
+    Reduzir um pouco o tamanho do texto
+    quando a tela ficar menor.
+    */
+
+    #tabelaLinhas th,
+    #tabelaLinhas td {
+        padding: 8px 4px;
+
+        font-size: 13px;
+    }
+
+
+    .btn-editar,
+    .btn-excluir {
+        padding: 5px 4px;
+
+        font-size: 11px;
+    }
+}
+
+
+/* ==========================================================
+   CELULAR
+========================================================== */
 
 @media (max-width: 700px) {
 
-    .menu-filtro {
-        width: 240px;
-        max-width: calc(100vw - 20px);
+    main {
+        width: 98%;
     }
 
-}
 
-/*
-==========================================================
-MENU DO FILTRO - GARANTIR QUE INICIE FECHADO
-==========================================================
-*/
+    /*
+    ------------------------------------------------------
+    BARRA DE AÇÕES
+    ------------------------------------------------------
+    */
 
-#menuFiltro {
-    display: none;
-    position: absolute;
-    z-index: 9999;
+    .barra-acoes {
 
-    width: 260px;
-    max-height: 420px;
+        flex-direction: column;
 
-    padding: 12px;
-
-    background: #ffffff;
-
-    border: 1px solid #cccccc;
-    border-radius: 6px;
-
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-}
+        align-items: stretch;
+    }
 
 
-/*
-==========================================================
-ABRIR MENU
-==========================================================
-*/
+    #pesquisa {
+        width: 100%;
+    }
 
-#menuFiltro.ativo {
-    display: block;
+
+    /*
+    ------------------------------------------------------
+    TABELA
+    ------------------------------------------------------
+    */
+
+    #tabelaLinhas th,
+    #tabelaLinhas td {
+
+        padding: 7px 3px;
+
+        font-size: 11px;
+    }
+
+
+    /*
+    Linha e Tipo continuam podendo quebrar.
+    */
+
+    #tabelaLinhas td:nth-child(3),
+    #tabelaLinhas td:nth-child(4) {
+
+        white-space: normal;
+
+        overflow-wrap: break-word;
+
+        line-height: 1.25;
+    }
+
+
+    /*
+    ------------------------------------------------------
+    BOTÕES
+    ------------------------------------------------------
+    */
+
+    .btn-editar,
+    .btn-excluir {
+
+        padding: 4px 3px;
+
+        margin: 1px 0;
+
+        font-size: 10px;
+    }
+
+
+    /*
+    ------------------------------------------------------
+    MENU DO FILTRO
+    ------------------------------------------------------
+    */
+
+    #menuFiltro {
+
+        width: 240px;
+
+        max-width:
+            calc(100vw - 20px);
+    }
 }
