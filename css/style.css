@@ -2,6 +2,13 @@
     box-sizing: border-box;
 }
 
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
@@ -70,33 +77,121 @@ main {
 ================================ */
 
 .tabela-container {
-    overflow-x: auto;
-    overflow-y: visible;
+    width: 100%;
+    max-width: 100%;
+
+    overflow: visible;
+
     background: #fff;
     border-radius: 6px;
 }
 
-table {
+
+#tabelaLinhas {
     width: 100%;
+    max-width: 100%;
+
+    table-layout: fixed;
     border-collapse: collapse;
 }
 
-th,
-td {
-    padding: 10px;
+
+#tabelaLinhas th,
+#tabelaLinhas td {
+    padding: 10px 6px;
+
     border-bottom: 1px solid #ddd;
+
     text-align: left;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-th {
+
+#tabelaLinhas th {
     background: #eeeeee;
 }
 
-tbody tr:hover {
+
+#tabelaLinhas tbody tr:hover {
     background: #f7f7f7;
 }
 
+
+/* ===============================
+   LARGURA DAS COLUNAS
+================================ */
+
+/* Empresa */
+#tabelaLinhas th:nth-child(1),
+#tabelaLinhas td:nth-child(1) {
+    width: 10%;
+}
+
+
+/* Código */
+#tabelaLinhas th:nth-child(2),
+#tabelaLinhas td:nth-child(2) {
+    width: 7%;
+}
+
+
+/* Linha */
+#tabelaLinhas th:nth-child(3),
+#tabelaLinhas td:nth-child(3) {
+    width: 9%;
+}
+
+
+/* Tipo */
+#tabelaLinhas th:nth-child(4),
+#tabelaLinhas td:nth-child(4) {
+    width: 7%;
+}
+
+
+/* Embarque Ida */
+#tabelaLinhas th:nth-child(5),
+#tabelaLinhas td:nth-child(5) {
+    width: 13%;
+}
+
+
+/* Embarque Volta */
+#tabelaLinhas th:nth-child(6),
+#tabelaLinhas td:nth-child(6) {
+    width: 13%;
+}
+
+
+/* Tarifa Cartão */
+#tabelaLinhas th:nth-child(7),
+#tabelaLinhas td:nth-child(7) {
+    width: 10%;
+}
+
+
+/* Tarifa Dinheiro */
+#tabelaLinhas th:nth-child(8),
+#tabelaLinhas td:nth-child(8) {
+    width: 11%;
+}
+
+
+/* Status */
+#tabelaLinhas th:nth-child(9),
+#tabelaLinhas td:nth-child(9) {
+    width: 8%;
+}
+
+
+/* Ações */
+#tabelaLinhas th:nth-child(10),
+#tabelaLinhas td:nth-child(10) {
+    width: 12%;
+}
 
 /* ===============================
    STATUS
@@ -117,11 +212,15 @@ tbody tr:hover {
 
 .btn-editar,
 .btn-excluir {
-    padding: 7px 10px;
-    margin: 2px;
+    padding: 6px 7px;
+    margin: 1px;
+
     border: none;
     border-radius: 4px;
+
     cursor: pointer;
+
+    font-size: 12px;
 }
 
 .btn-editar {
@@ -249,7 +348,25 @@ CABEÇALHO COM FILTRO
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 6px;
+
+    width: 100%;
+    min-width: 0;
+
+    gap: 3px;
+}
+
+
+.cabecalho-coluna span {
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.btn-filtro {
+    flex-shrink: 0;
 }
 
 
