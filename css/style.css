@@ -847,3 +847,74 @@ main {
             calc(100vw - 20px);
     }
 }
+
+/*
+==========================================================
+TABELA DE EMPRESAS
+==========================================================
+*/
+
+#tabelaEmpresas {
+    width: 100%;
+    table-layout: fixed;
+}
+
+
+/* Empresa */
+
+#tabelaEmpresas th:nth-child(1),
+#tabelaEmpresas td:nth-child(1) {
+    width: 35%;
+}
+
+
+/* Cidade */
+
+#tabelaEmpresas th:nth-child(2),
+#tabelaEmpresas td:nth-child(2) {
+    width: 25%;
+}
+
+
+/* Site */
+
+#tabelaEmpresas th:nth-child(3),
+#tabelaEmpresas td:nth-child(3) {
+    width: 25%;
+}
+
+
+/* Ações */
+
+#tabelaEmpresas th:nth-child(4),
+#tabelaEmpresas td:nth-child(4) {
+    width: 15%;
+}
+
+
+/*
+==========================================================
+CONTEÚDO DAS CÉLULAS
+==========================================================
+*/
+
+#tabelaEmpresas th,
+#tabelaEmpresas td {
+    padding: 10px;
+
+    text-align: left;
+
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+
+/*
+==========================================================
+CABEÇALHO
+==========================================================
+*/
+
+#tabelaEmpresas th {
+    background: #eeeeee;
+}
