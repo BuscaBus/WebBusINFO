@@ -523,23 +523,31 @@ function exibirEmpresas(empresas) {
 
                 <td>
 
-                    <button
-                        type="button"
-                        class="btn-editar"
-                        onclick="editarEmpresa(${id})"
-                    >
-                        Editar
-                    </button>
+            <button
+                type="button"
+                class="btn-linhas"
+                onclick="abrirLinhasEmpresa('${escaparJS(item.empresa)}')"
+            >
+                Linhas
+            </button>
 
-                    <button
-                        type="button"
-                        class="btn-excluir"
-                        onclick="excluirEmpresa(${id})"
-                    >
-                        Excluir
-                    </button>
+            <button
+                type="button"
+                class="btn-editar"
+                onclick="editarEmpresa(${id})"
+            >
+                Editar
+            </button>
 
-                </td>
+            <button
+                type="button"
+                class="btn-excluir"
+                onclick="excluirEmpresa(${id})"
+            >
+                Excluir
+            </button>
+
+             </td>
             `;
 
 
@@ -1368,4 +1376,54 @@ function mostrarMensagem(
         },
         5000
     );
+}
+
+/*
+==========================================================
+ABRIR LINHAS DA EMPRESA
+==========================================================
+*/
+
+function abrirLinhasEmpresa(
+    empresa
+) {
+
+    const url =
+        "./index.html?empresa=" +
+        encodeURIComponent(
+            empresa
+        );
+
+
+    window.location.href =
+        url;
+}
+
+/*
+==========================================================
+ESCAPAR TEXTO PARA JAVASCRIPT
+==========================================================
+*/
+
+function escaparJS(valor) {
+
+    return String(
+        valor ?? ""
+    )
+        .replace(
+            /\\/g,
+            "\\\\"
+        )
+        .replace(
+            /'/g,
+            "\\'"
+        )
+        .replace(
+            /\r/g,
+            "\\r"
+        )
+        .replace(
+            /\n/g,
+            "\\n"
+        );
 }

@@ -928,8 +928,88 @@ async function carregarLinhas() {
         */
 
         todasLinhas =
-            resultado.dados || [];
+    resultado.dados || [];
 
+
+        /*
+        ----------------------------------------------------------
+        VERIFICAR EMPRESA RECEBIDA PELA URL
+        ----------------------------------------------------------
+        */
+
+        const parametros =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const empresaURL =
+            parametros.get(
+                "empresa"
+            );
+
+
+        if (empresaURL) {
+
+            /*
+            ------------------------------------------------------
+            COLOCAR EMPRESA NA PESQUISA
+            ------------------------------------------------------
+            */
+
+            const pesquisa =
+                document.getElementById(
+                    "pesquisa"
+                );
+
+
+            if (pesquisa) {
+
+                pesquisa.value =
+                    empresaURL;
+            }
+
+
+            /*
+            ------------------------------------------------------
+            FILTRAR SOMENTE A EMPRESA
+            ------------------------------------------------------
+            */
+
+            const linhasEmpresa =
+                todasLinhas.filter(
+                    function (item) {
+
+                        return (
+                            String(
+                                item.empresa || ""
+                            )
+                                .trim()
+                                .toLowerCase()
+                            ===
+                            String(
+                                empresaURL
+                            )
+                                .trim()
+                                .toLowerCase()
+                        );
+                    }
+                );
+
+
+            paginaAtual = 1;
+
+
+            exibirLinhas(
+                linhasEmpresa
+            );
+
+        } else {
+
+            exibirLinhas(
+                todasLinhas
+            );
+        }
 
         /*
         --------------------------------------------------
@@ -939,16 +1019,7 @@ async function carregarLinhas() {
 
         paginaAtual = 1;
 
-
-        /*
-        --------------------------------------------------
-        EXIBIR
-        --------------------------------------------------
-        */
-
-        exibirLinhas(
-            todasLinhas
-        );
+    
 
 
     } catch (erro) {
