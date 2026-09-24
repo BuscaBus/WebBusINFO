@@ -929,6 +929,25 @@ async function carregarLinhas() {
         todasLinhas =
             resultado.dados || [];
 
+        console.log(
+            "TOTAL DE LINHAS:",
+            todasLinhas.length
+        );
+
+        console.log(
+            "PRIMEIRA LINHA:",
+            todasLinhas[0]
+        );
+
+        console.log(
+            "EMPRESAS RECEBIDAS:",
+            todasLinhas.map(
+                function (item) {
+                    return item.empresa;
+                }
+            )
+        );    
+
 
         /*
         --------------------------------------------------
@@ -1045,6 +1064,18 @@ async function carregarLinhas() {
 
             exibirLinhas(
                 linhasEmpresa
+            );
+
+            console.log(
+                "EMPRESA DA URL:",
+                empresaURL
+            );
+
+            console.log(
+                "EMPRESA NORMALIZADA:",
+                normalizarTexto(
+                    empresaURL
+                )
             );
 
         } else {
