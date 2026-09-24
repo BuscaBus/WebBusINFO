@@ -980,6 +980,44 @@ async function carregarLinhas() {
 
 
         /*
+        ----------------------------------------------------------
+        FILTRAR EMPRESA RECEBIDA PELA URL
+        ----------------------------------------------------------
+        */
+
+        if (empresaURL) {
+
+            const empresaProcurada =
+                normalizarTexto(
+                    empresaURL
+                );
+
+
+            const linhasEmpresa =
+                todasLinhas.filter(
+                    function (item) {
+
+                        return (
+                            normalizarTexto(
+                                item.empresa
+                            ) ===
+                            empresaProcurada
+                        );
+                    }
+                );
+
+
+            exibirLinhas(
+                linhasEmpresa
+            );
+
+        } else {
+
+            aplicarTodosFiltros();
+        }
+
+
+        /*
         --------------------------------------------------
         APLICAR PESQUISA E FILTROS
         --------------------------------------------------
@@ -1011,7 +1049,33 @@ async function carregarLinhas() {
     }
 }
 
+        /*
+    ==========================================================
+    NORMALIZAR TEXTO
+    ==========================================================
+    */
 
+    function normalizarTexto(valor) {
+
+        return String(
+            valor ?? ""
+        )
+            .normalize("NFD")
+
+            .replace(
+                /[\u0300-\u036f]/g,
+                ""
+            )
+
+            .replace(
+                /\s+/g,
+                " "
+            )
+
+            .trim()
+
+            .toLowerCase();
+    }
 
     /*
     ==========================================================
