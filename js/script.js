@@ -1023,31 +1023,55 @@ async function carregarLinhas() {
         --------------------------------------------------
         */
 
-        aplicarTodosFiltros();
+        if (empresaURL) {
+
+            const empresaProcurada =
+                normalizarTexto(
+                    empresaURL
+                );
+
+            const linhasEmpresa =
+                todasLinhas.filter(
+                    function (item) {
+
+                        return (
+                            normalizarTexto(
+                                item.empresa
+                            ) ===
+                            empresaProcurada
+                        );
+                    }
+                );
+
+            exibirLinhas(
+                linhasEmpresa
+            );
+
+        } else {
+
+            aplicarTodosFiltros();
+        }
 
 
-    } catch (erro) {
+        } catch (erro) {
 
-        console.error(
-            "Erro ao carregar linhas:",
-            erro
-        );
+            console.error(
+                "Erro ao carregar linhas:",
+                erro
+            );
 
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="10">
+                        Erro ao carregar os dados.
+                    </td>
+                </tr>
+            `;
 
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="10">
-                    Erro ao carregar os dados.
-                </td>
-            </tr>
-        `;
-
-
-        mostrarMensagem(
-            "Não foi possível acessar a planilha."
-        );
-    }
-}
+            mostrarMensagem(
+                "Não foi possível acessar a planilha."
+            );
+        }
 
         /*
     ==========================================================
