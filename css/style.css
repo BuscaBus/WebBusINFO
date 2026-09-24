@@ -25,6 +25,16 @@ body {
     color: #333;
 }
 
+#pesquisaEmpresa {
+    width: 320px;
+    max-width: 100%;
+
+    padding: 10px;
+
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
 
 /* ==========================================================
    CABEÇALHO
@@ -750,6 +760,10 @@ main {
 
     main {
         width: 98%;
+    }
+
+    #pesquisaEmpresa {
+    width: 100%;
     }
 
 

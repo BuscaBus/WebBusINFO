@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cadastro de Empresas</title>
+
+    <link
+        rel="stylesheet"
+        href="./css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="./css/modal-empresa.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="./css/modal-exclusao.css"
+    >
+
+</head>
+
+
+<body>
+
+    <!--
+    ==========================================================
+    CABEÇALHO
+    ==========================================================
+    -->
+
+    <header>
+
+        <h1>
+            Cadastro de Empresas
+        </h1>
+
+    </header>
+
+
+    <!--
+    ==========================================================
+    CONTEÚDO
+    ==========================================================
+    -->
+
+    <main>
+
+
+        <!--
+        ======================================================
+        BARRA DE AÇÕES
+        ======================================================
+        -->
+
+        <div class="barra-acoes">
+
+            <button
+                type="button"
+                id="btnNovaEmpresa"
+                class="btn-novo"
+            >
+                NOVA EMPRESA
+            </button>
+
+
+            <input
+                type="text"
+                id="pesquisaEmpresa"
+                placeholder="Pesquisar empresas..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <!--
+        ======================================================
+        TABELA
+        ======================================================
+        -->
+
+        <div class="tabela-container">
+
+            <table id="tabelaEmpresas">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Empresa
+                        </th>
+
+                        <th>
+                            Cidade
+                        </th>
+
+                        <th>
+                            Site
+                        </th>
+
+                        <th>
+                            Ações
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="listaEmpresas">
+
+                    <tr>
+
+                        <td colspan="4">
+                            Carregando dados...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!--
+        ======================================================
+        MENSAGENS
+        ======================================================
+        -->
+
+        <div
+            id="mensagem"
+            class="mensagem"
+        ></div>
+
+
+    </main>
+
+
+    <!--
+    ==========================================================
+    MODAL CADASTRO / EDIÇÃO
+    ==========================================================
+    -->
+
+    <div id="containerModalEmpresa"></div>
+
+
+    <!--
+    ==========================================================
+    MODAL EXCLUSÃO
+    ==========================================================
+    -->
+
+    <div id="containerModalExclusao"></div>
+
+
+    <!--
+    ==========================================================
+    JAVASCRIPT
+    ==========================================================
+    -->
+
+    <script src="./js/empresas.js?v=1"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+<div
+    id="modalEmpresa"
+    class="modal"
+>
+
+    <div class="modal-conteudo">
+
+        <!--
+        ======================================================
+        CABEÇALHO
+        ======================================================
+        -->
+
+        <div class="modal-cabecalho">
+
+            <h2 id="tituloModalEmpresa">
+                Nova Empresa
+            </h2>
+
+
+            <button
+                type="button"
+                id="btnFecharModalEmpresa"
+                class="modal-fechar"
+                aria-label="Fechar"
+            >
+                &times;
+            </button>
+
+        </div>
+
+
+        <!--
+        ======================================================
+        FORMULÁRIO
+        ======================================================
+        -->
+
+        <form id="formEmpresa">
+
+
+            <!-- ID INTERNO -->
+
+            <input
+                type="hidden"
+                id="id_empresa"
+            >
+
+
+            <!-- EMPRESA -->
+
+            <div class="campo-form">
+
+                <label for="empresa">
+                    Empresa
+                </label>
+
+                <input
+                    type="text"
+                    id="empresa"
+                    required
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <!-- CIDADE -->
+
+            <div class="campo-form">
+
+                <label for="cidade">
+                    Cidade
+                </label>
+
+                <input
+                    type="text"
+                    id="cidade"
+                    required
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <!-- SITE -->
+
+            <div class="campo-form">
+
+                <label for="site">
+                    Site
+                </label>
+
+                <input
+                    type="text"
+                    id="site"
+                    placeholder="https://..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <!--
+            ==================================================
+            BOTÕES
+            ==================================================
+            -->
+
+            <div class="modal-acoes">
+
+                <button
+                    type="button"
+                    id="btnCancelarEmpresa"
+                    class="btn-cancelar"
+                >
+                    CANCELAR
+                </button>
+
+
+                <button
+                    type="submit"
+                    id="btnSalvarEmpresa"
+                    class="btn-salvar"
+                >
+                    SALVAR
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
