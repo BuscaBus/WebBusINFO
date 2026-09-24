@@ -833,8 +833,7 @@ async function salvarLinha(event) {
     }
 }
 
-
-/*
+    /*
 ==========================================================
 CARREGAR LINHAS
 ==========================================================
@@ -928,115 +927,90 @@ async function carregarLinhas() {
         */
 
         todasLinhas =
-    resultado.dados || [];
+            resultado.dados || [];
 
-    /*
-    ----------------------------------------------------------
-    VERIFICAR EMPRESA RECEBIDA PELA URL
-    ----------------------------------------------------------
-    */
 
-    const parametros =
-        new URLSearchParams(
-            window.location.search
-        );
+        /*
+        --------------------------------------------------
+        EMPRESA RECEBIDA PELA URL
+        --------------------------------------------------
+        */
 
-    const empresaURL =
-        parametros.get(
-            "empresa"
-        );
+        const parametros =
+            new URLSearchParams(
+                window.location.search
+            );
 
-    paginaAtual = 1;
 
-    if (empresaURL) {
+        const empresaURL =
+            parametros.get(
+                "empresa"
+            );
+
+
+        /*
+        --------------------------------------------------
+        PREENCHER PESQUISA COM A EMPRESA
+        --------------------------------------------------
+        */
 
         const pesquisa =
             document.getElementById(
                 "pesquisa"
             );
 
-        if (pesquisa) {
+
+        if (
+            empresaURL &&
+            pesquisa
+        ) {
 
             pesquisa.value =
                 empresaURL;
         }
 
-        const linhasEmpresa =
-            todasLinhas.filter(
-                function (item) {
 
-                    return (
-                        String(
-                            item.empresa || ""
-                        )
-                            .trim()
-                            .toLowerCase()
-                        ===
-                        String(
-                            empresaURL
-                        )
-                            .trim()
-                            .toLowerCase()
-                    );
-                }
-            );
+        /*
+        --------------------------------------------------
+        VOLTAR PARA PÁGINA 1
+        --------------------------------------------------
+        */
 
-        exibirLinhas(
-            linhasEmpresa
+        paginaAtual = 1;
+
+
+        /*
+        --------------------------------------------------
+        APLICAR PESQUISA E FILTROS
+        --------------------------------------------------
+        */
+
+        aplicarTodosFiltros();
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar linhas:",
+            erro
         );
 
-    } else {
 
-        exibirLinhas(
-            todasLinhas
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="10">
+                    Erro ao carregar os dados.
+                </td>
+            </tr>
+        `;
+
+
+        mostrarMensagem(
+            "Não foi possível acessar a planilha."
         );
     }
+}
 
-
-                exibirLinhas(
-                    linhasEmpresa
-                );
-
-            } else {
-
-                exibirLinhas(
-                    todasLinhas
-                );
-            }
-
-            /*
-            --------------------------------------------------
-            RESETAR PÁGINA
-            --------------------------------------------------
-            */
-
-            paginaAtual = 1;
-
-        
-
-
-        } catch (erro) {
-
-            console.error(
-                "Erro ao carregar linhas:",
-                erro
-            );
-
-
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="10">
-                        Erro ao carregar os dados.
-                    </td>
-                </tr>
-            `;
-
-
-            mostrarMensagem(
-                "Não foi possível acessar a planilha."
-            );
-        }
-    }
 
 
     /*
