@@ -773,6 +773,15 @@ main {
     width: 100%;
     }
 
+    .acoes-esquerda {
+    width: 100%;
+    }
+
+    .btn-voltar,
+    .btn-novo {
+        flex: 1;
+    }
+
 
     /*
     ------------------------------------------------------
@@ -924,4 +933,48 @@ CABEÇALHO
 
 #tabelaEmpresas th {
     background: #eeeeee;
+}
+
+/*
+==========================================================
+AÇÕES À ESQUERDA
+==========================================================
+*/
+
+.acoes-esquerda {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/*
+==========================================================
+BOTÃO VOLTAR
+==========================================================
+*/
+
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 11px 18px;
+
+    border: none;
+    border-radius: 5px;
+
+    background: #e8e8e8;
+    color: #333;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+.btn-voltar:hover {
+    background: #d8d8d8;
 }
