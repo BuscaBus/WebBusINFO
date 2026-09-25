@@ -951,6 +951,26 @@ async function carregarLinhas() {
             )
         );
 
+        console.log(
+            "ÚLTIMA LINHA:",
+            todasLinhas[
+                todasLinhas.length - 1
+            ]
+        );
+
+        console.log(
+            "EMPRESAS ÚNICAS:",
+            [
+                ...new Set(
+                    todasLinhas.map(
+                        function (item) {
+                            return item.empresa;
+                        }
+                    )
+                )
+            ]
+        );
+
 
         /*
         --------------------------------------------------
