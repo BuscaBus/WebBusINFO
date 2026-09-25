@@ -834,6 +834,8 @@ async function salvarLinha(event) {
 }
 
     /*
+
+    /*
 ==========================================================
 CARREGAR LINHAS
 ==========================================================
@@ -845,7 +847,6 @@ async function carregarLinhas() {
         document.getElementById(
             "listaLinhas"
         );
-
 
     if (!tbody) {
 
@@ -905,12 +906,6 @@ async function carregarLinhas() {
             await resposta.json();
 
 
-        /*
-        --------------------------------------------------
-        VERIFICAR RETORNO
-        --------------------------------------------------
-        */
-
         if (!resultado.sucesso) {
 
             throw new Error(
@@ -929,6 +924,13 @@ async function carregarLinhas() {
         todasLinhas =
             resultado.dados || [];
 
+
+        /*
+        --------------------------------------------------
+        TESTES TEMPORÁRIOS
+        --------------------------------------------------
+        */
+
         console.log(
             "TOTAL DE LINHAS:",
             todasLinhas.length
@@ -943,10 +945,11 @@ async function carregarLinhas() {
             "EMPRESAS RECEBIDAS:",
             todasLinhas.map(
                 function (item) {
+
                     return item.empresa;
                 }
             )
-        );    
+        );
 
 
         /*
@@ -969,7 +972,7 @@ async function carregarLinhas() {
 
         /*
         --------------------------------------------------
-        PREENCHER PESQUISA COM A EMPRESA
+        PREENCHER PESQUISA
         --------------------------------------------------
         */
 
@@ -999,72 +1002,12 @@ async function carregarLinhas() {
 
 
         /*
-        ----------------------------------------------------------
-        FILTRAR EMPRESA RECEBIDA PELA URL
-        ----------------------------------------------------------
-        */
-
-        if (empresaURL) {
-
-            const empresaProcurada =
-                normalizarTexto(
-                    empresaURL
-                );
-
-
-            const linhasEmpresa =
-                todasLinhas.filter(
-                    function (item) {
-
-                        return (
-                            normalizarTexto(
-                                item.empresa
-                            ) ===
-                            empresaProcurada
-                        );
-                    }
-                );
-
-
-            exibirLinhas(
-                linhasEmpresa
-            );
-
-        } else {
-
-            aplicarTodosFiltros();
-        }
-
-
-        /*
         --------------------------------------------------
-        APLICAR PESQUISA E FILTROS
+        FILTRAR EMPRESA
         --------------------------------------------------
         */
 
         if (empresaURL) {
-
-            const empresaProcurada =
-                normalizarTexto(
-                    empresaURL
-                );
-
-            const linhasEmpresa =
-                todasLinhas.filter(
-                    function (item) {
-
-                        return (
-                            normalizarTexto(
-                                item.empresa
-                            ) ===
-                            empresaProcurada
-                        );
-                    }
-                );
-
-            exibirLinhas(
-                linhasEmpresa
-            );
 
             console.log(
                 "EMPRESA DA URL:",
@@ -1078,31 +1021,65 @@ async function carregarLinhas() {
                 )
             );
 
+
+            const empresaProcurada =
+                normalizarTexto(
+                    empresaURL
+                );
+
+
+            const linhasEmpresa =
+                todasLinhas.filter(
+                    function (item) {
+
+                        return (
+                            normalizarTexto(
+                                item.empresa
+                            ) ===
+                            empresaProcurada
+                        );
+                    }
+                );
+
+
+            console.log(
+                "LINHAS ENCONTRADAS:",
+                linhasEmpresa.length
+            );
+
+
+            exibirLinhas(
+                linhasEmpresa
+            );
+
         } else {
 
             aplicarTodosFiltros();
         }
 
 
-        } catch (erro) {
+    } catch (erro) {
 
-            console.error(
-                "Erro ao carregar linhas:",
-                erro
-            );
+        console.error(
+            "Erro ao carregar linhas:",
+            erro
+        );
 
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="10">
-                        Erro ao carregar os dados.
-                    </td>
-                </tr>
-            `;
 
-            mostrarMensagem(
-                "Não foi possível acessar a planilha."
-            );
-        }
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="10">
+                    Erro ao carregar os dados.
+                </td>
+            </tr>
+        `;
+
+
+        mostrarMensagem(
+            "Não foi possível acessar a planilha."
+        );
+    }
+}
 
         /*
     ==========================================================
