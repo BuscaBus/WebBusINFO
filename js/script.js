@@ -924,6 +924,20 @@ async function carregarLinhas() {
         todasLinhas =
             resultado.dados || [];
 
+        console.log(
+            "ÚLTIMO REGISTRO RECEBIDO:",
+            todasLinhas[
+                todasLinhas.length - 1
+            ]
+        );
+
+        console.log(
+            "EMPRESA DO ÚLTIMO REGISTRO:",
+            todasLinhas[
+                todasLinhas.length - 1
+            ].empresa
+        );    
+
 
         /*
         --------------------------------------------------
