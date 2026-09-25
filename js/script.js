@@ -1043,33 +1043,34 @@ async function carregarLinhas() {
 
         if (empresaURL) {
 
-            console.log(
-                "EMPRESA DA URL:",
-                empresaURL
-            );
-
-            console.log(
-                "EMPRESA NORMALIZADA:",
-                normalizarTexto(
-                    empresaURL
-                )
-            );
-
-
             const empresaProcurada =
-                normalizarTexto(
-                    empresaURL
-                );
+                String(empresaURL)
+                    .trim()
+                    .toLowerCase();
 
 
             const linhasEmpresa =
                 todasLinhas.filter(
                     function (item) {
 
+                        const empresaLinha =
+                            String(
+                                item.empresa || ""
+                            )
+                                .trim()
+                                .toLowerCase();
+
+
+                        console.log(
+                            "COMPARANDO:",
+                            empresaLinha,
+                            "===",
+                            empresaProcurada
+                        );
+
+
                         return (
-                            normalizarTexto(
-                                item.empresa
-                            ) ===
+                            empresaLinha ===
                             empresaProcurada
                         );
                     }
