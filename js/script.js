@@ -142,6 +142,8 @@ document.addEventListener(
 
             await carregarEmpresasSelect();
 
+            carregarTiposSelect();
+
             await carregarModalExclusao();
 
             configurarEventosModalExclusao();
@@ -3534,4 +3536,141 @@ async function carregarEmpresasSelect() {
 
         selectEmpresa.disabled = true;
     }
+}
+
+/*
+==========================================================
+CARREGAR TIPOS DE LINHA NO SELECT
+==========================================================
+*/
+
+function carregarTiposSelect() {
+
+    const selectTipo =
+        document.getElementById(
+            "tipo"
+        );
+
+
+    if (!selectTipo) {
+
+        console.error(
+            "Select #tipo não encontrado."
+        );
+
+        return;
+    }
+
+
+    /*
+    ------------------------------------------------------
+    PEGAR TIPOS DA TABELA LINHAS
+    ------------------------------------------------------
+    */
+
+    const tipos =
+        todasLinhas
+            .map(
+                function (item) {
+
+                    return String(
+                        item.tipo || ""
+                    ).trim();
+                }
+            )
+
+            /*
+            ----------------------------------------------
+            REMOVER VAZIOS
+            ----------------------------------------------
+            */
+
+            .filter(
+                function (tipo) {
+
+                    return tipo !== "";
+                }
+            )
+
+            /*
+            ----------------------------------------------
+            REMOVER DUPLICADOS
+            ----------------------------------------------
+            */
+
+            .filter(
+                function (
+                    tipo,
+                    indice,
+                    array
+                ) {
+
+                    return (
+                        array.indexOf(tipo) ===
+                        indice
+                    );
+                }
+            )
+
+            /*
+            ----------------------------------------------
+            ORDENAR
+            ----------------------------------------------
+            */
+
+            .sort(
+                function (a, b) {
+
+                    return a.localeCompare(
+                        b,
+                        "pt-BR",
+                        {
+                            sensitivity: "base"
+                        }
+                    );
+                }
+            );
+
+
+    /*
+    ------------------------------------------------------
+    LIMPAR SELECT
+    ------------------------------------------------------
+    */
+
+    selectTipo.innerHTML = `
+        <option value="">
+            Selecione
+        </option>
+    `;
+
+
+    /*
+    ------------------------------------------------------
+    CRIAR OPÇÕES
+    ------------------------------------------------------
+    */
+
+    tipos.forEach(
+        function (tipo) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                tipo;
+
+
+            option.textContent =
+                tipo;
+
+
+            selectTipo.appendChild(
+                option
+            );
+        }
+    );
 }
