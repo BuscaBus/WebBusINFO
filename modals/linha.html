@@ -2,6 +2,12 @@
 
     <div class="modal-conteudo">
 
+        <!--
+        ==================================================
+        CABEÇALHO
+        ==================================================
+        -->
+
         <div class="modal-cabecalho">
 
             <h2 id="tituloModal">
@@ -19,31 +25,55 @@
 
         </div>
 
+
+        <!--
+        ==================================================
+        FORMULÁRIO
+        ==================================================
+        -->
+
         <form id="formLinha">
 
             <!-- ID INTERNO - NÃO VISÍVEL -->
+
             <input
                 type="hidden"
                 id="id_linha"
             >
 
-           <div class="campo campo-grande">
 
-                <label for="empresa">
-                    Empresa *
-                </label>
+            <!--
+            ==============================================
+            CAMPOS
+            ==============================================
+            -->
 
-                <select
-                    id="empresa"
-                    required
-                >
-                    <option value="">
-                        Carregando empresas...
-                    </option>
-                </select>
+            <div class="form-grid">
 
-            </div>
 
+                <!-- EMPRESA -->
+
+                <div class="campo campo-grande">
+
+                    <label for="empresa">
+                        Empresa *
+                    </label>
+
+                    <select
+                        id="empresa"
+                        required
+                    >
+
+                        <option value="">
+                            Carregando empresas...
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- CÓDIGO -->
 
                 <div class="campo">
 
@@ -55,10 +85,13 @@
                         type="text"
                         id="cod"
                         required
+                        autocomplete="off"
                     >
 
                 </div>
 
+
+                <!-- TIPO -->
 
                 <div class="campo">
 
@@ -80,10 +113,20 @@
                             Executivo
                         </option>
 
+                        <option value="Intermunicipal">
+                            Intermunicipal
+                        </option>
+
+                        <option value="Social">
+                            Social
+                        </option>
+
                     </select>
 
                 </div>
 
+
+                <!-- LINHA -->
 
                 <div class="campo campo-grande">
 
@@ -95,10 +138,13 @@
                         type="text"
                         id="linha"
                         required
+                        autocomplete="off"
                     >
 
                 </div>
 
+
+                <!-- EMBARQUE IDA -->
 
                 <div class="campo">
 
@@ -109,10 +155,13 @@
                     <input
                         type="text"
                         id="embarque_ida"
+                        autocomplete="off"
                     >
 
                 </div>
 
+
+                <!-- EMBARQUE VOLTA -->
 
                 <div class="campo">
 
@@ -123,10 +172,13 @@
                     <input
                         type="text"
                         id="embarque_volta"
+                        autocomplete="off"
                     >
 
                 </div>
 
+
+                <!-- TARIFA CARTÃO -->
 
                 <div class="campo">
 
@@ -145,6 +197,8 @@
                 </div>
 
 
+                <!-- TARIFA DINHEIRO -->
+
                 <div class="campo">
 
                     <label for="tarifa_dinheiro">
@@ -161,6 +215,8 @@
 
                 </div>
 
+
+                <!-- STATUS -->
 
                 <div class="campo">
 
@@ -185,8 +241,15 @@
 
                 </div>
 
+
             </div>
 
+
+            <!--
+            ==============================================
+            BOTÕES
+            ==============================================
+            -->
 
             <div class="modal-botoes">
 
