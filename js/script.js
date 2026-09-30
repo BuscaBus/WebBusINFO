@@ -140,6 +140,8 @@ document.addEventListener(
 
             configurarEventosModal();
 
+            await carregarEmpresasSelect();
+
             await carregarModalExclusao();
 
             configurarEventosModalExclusao();
@@ -3366,4 +3368,170 @@ function mostrarMensagem(texto) {
         },
         5000
     );
+}
+
+/*
+==========================================================
+CARREGAR EMPRESAS NO SELECT
+==========================================================
+*/
+
+async function carregarEmpresasSelect() {
+
+    const selectEmpresa =
+        document.getElementById(
+            "empresa"
+        );
+
+
+    if (!selectEmpresa) {
+
+        console.error(
+            "Select empresa não encontrado."
+        );
+
+        return;
+    }
+
+
+    /*
+    ------------------------------------------------------
+    MOSTRAR CARREGAMENTO
+    ------------------------------------------------------
+    */
+
+    selectEmpresa.innerHTML = `
+        <option value="">
+            Carregando empresas...
+        </option>
+    `;
+
+
+    selectEmpresa.disabled = true;
+
+
+    try {
+
+        /*
+        --------------------------------------------------
+        CONSULTAR EMPRESAS
+        --------------------------------------------------
+        */
+
+        const resposta =
+            await fetch(
+                `${API_URL}?acao=listar_empresas`
+            );
+
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                "Erro HTTP: " +
+                resposta.status
+            );
+        }
+
+
+        const resultado =
+            await resposta.json();
+
+
+        if (!resultado.sucesso) {
+
+            throw new Error(
+                resultado.mensagem ||
+                "Erro ao carregar empresas."
+            );
+        }
+
+
+        const empresas =
+            resultado.dados || [];
+
+
+        /*
+        --------------------------------------------------
+        LIMPAR SELECT
+        --------------------------------------------------
+        */
+
+        selectEmpresa.innerHTML = `
+            <option value="">
+                Selecione uma empresa
+            </option>
+        `;
+
+
+        /*
+        --------------------------------------------------
+        ORDENAR POR NOME
+        --------------------------------------------------
+        */
+
+        empresas.sort(
+            function (a, b) {
+
+                return String(
+                    a.empresa || ""
+                ).localeCompare(
+                    String(
+                        b.empresa || ""
+                    ),
+                    "pt-BR"
+                );
+            }
+        );
+
+
+        /*
+        --------------------------------------------------
+        CRIAR OPÇÕES
+        --------------------------------------------------
+        */
+
+        empresas.forEach(
+            function (item) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    item.empresa;
+
+
+                option.textContent =
+                    item.empresa;
+
+
+                selectEmpresa.appendChild(
+                    option
+                );
+            }
+        );
+
+
+        selectEmpresa.disabled = false;
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar empresas:",
+            erro
+        );
+
+
+        selectEmpresa.innerHTML = `
+            <option value="">
+                Erro ao carregar empresas
+            </option>
+        `;
+
+
+        selectEmpresa.disabled = true;
+    }
 }
