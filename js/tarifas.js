@@ -1318,13 +1318,31 @@ function formatarData(valor) {
     }
 
 
+    const texto =
+        String(valor).trim();
+
+
     /*
-    Caso venha no formato YYYY-MM-DD
+    ------------------------------------------------------
+    JÁ ESTÁ EM DD/MM/YYYY
+    ------------------------------------------------------
     */
 
-    const texto =
-        String(valor);
+    if (
+        /^\d{2}\/\d{2}\/\d{4}$/.test(
+            texto
+        )
+    ) {
 
+        return texto;
+    }
+
+
+    /*
+    ------------------------------------------------------
+    FORMATO YYYY-MM-DD
+    ------------------------------------------------------
+    */
 
     const formatoSimples =
         texto.match(
@@ -1345,11 +1363,13 @@ function formatarData(valor) {
 
 
     /*
-    Caso venha como data ISO do Apps Script
+    ------------------------------------------------------
+    DATA ISO
+    ------------------------------------------------------
     */
 
     const data =
-        new Date(valor);
+        new Date(texto);
 
 
     if (
@@ -1358,18 +1378,44 @@ function formatarData(valor) {
         )
     ) {
 
-        return data.toLocaleDateString(
-            "pt-BR",
-            {
-                timeZone: "UTC"
-            }
+        const dia =
+            String(
+                data.getUTCDate()
+            ).padStart(
+                2,
+                "0"
+            );
+
+
+        const mes =
+            String(
+                data.getUTCMonth() + 1
+            ).padStart(
+                2,
+                "0"
+            );
+
+
+        const ano =
+            data.getUTCFullYear();
+
+
+        return (
+            dia +
+            "/" +
+            mes +
+            "/" +
+            ano
         );
     }
 
 
-    return escaparHTML(
-        texto
-    );
+    /*
+    Se não reconhecer o formato,
+    mostra o valor original.
+    */
+
+    return texto;
 }
 
 
