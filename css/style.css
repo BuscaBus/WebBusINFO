@@ -1008,3 +1008,96 @@ BOTÃO TARIFAS
 .btn-tarifas:hover {
     background: #d8d8d8;
 }
+
+/*
+==========================================================
+TABELA DE TARIFAS
+==========================================================
+*/
+
+#tabelaTarifas {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+
+/* Tipo */
+#tabelaTarifas th:nth-child(1),
+#tabelaTarifas td:nth-child(1) {
+    width: 30%;
+    text-align: left;
+}
+
+
+/* Cartão */
+#tabelaTarifas th:nth-child(2),
+#tabelaTarifas td:nth-child(2) {
+    width: 15%;
+    text-align: center;
+}
+
+
+/* Dinheiro */
+#tabelaTarifas th:nth-child(3),
+#tabelaTarifas td:nth-child(3) {
+    width: 15%;
+    text-align: center;
+}
+
+
+/* Atualização */
+#tabelaTarifas th:nth-child(4),
+#tabelaTarifas td:nth-child(4) {
+    width: 20%;
+    text-align: center;
+}
+
+
+/* Ações */
+#tabelaTarifas th:nth-child(5),
+#tabelaTarifas td:nth-child(5) {
+    width: 20%;
+    text-align: center;
+}
+
+
+/*
+==========================================================
+CÉLULAS
+==========================================================
+*/
+
+#tabelaTarifas th,
+#tabelaTarifas td {
+    padding: 8px 10px;
+    vertical-align: middle;
+}
+
+
+/*
+==========================================================
+COLUNA TIPO
+==========================================================
+*/
+
+#tabelaTarifas td:nth-child(1) {
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+
+/*
+==========================================================
+AÇÕES
+==========================================================
+*/
+
+#tabelaTarifas td.acoes {
+    white-space: nowrap;
+}
+
+#tabelaTarifas td.acoes .btn-editar,
+#tabelaTarifas td.acoes .btn-excluir {
+    margin: 2px 3px;
+}

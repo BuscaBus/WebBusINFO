@@ -1409,7 +1409,7 @@ function dataParaInput(valor) {
     Formato DD/MM/YYYY
     */
 
-    const brasileira =
+   const brasileira =
         texto.match(
             /^(\d{2})\/(\d{2})\/(\d{4})$/
         );
