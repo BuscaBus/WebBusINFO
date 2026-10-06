@@ -10,21 +10,41 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Cadastro de Empresas</title>
+    <title>Cadastro de Tarifas</title>
+
+
+    <!--
+    ==========================================================
+    CSS GERAL
+    ==========================================================
+    -->
 
     <link
         rel="stylesheet"
-        href="./css/style.css?v=3"
+        href="./css/style.css?v=2"
     >
 
-    <link
-        rel="stylesheet"
-        href="./css/modal-empresa.css"
-    >
+
+    <!--
+    ==========================================================
+    CSS MODAL TARIFA
+    ==========================================================
+    -->
 
     <link
         rel="stylesheet"
-        href="?v=1"
+        href="./css/modal-tarifa.css?v=1"
+    >
+
+    <!--
+    ==========================================================
+    CSS MODAL EXCLUSÃO
+    ==========================================================
+    -->
+
+    <link
+        rel="stylesheet"
+        href="./css/modal-exclusao.css?v=1"
     >
 
 </head>
@@ -41,7 +61,7 @@
     <header>
 
         <h1>
-            Cadastro de Empresas
+            Cadastro de Tarifas
         </h1>
 
     </header>
@@ -64,29 +84,44 @@
 
         <div class="barra-acoes">
 
+
+            <!--
+            ==================================================
+            BOTÕES ESQUERDA
+            ==================================================
+            -->
+
             <div class="acoes-esquerda">
+
+                <a
+                    href="./empresas.html"
+                    class="btn-voltar"
+                >
+                    VOLTAR
+                </a>
+
 
                 <button
                     type="button"
-                    id="btnNovaEmpresa"
+                    id="btnNovaTarifa"
                     class="btn-novo"
                 >
-                    NOVA EMPRESA
+                    NOVA TARIFA
                 </button>
-
-                <a
-                    href="./tarifas.html"
-                    class="btn-tarifas"
-                >
-                    TARIFAS
-                </a>
 
             </div>
 
+
+            <!--
+            ==================================================
+            PESQUISA
+            ==================================================
+            -->
+
             <input
                 type="text"
-                id="pesquisaEmpresa"
-                placeholder="Pesquisar empresas..."
+                id="pesquisaTarifa"
+                placeholder="Pesquisar tarifas..."
                 autocomplete="off"
             >
 
@@ -101,22 +136,26 @@
 
         <div class="tabela-container">
 
-            <table id="tabelaEmpresas">
+            <table id="tabelaTarifas">
 
                 <thead>
 
                     <tr>
 
                         <th>
-                            Empresa
+                            Tipo
                         </th>
 
                         <th>
-                            Cidade
+                            Cartão
                         </th>
 
                         <th>
-                            Site
+                            Dinheiro
+                        </th>
+
+                        <th>
+                            Atualização
                         </th>
 
                         <th>
@@ -128,11 +167,11 @@
                 </thead>
 
 
-                <tbody id="listaEmpresas">
+                <tbody id="listaTarifas">
 
                     <tr>
 
-                        <td colspan="4">
+                        <td colspan="5">
                             Carregando dados...
                         </td>
 
@@ -166,7 +205,7 @@
     ==========================================================
     -->
 
-    <div id="containerModalEmpresa"></div>
+    <div id="containerModalTarifa"></div>
 
 
     <!--
@@ -184,7 +223,8 @@
     ==========================================================
     -->
 
-    <script src="./js/empresas.js?v=2"></script>
+    <script src="./js/tarifas.js?v=1"></script>
+
 
 </body>
 
