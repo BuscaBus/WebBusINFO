@@ -782,6 +782,10 @@ main {
         flex: 1;
     }
 
+    #pesquisaTarifa {
+    width: 100%;
+    }
+
 
     /*
     ------------------------------------------------------
@@ -1025,7 +1029,7 @@ TABELA DE TARIFAS
 /* Tipo */
 #tabelaTarifas th:nth-child(1),
 #tabelaTarifas td:nth-child(1) {
-    width: 30%;
+    width: 35%;
     text-align: left;
 }
 
@@ -1033,7 +1037,7 @@ TABELA DE TARIFAS
 /* Cartão */
 #tabelaTarifas th:nth-child(2),
 #tabelaTarifas td:nth-child(2) {
-    width: 15%;
+    width: 12%;
     text-align: center;
 }
 
@@ -1041,7 +1045,7 @@ TABELA DE TARIFAS
 /* Dinheiro */
 #tabelaTarifas th:nth-child(3),
 #tabelaTarifas td:nth-child(3) {
-    width: 15%;
+    width: 12%;
     text-align: center;
 }
 
@@ -1049,7 +1053,7 @@ TABELA DE TARIFAS
 /* Atualização */
 #tabelaTarifas th:nth-child(4),
 #tabelaTarifas td:nth-child(4) {
-    width: 20%;
+    width: 21%;
     text-align: center;
 }
 
@@ -1060,7 +1064,6 @@ TABELA DE TARIFAS
     width: 20%;
     text-align: center;
 }
-
 
 /*
 ==========================================================
@@ -1100,4 +1103,20 @@ AÇÕES
 #tabelaTarifas td.acoes .btn-editar,
 #tabelaTarifas td.acoes .btn-excluir {
     margin: 2px 3px;
+}
+
+/*
+==========================================================
+PESQUISA TARIFAS
+==========================================================
+*/
+
+#pesquisaTarifa {
+    width: 320px;
+    max-width: 100%;
+
+    padding: 10px;
+
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
