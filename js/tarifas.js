@@ -658,8 +658,8 @@ function renderizarTarifas(tarifas) {
                 </td>
 
                 <td>
-                    ${formatarData(
-                        tarifa.atualizacao
+                    ${escaparHTML(
+                        tarifa.atualizacao || "SEM DATA"
                     )}
                 </td>
 
