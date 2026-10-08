@@ -722,7 +722,7 @@ function renderizarTarifas(tarifas) {
             lista.appendChild(
                 tr
             );
-        }
+        
                 console.log(
             "TESTE DATA:",
             tarifa.tipo,
