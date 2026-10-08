@@ -365,7 +365,7 @@ async function salvarTarifa(event) {
         ).value;
 
 
-    atualizacao: dataParaPlanilha(atualizacao)
+    const atualizacao = document.getElementById("atualizacao").value;
 
 
     if (!tipo) {
@@ -404,8 +404,7 @@ async function salvarTarifa(event) {
                 ? ""
                 : Number(tarifaDinheiro),
 
-        atualizacao:
-            atualizacao
+        atualizacao: dataParaPlanilha(atualizacao)
 
     };
 
@@ -550,9 +549,6 @@ async function carregarTarifas() {
             ==========================================================
             */
 
-            console.table(
-                (resultado.dados || []).slice(0, 5)
-            );
 
         todasTarifas = (resultado.dados || []).map(item => {
 
