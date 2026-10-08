@@ -590,6 +590,17 @@ async function carregarTarifas() {
 
                 const primeiraTarifa = todasTarifas[0];
 
+        console.log(
+            "CHAVES COM CÓDIGOS:",
+            Object.keys(primeiraTarifa || {}).map(chave => ({
+                nome: JSON.stringify(chave),
+                codigos: Array.from(chave).map(c => c.codePointAt(0)),
+                valor: primeiraTarifa[chave]
+            }))
+        );
+
+                const primeiraTarifa = todasTarifas[0];
+
         Object.keys(primeiraTarifa || {}).forEach(chave => {
 
             console.log(
