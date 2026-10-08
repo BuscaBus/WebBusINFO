@@ -547,6 +547,31 @@ async function carregarTarifas() {
             );
         }
 
+            /*
+            ==========================================================
+            DIAGNÓSTICO DOS DADOS RECEBIDOS
+            ==========================================================
+            */
+
+            console.log(
+                "RESPOSTA TARIFAS:",
+                resultado
+            );
+
+            console.log(
+                "PRIMEIRA TARIFA:",
+                resultado.dados?.[0]
+            );
+
+            console.log(
+                "COLUNAS RECEBIDAS:",
+                Object.keys(resultado.dados?.[0] || {})
+            );
+
+            console.table(
+                (resultado.dados || []).slice(0, 5)
+            );
+
 
         todasTarifas =
             resultado.dados || [];
@@ -800,11 +825,7 @@ async function editarTarifa(idTarifa) {
             resultado
         );
 
-        console.log(
-            "PRIMEIRA TARIFA:",
-            resultado.dados?.[0]
-        );
-
+        
         if (!resultado.sucesso) {
 
             throw new Error(
@@ -1204,16 +1225,9 @@ async function excluirTarifa() {
         const resultado =
             await resposta.json();
 
-        console.log("RESPOSTA TARIFAS:", resultado);
+        
 
-        console.log(
-            "COLUNAS RECEBIDAS:",
-            Object.keys(resultado.dados[0])
-        );
-
-        console.table(resultado.dados.slice(0, 5));    
-
-
+    
         if (!resultado.sucesso) {
 
             throw new Error(
