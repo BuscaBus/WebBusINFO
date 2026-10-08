@@ -684,9 +684,11 @@ function renderizarTarifas(tarifas) {
                     )}
                 </td>
 
-                <td>
+               <td>
                     ${escaparHTML(
-                        tarifa.atualizacao || "SEM DATA"
+                        formatarData(
+                            tarifa.atualizacao
+                        )
                     )}
                 </td>
 
@@ -721,6 +723,13 @@ function renderizarTarifas(tarifas) {
                 tr
             );
         }
+    );
+
+        console.log(
+        "TARIFA NA RENDERIZAÇÃO:",
+        tarifa.tipo,
+        "DATA:",
+        tarifa.atualizacao
     );
 }
 
@@ -1338,23 +1347,45 @@ function valorParaInput(valor) {
 }
 
 
-/*
-==========================================================
-FORMATAR DATA PARA EXIBIÇÃO
-==========================================================
-*/
+    /*
+    ==========================================================
+    FORMATAR DATA PARA EXIBIÇÃO
+    ==========================================================
+    */
 
-function formatarData(valor) {
+    function formatarData(valor) {
 
-    if (!valor) {
+        if (valor === null || valor === undefined || valor === "") {
+            return "";
+        }
 
-        return "";
+        const texto = String(valor).trim();
+
+        // Data brasileira: DD/MM/YYYY
+        if (/^\d{2}\/\d{2}\/\d{4}$/.test(texto)) {
+            return texto;
+        }
+
+        // Data simples: YYYY-MM-DD
+        const simples = texto.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+
+        if (simples) {
+            return `${simples[3]}/${simples[2]}/${simples[1]}`;
+        }
+
+        // Data ISO com horário
+        const data = new Date(texto);
+
+        if (!Number.isNaN(data.getTime())) {
+            const dia = String(data.getUTCDate()).padStart(2, "0");
+            const mes = String(data.getUTCMonth() + 1).padStart(2, "0");
+            const ano = data.getUTCFullYear();
+
+            return `${dia}/${mes}/${ano}`;
+        }
+
+        return texto;
     }
-
-
-    const texto =
-        String(valor).trim();
-
 
     /*
     ------------------------------------------------------
@@ -1462,98 +1493,35 @@ DATA PARA INPUT TYPE="DATE"
 function dataParaInput(valor) {
 
     if (!valor) {
-
         return "";
     }
 
+    const texto = String(valor).trim();
 
-    const texto =
-        String(valor);
-
-
-    /*
-    Já está em YYYY-MM-DD
-    */
-
-    if (
-        /^\d{4}-\d{2}-\d{2}$/.test(
-            texto
-        )
-    ) {
-
+    // Já está em YYYY-MM-DD
+    if (/^\d{4}-\d{2}-\d{2}$/.test(texto)) {
         return texto;
     }
 
-
-    /*
-    Formato DD/MM/YYYY
-    */
-
-   const brasileira =
-        texto.match(
-            /^(\d{2})\/(\d{2})\/(\d{4})$/
-        );
-
+    // Converter DD/MM/YYYY para YYYY-MM-DD
+    const brasileira = texto.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
 
     if (brasileira) {
-
-        return (
-            brasileira[3] +
-            "-" +
-            brasileira[2] +
-            "-" +
-            brasileira[1]
-        );
+        return `${brasileira[3]}-${brasileira[2]}-${brasileira[1]}`;
     }
 
+    // Data ISO
+    const data = new Date(texto);
 
-    /*
-    Data ISO
-    */
-
-    const data =
-        new Date(valor);
-
-
-    if (
-        Number.isNaN(
-            data.getTime()
-        )
-    ) {
-
+    if (Number.isNaN(data.getTime())) {
         return "";
     }
 
+    const ano = data.getUTCFullYear();
+    const mes = String(data.getUTCMonth() + 1).padStart(2, "0");
+    const dia = String(data.getUTCDate()).padStart(2, "0");
 
-    const ano =
-        data.getUTCFullYear();
-
-
-    const mes =
-        String(
-            data.getUTCMonth() + 1
-        ).padStart(
-            2,
-            "0"
-        );
-
-
-    const dia =
-        String(
-            data.getUTCDate()
-        ).padStart(
-            2,
-            "0"
-        );
-
-
-    return (
-        ano +
-        "-" +
-        mes +
-        "-" +
-        dia
-    );
+    return `${ano}-${mes}-${dia}`;
 }
 
 
