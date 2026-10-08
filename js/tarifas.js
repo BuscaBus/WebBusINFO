@@ -572,13 +572,30 @@ async function carregarTarifas() {
                 (resultado.dados || []).slice(0, 5)
             );
 
+        todasTarifas = (resultado.dados || []).map(item => {
 
-        todasTarifas =
-            resultado.dados || [];
+            const registro = {};
+
+            Object.keys(item).forEach(chave => {
+
+                const chaveCorrigida = chave.trim();
+
+                registro[chaveCorrigida] = item[chave];
+
+            });
+
+            return registro;
+
+        });
 
                 console.log(
-            "DATA DIRETA DA API:",
-            resultado.dados[0]?.atualizacao
+            "COLUNAS NORMALIZADAS:",
+            Object.keys(todasTarifas[0] || {})
+        );
+
+        console.log(
+            "DATA NORMALIZADA:",
+            todasTarifas[0]?.atualizacao
         );
 
         console.log(
