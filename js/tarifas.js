@@ -1204,6 +1204,15 @@ async function excluirTarifa() {
         const resultado =
             await resposta.json();
 
+        console.log("RESPOSTA TARIFAS:", resultado);
+
+        console.log(
+            "COLUNAS RECEBIDAS:",
+            Object.keys(resultado.dados[0])
+        );
+
+        console.table(resultado.dados.slice(0, 5));    
+
 
         if (!resultado.sucesso) {
 
