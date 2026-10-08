@@ -519,11 +519,13 @@ async function carregarTarifas() {
 
     try {
 
-        const resposta =
-            await fetch(
-                `${API_URL}?acao=listar_tarifas`
-            );
-
+       const resposta =
+        await fetch(
+            `${API_URL}?acao=listar_tarifas&_=${Date.now()}`,
+            {
+                cache: "no-store"
+            }
+        );
 
         if (!resposta.ok) {
 
@@ -793,6 +795,15 @@ async function editarTarifa(idTarifa) {
         const resultado =
             await resposta.json();
 
+        console.log(
+            "RESPOSTA TARIFAS:",
+            resultado
+        );
+
+        console.log(
+            "PRIMEIRA TARIFA:",
+            resultado.dados?.[0]
+        );
 
         if (!resultado.sucesso) {
 
