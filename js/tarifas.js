@@ -723,6 +723,15 @@ function renderizarTarifas(tarifas) {
                 tr
             );
         }
+                console.log(
+            "TESTE DATA:",
+            tarifa.tipo,
+            "ORIGINAL:",
+            tarifa.atualizacao,
+            "FORMATADA:",
+            formatarData(tarifa.atualizacao)
+        );
+
     );
 
 }
