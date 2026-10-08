@@ -588,6 +588,23 @@ async function carregarTarifas() {
 
         });
 
+                const primeiraTarifa = todasTarifas[0];
+
+        Object.keys(primeiraTarifa || {}).forEach(chave => {
+
+            console.log(
+                "CHAVE:",
+                JSON.stringify(chave),
+                "CÓDIGOS:",
+                Array.from(chave).map(
+                    caractere => caractere.codePointAt(0)
+                ),
+                "VALOR:",
+                primeiraTarifa[chave]
+            );
+
+        });
+
                 console.log(
             "COLUNAS NORMALIZADAS:",
             Object.keys(todasTarifas[0] || {})
