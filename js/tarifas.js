@@ -576,7 +576,21 @@ async function carregarTarifas() {
         todasTarifas =
             resultado.dados || [];
 
+                console.log(
+            "DATA DIRETA DA API:",
+            resultado.dados[0]?.atualizacao
+        );
 
+        console.log(
+            "DATA EM TODAS TARIFAS:",
+            todasTarifas[0]?.atualizacao
+        );
+
+        console.log(
+            "OBJETO COMPLETO:",
+            JSON.stringify(todasTarifas[0], null, 2)
+        );
+                    
         /*
         Ordenar pelo ID
         */
