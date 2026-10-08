@@ -725,12 +725,6 @@ function renderizarTarifas(tarifas) {
         }
     );
 
-        console.log(
-        "TARIFA NA RENDERIZAÇÃO:",
-        tarifa.tipo,
-        "DATA:",
-        tarifa.atualizacao
-    );
 }
 
 
