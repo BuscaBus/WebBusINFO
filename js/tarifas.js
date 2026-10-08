@@ -365,10 +365,7 @@ async function salvarTarifa(event) {
         ).value;
 
 
-    const atualizacao =
-        document.getElementById(
-            "atualizacao"
-        ).value;
+    atualizacao: dataParaPlanilha(atualizacao)
 
 
     if (!tipo) {
@@ -553,21 +550,6 @@ async function carregarTarifas() {
             ==========================================================
             */
 
-            console.log(
-                "RESPOSTA TARIFAS:",
-                resultado
-            );
-
-            console.log(
-                "PRIMEIRA TARIFA:",
-                resultado.dados?.[0]
-            );
-
-            console.log(
-                "COLUNAS RECEBIDAS:",
-                Object.keys(resultado.dados?.[0] || {})
-            );
-
             console.table(
                 (resultado.dados || []).slice(0, 5)
             );
@@ -588,54 +570,7 @@ async function carregarTarifas() {
 
         });
 
-                const primeiraTarifa = todasTarifas[0];
-
-        console.log(
-            "CHAVES COM CÓDIGOS:",
-            Object.keys(primeiraTarifa || {}).map(chave => ({
-                nome: JSON.stringify(chave),
-                codigos: Array.from(chave).map(c => c.codePointAt(0)),
-                valor: primeiraTarifa[chave]
-            }))
-        );
-
-                const primeiraTarifa = todasTarifas[0];
-
-        Object.keys(primeiraTarifa || {}).forEach(chave => {
-
-            console.log(
-                "CHAVE:",
-                JSON.stringify(chave),
-                "CÓDIGOS:",
-                Array.from(chave).map(
-                    caractere => caractere.codePointAt(0)
-                ),
-                "VALOR:",
-                primeiraTarifa[chave]
-            );
-
-        });
-
-                console.log(
-            "COLUNAS NORMALIZADAS:",
-            Object.keys(todasTarifas[0] || {})
-        );
-
-        console.log(
-            "DATA NORMALIZADA:",
-            todasTarifas[0]?.atualizacao
-        );
-
-        console.log(
-            "DATA EM TODAS TARIFAS:",
-            todasTarifas[0]?.atualizacao
-        );
-
-        console.log(
-            "OBJETO COMPLETO:",
-            JSON.stringify(todasTarifas[0], null, 2)
-        );
-                    
+             
         /*
         Ordenar pelo ID
         */
@@ -782,15 +717,7 @@ function renderizarTarifas(tarifas) {
                 tr
             );
 
-            console.log(
-                "TESTE DATA:",
-                tarifa.tipo,
-                "ORIGINAL:",
-                tarifa.atualizacao,
-                "FORMATADA:",
-                formatarData(tarifa.atualizacao)
-            );
-        }
+           }
     );
 
 }
@@ -891,12 +818,7 @@ async function editarTarifa(idTarifa) {
         const resultado =
             await resposta.json();
 
-        console.log(
-            "RESPOSTA TARIFAS:",
-            resultado
-        );
-
-        
+                
         if (!resultado.sucesso) {
 
             throw new Error(
@@ -1680,4 +1602,30 @@ function mostrarMensagem(
             },
             5000
         );
+}
+
+
+function dataParaPlanilha(valor) {
+
+    if (!valor) {
+        return "";
+    }
+
+    const texto = String(valor).trim();
+
+    // Já está no formato DD/MM/AAAA
+    if (/^\d{2}\/\d{2}\/\d{4}$/.test(texto)) {
+        return texto;
+    }
+
+    // Converter AAAA-MM-DD para DD/MM/AAAA
+    const partes = texto.match(
+        /^(\d{4})-(\d{2})-(\d{2})$/
+    );
+
+    if (partes) {
+        return `${partes[3]}/${partes[2]}/${partes[1]}`;
+    }
+
+    return texto;
 }
