@@ -474,6 +474,24 @@ function abrirNovaLinha() {
 
     /*
     ------------------------------------------------------
+    REMOVER TIPOS ANTIGOS TEMPORÁRIOS
+    ------------------------------------------------------
+    */
+
+    const selectTipo = document.getElementById("tipo");
+
+    if (selectTipo) {
+
+        selectTipo
+            .querySelectorAll('option[data-tipo-antigo="1"]')
+            .forEach(option => option.remove());
+
+        selectTipo.value = "";
+    }
+
+
+    /*
+    ------------------------------------------------------
     LIMPAR ID
     ------------------------------------------------------
     */
@@ -2736,16 +2754,33 @@ async function editarLinha(idLinha) {
         --------------------------------------------------
         */
 
-        const tipo =
-            document.getElementById(
-                "tipo"
-            );
+       
+        const selectTipo = document.getElementById("tipo");
 
+        const tipoAtual = String(linha.tipo || "").trim();
 
-        if (tipo) {
+        if (selectTipo) {
 
-            tipo.value =
-                linha.tipo ?? "";
+            // Verificar se o tipo já existe nas opções
+            const existeTipo = Array.from(selectTipo.options)
+                .some(option => option.value === tipoAtual);
+
+            // Preservar o tipo antigo, caso não exista na aba tarifas
+            if (tipoAtual && !existeTipo) {
+
+                const option = document.createElement("option");
+
+                option.value = tipoAtual;
+                option.textContent = tipoAtual + " (tipo anterior)";
+
+                // Identificar a opção temporária
+                option.dataset.tipoAntigo = "1";
+
+                selectTipo.appendChild(option);
+            }
+
+            // Selecionar o tipo da linha em edição
+            selectTipo.value = tipoAtual;
         }
 
 
