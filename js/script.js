@@ -3550,6 +3550,12 @@ async function carregarTiposSelect() {
 
     const select = document.getElementById("tipo");
 
+    const campoCartao =
+        document.getElementById("tarifa_cartao");
+
+    const campoDinheiro =
+        document.getElementById("tarifa_dinheiro");
+
     if (!select) {
         console.error("Campo #tipo não encontrado.");
         return;
@@ -3577,18 +3583,14 @@ async function carregarTiposSelect() {
             );
         }
 
-        const tipos = [
-            ...new Set(
-                (resultado.dados || [])
-                    .map(item =>
-                        String(item.tipo || "").trim()
-                    )
-                    .filter(Boolean)
-            )
-        ];
+        const tarifas = resultado.dados || [];
 
-        tipos.sort((a, b) =>
-            a.localeCompare(b, "pt-BR")
+        // Ordenar os registros pelo tipo
+        tarifas.sort((a, b) =>
+            String(a.tipo || "").localeCompare(
+                String(b.tipo || ""),
+                "pt-BR"
+            )
         );
 
         select.innerHTML = "";
@@ -3598,26 +3600,63 @@ async function carregarTiposSelect() {
         inicial.textContent = "Selecione";
         select.appendChild(inicial);
 
-        tipos.forEach(tipo => {
+        // Criar as opções com os valores das tarifas
+        tarifas.forEach(tarifa => {
+
+            const tipo = String(tarifa.tipo || "").trim();
+
+            if (!tipo) {
+                return;
+            }
 
             const option = document.createElement("option");
 
             option.value = tipo;
             option.textContent = tipo;
 
+            option.dataset.cartao =
+                tarifa.tarifa_cartao ?? "";
+
+            option.dataset.dinheiro =
+                tarifa.tarifa_dinheiro ?? "";
+
             select.appendChild(option);
 
         });
 
-        console.log(
-            "Tipos carregados da aba tarifas:",
-            tipos
-        );
+        // Evitar cadastrar o mesmo evento várias vezes
+        if (!select.dataset.eventoTarifaConfigurado) {
+
+            select.addEventListener("change", function () {
+
+                const option =
+                    this.options[this.selectedIndex];
+
+                const valorCartao =
+                    option?.dataset.cartao ?? "";
+
+                const valorDinheiro =
+                    option?.dataset.dinheiro ?? "";
+
+                if (campoCartao) {
+                    campoCartao.value =
+                        formatarTarifaInput(valorCartao);
+                }
+
+                if (campoDinheiro) {
+                    campoDinheiro.value =
+                        formatarTarifaInput(valorDinheiro);
+                }
+
+            });
+
+            select.dataset.eventoTarifaConfigurado = "1";
+        }
 
     } catch (erro) {
 
         console.error(
-            "Erro ao carregar tipos das tarifas:",
+            "Erro ao carregar tipos e tarifas:",
             erro
         );
 
@@ -3627,4 +3666,29 @@ async function carregarTiposSelect() {
     }
 }
 
-   
+
+function formatarTarifaInput(valor) {
+
+    if (
+        valor === null ||
+        valor === undefined ||
+        String(valor).trim() === ""
+    ) {
+        return "";
+    }
+
+    const numero = Number(
+        String(valor)
+            .trim()
+            .replace(/\s/g, "")
+            .replace(",", ".")
+    );
+
+    if (!Number.isFinite(numero)) {
+        return "";
+    }
+
+    return numero.toFixed(2).replace(".", ",");
+}
+
+
