@@ -3544,22 +3544,87 @@ CARREGAR TIPOS DE LINHA NO SELECT
 ==========================================================
 */
 
-function carregarTiposSelect() {
 
-    const selectTipo =
-        document.getElementById(
-            "tipo"
-        );
+async function carregarTiposSelect() {
 
+    const select = document.getElementById("tipo");
 
-    if (!selectTipo) {
-
-        console.error(
-            "Select #tipo não encontrado."
-        );
-
+    if (!select) {
+        console.error("Campo #tipo não encontrado.");
         return;
     }
+
+    select.innerHTML =
+        '<option value="">Carregando tipos...</option>';
+
+    try {
+
+        const resposta = await fetch(
+            `${API_URL}?acao=listar_tarifas`
+        );
+
+        if (!resposta.ok) {
+            throw new Error("Erro ao consultar tarifas.");
+        }
+
+        const resultado = await resposta.json();
+
+        if (!resultado.sucesso) {
+            throw new Error(
+                resultado.mensagem ||
+                "Erro ao carregar tarifas."
+            );
+        }
+
+        const tipos = [
+            ...new Set(
+                (resultado.dados || [])
+                    .map(item =>
+                        String(item.tipo || "").trim()
+                    )
+                    .filter(Boolean)
+            )
+        ];
+
+        tipos.sort((a, b) =>
+            a.localeCompare(b, "pt-BR")
+        );
+
+        select.innerHTML = "";
+
+        const inicial = document.createElement("option");
+        inicial.value = "";
+        inicial.textContent = "Selecione";
+        select.appendChild(inicial);
+
+        tipos.forEach(tipo => {
+
+            const option = document.createElement("option");
+
+            option.value = tipo;
+            option.textContent = tipo;
+
+            select.appendChild(option);
+
+        });
+
+        console.log(
+            "Tipos carregados da aba tarifas:",
+            tipos
+        );
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar tipos das tarifas:",
+            erro
+        );
+
+        select.innerHTML =
+            '<option value="">Erro ao carregar tipos</option>';
+
+    }
+}
 
 
     /*
