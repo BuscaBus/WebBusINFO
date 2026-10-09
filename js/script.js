@@ -3536,7 +3536,8 @@ async function carregarEmpresasSelect() {
 
         selectEmpresa.disabled = true;
     }
-}
+
+ 
 
 /*
 ==========================================================
