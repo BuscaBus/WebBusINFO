@@ -3667,6 +3667,7 @@ async function carregarTiposSelect() {
 }
 
 
+
 function formatarTarifaInput(valor) {
 
     if (
@@ -3680,7 +3681,6 @@ function formatarTarifaInput(valor) {
     const numero = Number(
         String(valor)
             .trim()
-            .replace(/\s/g, "")
             .replace(",", ".")
     );
 
@@ -3688,7 +3688,8 @@ function formatarTarifaInput(valor) {
         return "";
     }
 
-    return numero.toFixed(2).replace(".", ",");
+    // Input type="number" exige ponto decimal
+    return numero.toFixed(2);
 }
 
 
