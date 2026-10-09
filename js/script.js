@@ -142,7 +142,7 @@ document.addEventListener(
 
             await carregarEmpresasSelect();
 
-            carregarTiposSelect();
+            await carregarTiposSelect();
 
             await carregarModalExclusao();
 

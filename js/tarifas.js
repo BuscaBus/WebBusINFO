@@ -1625,3 +1625,77 @@ function dataParaPlanilha(valor) {
 
     return texto;
 }
+
+
+async function carregarTiposSelect() {
+
+    const select = document.getElementById("tipo");
+
+    if (!select) {
+        return;
+    }
+
+    select.innerHTML =
+        '<option value="">Carregando tipos...</option>';
+
+    try {
+
+        const resposta = await fetch(
+            `${API_URL}?acao=listar_tarifas`
+        );
+
+        if (!resposta.ok) {
+            throw new Error("Erro na consulta de tarifas.");
+        }
+
+        const resultado = await resposta.json();
+
+        if (!resultado.sucesso) {
+            throw new Error(
+                resultado.mensagem ||
+                "Não foi possível carregar os tipos."
+            );
+        }
+
+        const tipos = [
+            ...new Set(
+                (resultado.dados || [])
+                    .map(item =>
+                        String(item.tipo || "").trim()
+                    )
+                    .filter(Boolean)
+            )
+        ];
+
+        tipos.sort((a, b) =>
+            a.localeCompare(b, "pt-BR")
+        );
+
+        select.innerHTML =
+            '<option value="">Selecione</option>';
+
+        tipos.forEach(tipo => {
+
+            const option =
+                document.createElement("option");
+
+            option.value = tipo;
+            option.textContent = tipo;
+
+            select.appendChild(option);
+
+        });
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar tipos:",
+            erro
+        );
+
+        select.innerHTML =
+            '<option value="">Erro ao carregar tipos</option>';
+
+    }
+}
+
