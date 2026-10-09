@@ -3627,45 +3627,4 @@ async function carregarTiposSelect() {
     }
 }
 
-    /*
-    ------------------------------------------------------
-    LIMPAR SELECT
-    ------------------------------------------------------
-    */
-
-    selectTipo.innerHTML = `
-        <option value="">
-            Selecione
-        </option>
-    `;
-
-
-    /*
-    ------------------------------------------------------
-    CRIAR OPÇÕES
-    ------------------------------------------------------
-    */
-
-    tipos.forEach(
-        function (tipo) {
-
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-
-            option.value =
-                tipo;
-
-
-            option.textContent =
-                tipo;
-
-
-            selectTipo.appendChild(
-                option
-            );
-        }
-    );
-}
+   
