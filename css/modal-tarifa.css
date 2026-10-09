@@ -372,3 +372,84 @@ RESPONSIVO
     }
 
 }
+
+/* =====================================
+   MODAL DE EXCLUSÃO
+===================================== */
+
+#modalExclusao {
+    display: none;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 9999;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+}
+
+/* Exibir quando ativado pelo JavaScript */
+
+#modalExclusao.ativo {
+    display: flex;
+}
+
+/* Caixa principal do modal */
+
+#modalExclusao .modal-exclusao-conteudo {
+    background: #ffffff;
+    width: 100%;
+    max-width: 480px;
+
+    padding: 24px;
+    border-radius: 8px;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+
+    box-sizing: border-box;
+}
+
+/* Cabeçalho */
+
+#modalExclusao .modal-exclusao-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+#modalExclusao .modal-exclusao-cabecalho h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+/* Corpo */
+
+#modalExclusao .modal-exclusao-corpo {
+    margin-bottom: 24px;
+}
+
+#modalExclusao .modal-exclusao-corpo p {
+    margin: 0 0 12px;
+}
+
+/* Descrição do registro */
+
+#modalExclusao .descricao-exclusao {
+    background: #f3f4f6;
+    padding: 12px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* Botões */
+
+#modalExclusao .modal-exclusao-acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
