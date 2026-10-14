@@ -401,6 +401,17 @@ function abrirNovaLinha() {
     const formulario =
         document.getElementById("formLinha");
 
+    const inputKml = document.getElementById("arquivoKml");
+    const informacaoKml = document.getElementById("kmlSelecionado");
+
+    if (inputKml) {
+        inputKml.value = "";
+    }
+
+    if (informacaoKml) {
+        informacaoKml.textContent = "";
+    }    
+
 
     /*
     ------------------------------------------------------
@@ -2204,6 +2215,16 @@ async function editarLinha(idLinha) {
         idLinha
     );
 
+    const inputKml = document.getElementById("arquivoKml");
+    const informacaoKml = document.getElementById("kmlSelecionado");
+
+    if (inputKml) {
+        inputKml.value = "";
+    }
+
+    if (informacaoKml) {
+        informacaoKml.textContent = "";
+    }
 
     /*
     ------------------------------------------------------
@@ -3699,3 +3720,102 @@ function configurarCampoKml() {
 
     });
 }
+
+
+/*
+==================================================
+ENVIAR KML PARA GOOGLE DRIVE
+==================================================
+*/
+
+async function enviarKmlLinha(idLinha) {
+
+    const inputKml =
+        document.getElementById("arquivoKml");
+
+    if (!inputKml || !inputKml.files.length) {
+        return {
+            sucesso: true,
+            ignorado: true
+        };
+    }
+
+    const arquivo = inputKml.files[0];
+
+    if (!arquivo.name.toLowerCase().endsWith(".kml")) {
+        throw new Error("Selecione um arquivo KML.");
+    }
+
+    if (arquivo.size > 5 * 1024 * 1024) {
+        throw new Error("O KML deve ter no máximo 5 MB.");
+    }
+
+    const base64 = await new Promise((resolve, reject) => {
+
+        const leitor = new FileReader();
+
+        leitor.onload = () => {
+            const resultado = String(leitor.result || "");
+
+            resolve(resultado.split(",")[1] || "");
+        };
+
+        leitor.onerror = () => {
+            reject(new Error("Erro ao ler o arquivo KML."));
+        };
+
+        leitor.readAsDataURL(arquivo);
+    });
+
+    const resposta = await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({
+            acao: "salvar_kml",
+            id_linha: idLinha,
+            nome_arquivo: arquivo.name,
+            arquivo_base64: base64
+        })
+    });
+
+    if (!resposta.ok) {
+        throw new Error("Erro HTTP ao enviar KML.");
+    }
+
+    const resultado = await resposta.json();
+
+    if (!resultado.sucesso) {
+    throw new Error(
+        resultado.mensagem || "Erro ao salvar a linha."
+    );
+    }
+
+    // Para cadastro, a API retorna o novo ID.
+    // Para edição, usamos o ID existente.
+    const idLinhaSalva =
+        resultado.id_linha || dados.id_linha;
+
+    let avisoKml = "";
+
+    try {
+
+        await enviarKmlLinha(idLinhaSalva);
+
+    } catch (erroKml) {
+
+        avisoKml =
+            " A linha foi salva, mas o KML não foi enviado: " +
+            erroKml.message;
+
+        console.error(erroKml);
+    }
+
+    fecharModal();
+
+    mostrarMensagem(
+        (resultado.mensagem || "Linha salva com sucesso.") +
+        avisoKml
+    );
+
+    await carregarLinhas();
+}
+
