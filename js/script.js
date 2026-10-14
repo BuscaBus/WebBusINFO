@@ -1,3 +1,4 @@
+
 /*
 ==========================================================
 CONFIGURAÇÃO DA API
@@ -42,18 +43,14 @@ document.addEventListener(
         */
 
         const pesquisa =
-            document.getElementById(
-                "pesquisa"
-            );
+            document.getElementById("pesquisa");
 
         if (pesquisa) {
-
             pesquisa.addEventListener(
                 "input",
                 pesquisarLinhas
             );
         }
-
 
         /*
         --------------------------------------------------
@@ -62,18 +59,14 @@ document.addEventListener(
         */
 
         const btnNovaLinha =
-            document.getElementById(
-                "btnNovaLinha"
-            );
+            document.getElementById("btnNovaLinha");
 
         if (btnNovaLinha) {
-
             btnNovaLinha.addEventListener(
                 "click",
                 abrirNovaLinha
             );
         }
-
 
         /*
         --------------------------------------------------
@@ -82,33 +75,24 @@ document.addEventListener(
         */
 
         const btnPaginaAnterior =
-            document.getElementById(
-                "btnPaginaAnterior"
-            );
+            document.getElementById("btnPaginaAnterior");
 
         const btnProximaPagina =
-            document.getElementById(
-                "btnProximaPagina"
-            );
-
+            document.getElementById("btnProximaPagina");
 
         if (btnPaginaAnterior) {
-
             btnPaginaAnterior.addEventListener(
                 "click",
                 paginaAnterior
             );
         }
 
-
         if (btnProximaPagina) {
-
             btnProximaPagina.addEventListener(
                 "click",
                 proximaPagina
             );
         }
-
 
         /*
         --------------------------------------------------
@@ -118,7 +102,6 @@ document.addEventListener(
 
         configurarFiltros();
 
-
         /*
         --------------------------------------------------
         CARREGAR LINHAS
@@ -126,7 +109,6 @@ document.addEventListener(
         */
 
         await carregarLinhas();
-
 
         /*
         --------------------------------------------------
@@ -172,39 +154,26 @@ CARREGAR MODAL DE CADASTRO
 async function carregarModalLinha() {
 
     const resposta =
-        await fetch(
-            "./modals/linha.html"
-        );
-
+        await fetch("./modals/linha.html");
 
     if (!resposta.ok) {
-
         throw new Error(
             `Erro ${resposta.status} ao carregar modals/linha.html`
         );
     }
 
-
-    const html =
-        await resposta.text();
-
+    const html = await resposta.text();
 
     const container =
-        document.getElementById(
-            "containerModal"
-        );
-
+        document.getElementById("containerModal");
 
     if (!container) {
-
         throw new Error(
             "containerModal não encontrado no index.html."
         );
     }
 
-
-    container.innerHTML =
-        html;
+    container.innerHTML = html;
 }
 
 
@@ -217,39 +186,28 @@ CARREGAR MODAL DE EXCLUSÃO
 async function carregarModalExclusao() {
 
     const resposta =
-        await fetch(
-            "./modals/exclusao.html"
-        );
-
+        await fetch("./modals/exclusao.html");
 
     if (!resposta.ok) {
-
         throw new Error(
             `Erro ${resposta.status} ao carregar modals/exclusao.html`
         );
     }
 
-
-    const html =
-        await resposta.text();
-
+    const html = await resposta.text();
 
     const container =
         document.getElementById(
             "containerModalExclusao"
         );
 
-
     if (!container) {
-
         throw new Error(
             "containerModalExclusao não encontrado no index.html."
         );
     }
 
-
-    container.innerHTML =
-        html;
+    container.innerHTML = html;
 }
 
 
@@ -262,25 +220,23 @@ CONFIGURAR EVENTOS DA MODAL DE EXCLUSÃO
 function configurarEventosModalExclusao() {
 
     const modal =
-        document.getElementById(
-            "modalExclusao"
-        );
+        document.getElementById("modalExclusao");
 
     const btnFechar =
-        document.getElementById(
-            "btnFecharExclusao"
-        );
+        document.getElementById("btnFecharExclusao");
 
     const btnCancelar =
-        document.getElementById(
-            "btnCancelarExclusao"
-        );
+        document.getElementById("btnCancelarExclusao");
 
     const btnConfirmar =
-        document.getElementById(
-            "btnConfirmarExclusao"
-        );
+        document.getElementById("btnConfirmarExclusao");
 
+
+    /*
+    ------------------------------------------------------
+    BOTÃO FECHAR
+    ------------------------------------------------------
+    */
 
     if (btnFechar) {
 
@@ -291,6 +247,12 @@ function configurarEventosModalExclusao() {
     }
 
 
+    /*
+    ------------------------------------------------------
+    BOTÃO CANCELAR
+    ------------------------------------------------------
+    */
+
     if (btnCancelar) {
 
         btnCancelar.addEventListener(
@@ -299,6 +261,12 @@ function configurarEventosModalExclusao() {
         );
     }
 
+
+    /*
+    ------------------------------------------------------
+    BOTÃO CONFIRMAR EXCLUSÃO
+    ------------------------------------------------------
+    */
 
     if (btnConfirmar) {
 
@@ -311,7 +279,7 @@ function configurarEventosModalExclusao() {
 
     /*
     ------------------------------------------------------
-    CLICAR FORA DA MODAL
+    FECHAR CLICANDO FORA DA MODAL
     ------------------------------------------------------
     */
 
@@ -321,10 +289,7 @@ function configurarEventosModalExclusao() {
             "click",
             function (event) {
 
-                if (
-                    event.target === modal
-                ) {
-
+                if (event.target === modal) {
                     fecharModalExclusao();
                 }
             }
@@ -342,24 +307,16 @@ CONFIGURAR EVENTOS DA MODAL DE CADASTRO
 function configurarEventosModal() {
 
     const btnFechar =
-        document.getElementById(
-            "btnFecharModal"
-        );
+        document.getElementById("btnFecharModal");
 
     const btnCancelar =
-        document.getElementById(
-            "btnCancelar"
-        );
+        document.getElementById("btnCancelar");
 
     const formulario =
-        document.getElementById(
-            "formLinha"
-        );
+        document.getElementById("formLinha");
 
     const modal =
-        document.getElementById(
-            "modalLinha"
-        );
+        document.getElementById("modalLinha");
 
 
     /*
@@ -394,7 +351,7 @@ function configurarEventosModal() {
 
     /*
     ------------------------------------------------------
-    FORMULÁRIO
+    FORMULÁRIO DE CADASTRO
     ------------------------------------------------------
     */
 
@@ -409,7 +366,7 @@ function configurarEventosModal() {
 
     /*
     ------------------------------------------------------
-    CLICAR FORA DA MODAL
+    FECHAR CLICANDO FORA DA MODAL
     ------------------------------------------------------
     */
 
@@ -419,10 +376,7 @@ function configurarEventosModal() {
             "click",
             function (event) {
 
-                if (
-                    event.target === modal
-                ) {
-
+                if (event.target === modal) {
                     fecharModal();
                 }
             }
@@ -440,20 +394,19 @@ ABRIR NOVA LINHA
 function abrirNovaLinha() {
 
     const modal =
-        document.getElementById(
-            "modalLinha"
-        );
+        document.getElementById("modalLinha");
 
     const formulario =
-        document.getElementById(
-            "formLinha"
-        );
+        document.getElementById("formLinha");
 
 
-    if (
-        !modal ||
-        !formulario
-    ) {
+    /*
+    ------------------------------------------------------
+    VERIFICAR FORMULÁRIO
+    ------------------------------------------------------
+    */
+
+    if (!modal || !formulario) {
 
         alert(
             "O formulário ainda não foi carregado."
@@ -474,54 +427,74 @@ function abrirNovaLinha() {
 
     /*
     ------------------------------------------------------
-    REMOVER TIPOS ANTIGOS TEMPORÁRIOS
+    LIMPAR OPÇÕES TEMPORÁRIAS DE TIPOS ANTIGOS
     ------------------------------------------------------
     */
 
-    const selectTipo = document.getElementById("tipo");
+    const selectTipo =
+        document.getElementById("tipo");
 
     if (selectTipo) {
 
         selectTipo
-            .querySelectorAll('option[data-tipo-antigo="1"]')
-            .forEach(option => option.remove());
+            .querySelectorAll(
+                'option[data-tipo-antigo="1"]'
+            )
+            .forEach(
+                option => option.remove()
+            );
 
+        // Nenhuma tarifa selecionada inicialmente.
         selectTipo.value = "";
     }
 
 
     /*
     ------------------------------------------------------
-    LIMPAR ID
+    LIMPAR VALORES DAS TARIFAS
+    ------------------------------------------------------
+    */
+
+    const tarifaCartao =
+        document.getElementById("tarifa_cartao");
+
+    const tarifaDinheiro =
+        document.getElementById("tarifa_dinheiro");
+
+    if (tarifaCartao) {
+        tarifaCartao.value = "";
+    }
+
+    if (tarifaDinheiro) {
+        tarifaDinheiro.value = "";
+    }
+
+
+    /*
+    ------------------------------------------------------
+    LIMPAR ID DA LINHA
     ------------------------------------------------------
     */
 
     const campoId =
-        document.getElementById(
-            "id_linha"
-        );
+        document.getElementById("id_linha");
 
     if (campoId) {
-
         campoId.value = "";
     }
 
 
     /*
     ------------------------------------------------------
-    TÍTULO
+    TÍTULO DA MODAL
     ------------------------------------------------------
     */
 
     const titulo =
-        document.getElementById(
-            "tituloModal"
-        );
+        document.getElementById("tituloModal");
 
     if (titulo) {
-
-        titulo.textContent =
-            "Nova Linha";
+        titulo.textContent = "Nova Linha";
     }
 
 
@@ -532,14 +505,10 @@ function abrirNovaLinha() {
     */
 
     const status =
-        document.getElementById(
-            "status"
-        );
+        document.getElementById("status");
 
     if (status) {
-
-        status.value =
-            "Ativa";
+        status.value = "Ativa";
     }
 
 
@@ -549,14 +518,12 @@ function abrirNovaLinha() {
     ------------------------------------------------------
     */
 
-    modal.classList.add(
-        "ativo"
-    );
+    modal.classList.add("ativo");
 
 
     /*
     ------------------------------------------------------
-    FOCO
+    FOCO NO CAMPO EMPRESA
     ------------------------------------------------------
     */
 
@@ -564,12 +531,9 @@ function abrirNovaLinha() {
         function () {
 
             const empresa =
-                document.getElementById(
-                    "empresa"
-                );
+                document.getElementById("empresa");
 
             if (empresa) {
-
                 empresa.focus();
             }
 
@@ -588,18 +552,13 @@ FECHAR MODAL
 function fecharModal() {
 
     const modal =
-        document.getElementById(
-            "modalLinha"
-        );
-
+        document.getElementById("modalLinha");
 
     if (modal) {
-
-        modal.classList.remove(
-            "ativo"
-        );
+        modal.classList.remove("ativo");
     }
 }
+
 
 /*
 ==========================================================
@@ -611,11 +570,8 @@ async function salvarLinha(event) {
 
     event.preventDefault();
 
-
     const botao =
-        document.getElementById(
-            "btnSalvar"
-        );
+        document.getElementById("btnSalvar");
 
 
     /*
@@ -625,14 +581,39 @@ async function salvarLinha(event) {
     */
 
     const campoId =
-        document.getElementById(
-            "id_linha"
-        );
-
+        document.getElementById("id_linha");
 
     const idLinha =
-        campoId
-            ? campoId.value
+        campoId ? campoId.value : "";
+
+
+    /*
+    ------------------------------------------------------
+    TARIFA SELECIONADA
+    ------------------------------------------------------
+    */
+
+    const selectTipo =
+        document.getElementById("tipo");
+
+    if (!selectTipo) {
+
+        alert("Campo Tipo não encontrado.");
+
+        return;
+    }
+
+    const opcaoSelecionada =
+        selectTipo.selectedOptions[0];
+
+    // O value do select corresponde ao id_tarifa.
+    const idTarifa =
+        selectTipo.value.trim();
+
+    // O texto da opção corresponde ao nome da tarifa.
+    const nomeTipo =
+        opcaoSelecionada
+            ? opcaoSelecionada.textContent.trim()
             : "";
 
 
@@ -670,10 +651,23 @@ async function salvarLinha(event) {
                 .value
                 .trim(),
 
+        /*
+        ----------------------------------------------
+        RELACIONAMENTO COM A ABA TARIFAS
+        ----------------------------------------------
+        */
+
+        id_tarifa:
+            idTarifa,
+
         tipo:
-            document
-                .getElementById("tipo")
-                .value,
+            nomeTipo,
+
+        /*
+        ----------------------------------------------
+        EMBARQUES
+        ----------------------------------------------
+        */
 
         embarque_ida:
             document
@@ -687,6 +681,12 @@ async function salvarLinha(event) {
                 .value
                 .trim(),
 
+        /*
+        ----------------------------------------------
+        VALORES DA TARIFA
+        ----------------------------------------------
+        */
+
         tarifa_cartao:
             document
                 .getElementById("tarifa_cartao")
@@ -697,6 +697,12 @@ async function salvarLinha(event) {
                 .getElementById("tarifa_dinheiro")
                 .value,
 
+        /*
+        ----------------------------------------------
+        STATUS
+        ----------------------------------------------
+        */
+
         status:
             document
                 .getElementById("status")
@@ -706,7 +712,7 @@ async function salvarLinha(event) {
 
     /*
     ------------------------------------------------------
-    VALIDAÇÃO
+    VALIDAÇÃO DOS CAMPOS OBRIGATÓRIOS
     ------------------------------------------------------
     */
 
@@ -726,7 +732,27 @@ async function salvarLinha(event) {
 
     /*
     ------------------------------------------------------
-    DESABILITAR BOTÃO
+    VALIDAR TARIFA SELECIONADA
+    ------------------------------------------------------
+    */
+
+    if (
+        !dados.id_tarifa ||
+        !/^\d+$/.test(dados.id_tarifa) ||
+        Number(dados.id_tarifa) <= 0
+    ) {
+
+        alert(
+            "Selecione uma tarifa válida no campo Tipo."
+        );
+
+        return;
+    }
+
+
+    /*
+    ------------------------------------------------------
+    DESABILITAR BOTÃO SALVAR
     ------------------------------------------------------
     */
 
@@ -734,8 +760,7 @@ async function salvarLinha(event) {
 
         botao.disabled = true;
 
-        botao.textContent =
-            "SALVANDO...";
+        botao.textContent = "SALVANDO...";
     }
 
 
@@ -743,23 +768,25 @@ async function salvarLinha(event) {
 
         /*
         --------------------------------------------------
-        ENVIAR PARA GOOGLE APPS SCRIPT
+        ENVIAR DADOS PARA GOOGLE APPS SCRIPT
         --------------------------------------------------
         */
 
-        const resposta =
-            await fetch(
-                API_URL,
-                {
-                    method: "POST",
+        const resposta = await fetch(
+            API_URL,
+            {
+                method: "POST",
 
-                    body:
-                        JSON.stringify(
-                            dados
-                        )
-                }
-            );
+                body: JSON.stringify(dados)
+            }
+        );
 
+
+        /*
+        --------------------------------------------------
+        VERIFICAR RESPOSTA HTTP
+        --------------------------------------------------
+        */
 
         if (!resposta.ok) {
 
@@ -772,13 +799,19 @@ async function salvarLinha(event) {
 
         /*
         --------------------------------------------------
-        RETORNO DA API
+        CONVERTER RESPOSTA PARA JSON
         --------------------------------------------------
         */
 
         const resultado =
             await resposta.json();
 
+
+        /*
+        --------------------------------------------------
+        VERIFICAR RESULTADO DA API
+        --------------------------------------------------
+        */
 
         if (!resultado.sucesso) {
 
@@ -800,7 +833,7 @@ async function salvarLinha(event) {
 
         /*
         --------------------------------------------------
-        MENSAGEM
+        MOSTRAR MENSAGEM DE SUCESSO
         --------------------------------------------------
         */
 
@@ -826,10 +859,9 @@ async function salvarLinha(event) {
     } catch (erro) {
 
         console.error(
-            "Erro ao salvar:",
+            "Erro ao salvar linha:",
             erro
         );
-
 
         alert(
             "Não foi possível salvar a linha.\n\n" +
@@ -841,7 +873,7 @@ async function salvarLinha(event) {
 
         /*
         --------------------------------------------------
-        REATIVAR BOTÃO
+        REATIVAR BOTÃO SALVAR
         --------------------------------------------------
         */
 
@@ -849,15 +881,13 @@ async function salvarLinha(event) {
 
             botao.disabled = false;
 
-            botao.textContent =
-                "SALVAR";
+            botao.textContent = "SALVAR";
         }
     }
 }
 
-    /*
 
-    /*
+/*
 ==========================================================
 CARREGAR LINHAS
 ==========================================================
@@ -866,9 +896,7 @@ CARREGAR LINHAS
 async function carregarLinhas() {
 
     const tbody =
-        document.getElementById(
-            "listaLinhas"
-        );
+        document.getElementById("listaLinhas");
 
     if (!tbody) {
 
@@ -882,7 +910,7 @@ async function carregarLinhas() {
 
     /*
     ------------------------------------------------------
-    CARREGANDO
+    MOSTRAR CARREGAMENTO
     ------------------------------------------------------
     */
 
@@ -903,11 +931,9 @@ async function carregarLinhas() {
         --------------------------------------------------
         */
 
-        const resposta =
-            await fetch(
-                `${API_URL}?acao=listar`
-            );
-
+        const resposta = await fetch(
+            `${API_URL}?acao=listar`
+        );
 
         if (!resposta.ok) {
 
@@ -920,13 +946,12 @@ async function carregarLinhas() {
 
         /*
         --------------------------------------------------
-        CONVERTER PARA JSON
+        CONVERTER RESPOSTA
         --------------------------------------------------
         */
 
         const resultado =
             await resposta.json();
-
 
         if (!resultado.sucesso) {
 
@@ -939,31 +964,19 @@ async function carregarLinhas() {
 
         /*
         --------------------------------------------------
-        GUARDAR DADOS
+        ARMAZENAR LINHAS RECEBIDAS
         --------------------------------------------------
         */
 
         todasLinhas =
-            resultado.dados || [];
-
-        console.log(
-            "ÚLTIMO REGISTRO RECEBIDO:",
-            todasLinhas[
-                todasLinhas.length - 1
-            ]
-        );
-
-        console.log(
-            "EMPRESA DO ÚLTIMO REGISTRO:",
-            todasLinhas[
-                todasLinhas.length - 1
-            ].empresa
-        );    
+            Array.isArray(resultado.dados)
+                ? resultado.dados
+                : [];
 
 
         /*
         --------------------------------------------------
-        TESTES TEMPORÁRIOS
+        INFORMAÇÕES PARA CONFERÊNCIA
         --------------------------------------------------
         */
 
@@ -974,37 +987,14 @@ async function carregarLinhas() {
 
         console.log(
             "PRIMEIRA LINHA:",
-            todasLinhas[0]
+            todasLinhas[0] || null
         );
 
         console.log(
-            "EMPRESAS RECEBIDAS:",
-            todasLinhas.map(
-                function (item) {
-
-                    return item.empresa;
-                }
-            )
-        );
-
-        console.log(
-            "ÚLTIMA LINHA:",
-            todasLinhas[
-                todasLinhas.length - 1
-            ]
-        );
-
-        console.log(
-            "EMPRESAS ÚNICAS:",
-            [
-                ...new Set(
-                    todasLinhas.map(
-                        function (item) {
-                            return item.empresa;
-                        }
-                    )
-                )
-            ]
+            "EXEMPLO DE RELACIONAMENTO:",
+            todasLinhas.find(
+                item => String(item.id_tarifa ?? "").trim()
+            ) || null
         );
 
 
@@ -1019,11 +1009,8 @@ async function carregarLinhas() {
                 window.location.search
             );
 
-
         const empresaURL =
-            parametros.get(
-                "empresa"
-            );
+            parametros.get("empresa");
 
 
         /*
@@ -1033,15 +1020,9 @@ async function carregarLinhas() {
         */
 
         const pesquisa =
-            document.getElementById(
-                "pesquisa"
-            );
+            document.getElementById("pesquisa");
 
-
-        if (
-            empresaURL &&
-            pesquisa
-        ) {
+        if (empresaURL && pesquisa) {
 
             pesquisa.value =
                 empresaURL;
@@ -1059,57 +1040,40 @@ async function carregarLinhas() {
 
         /*
         --------------------------------------------------
-        FILTRAR EMPRESA
+        FILTRAR EMPRESA RECEBIDA PELA URL
         --------------------------------------------------
         */
 
         if (empresaURL) {
 
             const empresaProcurada =
-                String(empresaURL)
-                    .trim()
-                    .toLowerCase();
-
+                normalizarTexto(empresaURL);
 
             const linhasEmpresa =
                 todasLinhas.filter(
                     function (item) {
 
-                        const empresaLinha =
-                            String(
-                                item.empresa || ""
-                            )
-                                .trim()
-                                .toLowerCase();
-
-
-                        console.log(
-                            "COMPARANDO:",
-                            empresaLinha,
-                            "===",
-                            empresaProcurada
-                        );
-
-
                         return (
-                            empresaLinha ===
+                            normalizarTexto(item.empresa) ===
                             empresaProcurada
                         );
                     }
                 );
 
-
             console.log(
-                "LINHAS ENCONTRADAS:",
+                "LINHAS DA EMPRESA:",
                 linhasEmpresa.length
             );
 
-
-            exibirLinhas(
-                linhasEmpresa
-            );
+            exibirLinhas(linhasEmpresa);
 
         } else {
+
+            /*
+            ----------------------------------------------
+            APLICAR PESQUISA E FILTROS EXISTENTES
+            ----------------------------------------------
+            */
 
             aplicarTodosFiltros();
         }
@@ -1122,7 +1086,6 @@ async function carregarLinhas() {
             erro
         );
 
-
         tbody.innerHTML = `
             <tr>
                 <td colspan="10">
@@ -1131,59 +1094,55 @@ async function carregarLinhas() {
             </tr>
         `;
 
-
         mostrarMensagem(
             "Não foi possível acessar a planilha."
         );
     }
 }
 
-        /*
-    ==========================================================
-    NORMALIZAR TEXTO
-    ==========================================================
-    */
 
-    function normalizarTexto(valor) {
+/*
+==========================================================
+NORMALIZAR TEXTO
+==========================================================
+*/
 
-        return String(
-            valor ?? ""
+function normalizarTexto(valor) {
+
+    return String(valor ?? "")
+
+        .normalize("NFD")
+
+        .replace(
+            /[\u0300-\u036f]/g,
+            ""
         )
-            .normalize("NFD")
 
-            .replace(
-                /[\u0300-\u036f]/g,
-                ""
-            )
+        .replace(
+            /\s+/g,
+            " "
+        )
 
-            .replace(
-                /\s+/g,
-                " "
-            )
+        .trim()
 
-            .trim()
+        .toLowerCase();
+}
 
-            .toLowerCase();
+
+/*
+==========================================================
+EXIBIR LINHAS
+==========================================================
+*/
+
+function exibirLinhas(linhas) {
+
+    const tbody =
+        document.getElementById("listaLinhas");
+
+    if (!tbody) {
+        return;
     }
-
-    /*
-    ==========================================================
-    EXIBIR LINHAS
-    ==========================================================
-    */
-
-    function exibirLinhas(linhas) {
-
-        const tbody =
-            document.getElementById(
-                "listaLinhas"
-            );
-
-
-        if (!tbody) {
-
-            return;
-        }
 
 
     /*
@@ -1193,7 +1152,6 @@ async function carregarLinhas() {
     */
 
     if (!Array.isArray(linhas)) {
-
         linhas = [];
     }
 
@@ -1204,8 +1162,7 @@ async function carregarLinhas() {
     ------------------------------------------------------
     */
 
-    linhasFiltradas =
-        linhas;
+    linhasFiltradas = linhas;
 
 
     /*
@@ -1214,8 +1171,7 @@ async function carregarLinhas() {
     ------------------------------------------------------
     */
 
-    tbody.innerHTML =
-        "";
+    tbody.innerHTML = "";
 
 
     /*
@@ -1234,7 +1190,6 @@ async function carregarLinhas() {
             </tr>
         `;
 
-
         atualizarPaginacao();
 
         return;
@@ -1243,14 +1198,13 @@ async function carregarLinhas() {
 
     /*
     ------------------------------------------------------
-    TOTAL DE PÁGINAS
+    CALCULAR TOTAL DE PÁGINAS
     ------------------------------------------------------
     */
 
     const totalPaginas =
         Math.ceil(
-            linhas.length /
-            itensPorPagina
+            linhas.length / itensPorPagina
         );
 
 
@@ -1260,23 +1214,12 @@ async function carregarLinhas() {
     ------------------------------------------------------
     */
 
-    if (
-        paginaAtual >
-        totalPaginas
-    ) {
-
-        paginaAtual =
-            totalPaginas;
+    if (paginaAtual > totalPaginas) {
+        paginaAtual = totalPaginas;
     }
 
-
-    if (
-        paginaAtual <
-        1
-    ) {
-
-        paginaAtual =
-            1;
+    if (paginaAtual < 1) {
+        paginaAtual = 1;
     }
 
 
@@ -1287,20 +1230,13 @@ async function carregarLinhas() {
     */
 
     const inicio =
-        (paginaAtual - 1) *
-        itensPorPagina;
-
+        (paginaAtual - 1) * itensPorPagina;
 
     const fim =
-        inicio +
-        itensPorPagina;
-
+        inicio + itensPorPagina;
 
     const linhasPagina =
-        linhas.slice(
-            inicio,
-            fim
-        );
+        linhas.slice(inicio, fim);
 
 
     /*
@@ -1313,32 +1249,27 @@ async function carregarLinhas() {
         function (item) {
 
             const tr =
-                document.createElement(
-                    "tr"
-                );
+                document.createElement("tr");
 
 
             /*
-            --------------------------------------------------
+            ----------------------------------------------
             STATUS
-            --------------------------------------------------
+            ----------------------------------------------
             */
 
             const statusClasse =
-                String(
-                    item.status || ""
-                )
-                    .toLowerCase() ===
-                    "ativa"
+                String(item.status || "")
+                    .toLowerCase() === "ativa"
 
                     ? "status-ativa"
                     : "status-inativa";
 
 
             /*
-            --------------------------------------------------
+            ----------------------------------------------
             CONTEÚDO DA LINHA
-            --------------------------------------------------
+            ----------------------------------------------
             */
 
             tr.innerHTML = `
@@ -1400,17 +1331,14 @@ async function carregarLinhas() {
                 </td>
             `;
 
-
-            tbody.appendChild(
-                tr
-            );
+            tbody.appendChild(tr);
         }
     );
 
 
     /*
     ------------------------------------------------------
-    PAGINAÇÃO
+    ATUALIZAR PAGINAÇÃO
     ------------------------------------------------------
     */
 
@@ -1427,82 +1355,41 @@ ATUALIZAR PAGINAÇÃO
 function atualizarPaginacao() {
 
     const infoPagina =
-        document.getElementById(
-            "infoPagina"
-        );
-
+        document.getElementById("infoPagina");
 
     const btnAnterior =
-        document.getElementById(
-            "btnPaginaAnterior"
-        );
-
+        document.getElementById("btnPaginaAnterior");
 
     const btnProxima =
-        document.getElementById(
-            "btnProximaPagina"
-        );
-
+        document.getElementById("btnProximaPagina");
 
     if (
         !infoPagina ||
         !btnAnterior ||
         !btnProxima
     ) {
-
         return;
     }
 
-
-    /*
-    ------------------------------------------------------
-    TOTAL DE ITENS
-    ------------------------------------------------------
-    */
-
     const totalItens =
         linhasFiltradas.length;
-
-
-    /*
-    ------------------------------------------------------
-    TOTAL DE PÁGINAS
-    ------------------------------------------------------
-    */
 
     const totalPaginas =
         Math.max(
             1,
             Math.ceil(
-                totalItens /
-                itensPorPagina
+                totalItens / itensPorPagina
             )
         );
-
-
-    /*
-    ------------------------------------------------------
-    INFORMAÇÃO
-    ------------------------------------------------------
-    */
 
     infoPagina.textContent =
         `Página ${paginaAtual} de ${totalPaginas}`;
 
-
-    /*
-    ------------------------------------------------------
-    BOTÕES
-    ------------------------------------------------------
-    */
-
     btnAnterior.disabled =
         paginaAtual <= 1;
 
-
     btnProxima.disabled =
-        paginaAtual >=
-        totalPaginas;
+        paginaAtual >= totalPaginas;
 }
 
 
@@ -1514,21 +1401,13 @@ PÁGINA ANTERIOR
 
 function paginaAnterior() {
 
-    if (
-        paginaAtual <=
-        1
-    ) {
-
+    if (paginaAtual <= 1) {
         return;
     }
 
-
     paginaAtual--;
 
-
-    exibirLinhas(
-        linhasFiltradas
-    );
+    exibirLinhas(linhasFiltradas);
 }
 
 
@@ -1546,23 +1425,15 @@ function proximaPagina() {
             itensPorPagina
         );
 
-
-    if (
-        paginaAtual >=
-        totalPaginas
-    ) {
-
+    if (paginaAtual >= totalPaginas) {
         return;
     }
 
-
     paginaAtual++;
 
-
-    exibirLinhas(
-        linhasFiltradas
-    );
+    exibirLinhas(linhasFiltradas);
 }
+
 
 /*
 ==========================================================
@@ -1573,19 +1444,13 @@ CONFIGURAR FILTROS
 function configurarFiltros() {
 
     const botoes =
-        document.querySelectorAll(
-            ".btn-filtro"
-        );
+        document.querySelectorAll(".btn-filtro");
 
     const menu =
-        document.getElementById(
-            "menuFiltro"
-        );
+        document.getElementById("menuFiltro");
 
     const pesquisa =
-        document.getElementById(
-            "pesquisaFiltro"
-        );
+        document.getElementById("pesquisaFiltro");
 
     const selecionarTodos =
         document.getElementById(
@@ -1605,7 +1470,7 @@ function configurarFiltros() {
 
     /*
     ------------------------------------------------------
-    TRIÂNGULOS
+    BOTÕES DE FILTRO
     ------------------------------------------------------
     */
 
@@ -1618,9 +1483,7 @@ function configurarFiltros() {
 
                     event.stopPropagation();
 
-                    abrirFiltro(
-                        botao
-                    );
+                    abrirFiltro(botao);
                 }
             );
         }
@@ -1629,7 +1492,7 @@ function configurarFiltros() {
 
     /*
     ------------------------------------------------------
-    PESQUISA INTERNA
+    PESQUISA DENTRO DO FILTRO
     ------------------------------------------------------
     */
 
@@ -1659,20 +1522,13 @@ function configurarFiltros() {
                         "#listaOpcoesFiltro input[type='checkbox']"
                     );
 
-
                 checkboxes.forEach(
                     function (checkbox) {
-
-                        /*
-                        Não alterar opções escondidas
-                        pela pesquisa.
-                        */
 
                         const label =
                             checkbox.closest(
                                 ".opcao-filtro"
                             );
-
 
                         if (
                             label &&
@@ -1691,7 +1547,7 @@ function configurarFiltros() {
 
     /*
     ------------------------------------------------------
-    APLICAR
+    APLICAR FILTRO
     ------------------------------------------------------
     */
 
@@ -1706,7 +1562,7 @@ function configurarFiltros() {
 
     /*
     ------------------------------------------------------
-    LIMPAR
+    LIMPAR FILTRO
     ------------------------------------------------------
     */
 
@@ -1721,7 +1577,7 @@ function configurarFiltros() {
 
     /*
     ------------------------------------------------------
-    FECHAR CLICANDO FORA
+    FECHAR MENU CLICANDO FORA
     ------------------------------------------------------
     */
 
@@ -1730,38 +1586,20 @@ function configurarFiltros() {
         function (event) {
 
             if (!menu) {
-
                 return;
             }
 
-
-            /*
-            Clique dentro do menu.
-            */
-
-            if (
-                menu.contains(
-                    event.target
-                )
-            ) {
-
+            if (menu.contains(event.target)) {
                 return;
             }
-
-
-            /*
-            Clique no próprio botão do filtro.
-            */
 
             if (
                 event.target.closest(
                     ".btn-filtro"
                 )
             ) {
-
                 return;
             }
-
 
             fecharFiltro();
         }
@@ -1778,30 +1616,22 @@ ABRIR FILTRO
 function abrirFiltro(botao) {
 
     const menu =
-        document.getElementById(
-            "menuFiltro"
-        );
+        document.getElementById("menuFiltro");
 
     const titulo =
-        document.getElementById(
-            "tituloFiltro"
-        );
+        document.getElementById("tituloFiltro");
 
     const pesquisa =
-        document.getElementById(
-            "pesquisaFiltro"
-        );
-
+        document.getElementById("pesquisaFiltro");
 
     if (!menu) {
-
         return;
     }
 
 
     /*
     ------------------------------------------------------
-    COLUNA ATUAL
+    IDENTIFICAR COLUNA
     ------------------------------------------------------
     */
 
@@ -1816,10 +1646,7 @@ function abrirFiltro(botao) {
     */
 
     const th =
-        botao.closest(
-            "th"
-        );
-
+        botao.closest("th");
 
     const span =
         th
@@ -1827,7 +1654,6 @@ function abrirFiltro(botao) {
                 ".cabecalho-coluna span"
             )
             : null;
-
 
     if (titulo) {
 
@@ -1845,15 +1671,13 @@ function abrirFiltro(botao) {
     */
 
     if (pesquisa) {
-
-        pesquisa.value =
-            "";
+        pesquisa.value = "";
     }
 
 
     /*
     ------------------------------------------------------
-    CRIAR OPÇÕES
+    CARREGAR OPÇÕES
     ------------------------------------------------------
     */
 
@@ -1869,13 +1693,11 @@ function abrirFiltro(botao) {
     const posicao =
         botao.getBoundingClientRect();
 
-
     menu.style.left =
         (
             posicao.left +
             window.scrollX
         ) + "px";
-
 
     menu.style.top =
         (
@@ -1887,13 +1709,11 @@ function abrirFiltro(botao) {
 
     /*
     ------------------------------------------------------
-    ABRIR
+    ABRIR MENU
     ------------------------------------------------------
     */
 
-    menu.classList.add(
-        "ativo"
-    );
+    menu.classList.add("ativo");
 
 
     /*
@@ -1906,9 +1726,7 @@ function abrirFiltro(botao) {
 
         setTimeout(
             function () {
-
                 pesquisa.focus();
-
             },
             50
         );
@@ -1929,40 +1747,30 @@ function carregarOpcoesFiltro() {
             "listaOpcoesFiltro"
         );
 
-
     const selecionarTodos =
         document.getElementById(
             "selecionarTodosFiltro"
         );
 
-
     if (
         !lista ||
         !colunaFiltroAtual
     ) {
-
         return;
     }
 
-
-    /*
-    ------------------------------------------------------
-    LIMPAR LISTA
-    ------------------------------------------------------
-    */
-
-    lista.innerHTML =
-        "";
+    lista.innerHTML = "";
 
 
     /*
     ------------------------------------------------------
-    VALORES ÚNICOS
+    OBTER VALORES ÚNICOS
     ------------------------------------------------------
     */
 
     const valores =
         todasLinhas
+
             .map(
                 function (item) {
 
@@ -1971,6 +1779,7 @@ function carregarOpcoesFiltro() {
                     ).trim();
                 }
             )
+
             .filter(
                 function (
                     valor,
@@ -1984,6 +1793,7 @@ function carregarOpcoesFiltro() {
                     );
                 }
             )
+
             .sort(
                 function (a, b) {
 
@@ -2001,14 +1811,12 @@ function carregarOpcoesFiltro() {
 
     /*
     ------------------------------------------------------
-    FILTRO JÁ EXISTENTE
+    FILTROS JÁ SELECIONADOS
     ------------------------------------------------------
     */
 
     const selecionados =
-        filtrosAtivos[
-            colunaFiltroAtual
-        ] || [];
+        filtrosAtivos[colunaFiltroAtual] || [];
 
 
     /*
@@ -2021,89 +1829,42 @@ function carregarOpcoesFiltro() {
         function (valor) {
 
             const label =
-                document.createElement(
-                    "label"
-                );
-
+                document.createElement("label");
 
             label.className =
                 "opcao-filtro";
 
-
-            /*
-            --------------------------------------------------
-            CHECKBOX
-            --------------------------------------------------
-            */
-
             const checkbox =
-                document.createElement(
-                    "input"
-                );
-
+                document.createElement("input");
 
             checkbox.type =
                 "checkbox";
 
-
             checkbox.value =
                 valor;
 
-
-            /*
-            Se não existe filtro ativo nessa coluna,
-            todas as opções começam selecionadas.
-            */
-
             checkbox.checked =
                 selecionados.length === 0 ||
-                selecionados.includes(
-                    valor
-                );
-
-
-            /*
-            --------------------------------------------------
-            TEXTO
-            --------------------------------------------------
-            */
+                selecionados.includes(valor);
 
             const span =
-                document.createElement(
-                    "span"
-                );
-
+                document.createElement("span");
 
             span.textContent =
                 valor;
 
+            label.appendChild(checkbox);
 
-            /*
-            --------------------------------------------------
-            MONTAR OPÇÃO
-            --------------------------------------------------
-            */
+            label.appendChild(span);
 
-            label.appendChild(
-                checkbox
-            );
-
-
-            label.appendChild(
-                span
-            );
-
-
-            lista.appendChild(
-                label
-            );
+            lista.appendChild(label);
         }
     );
 
 
     /*
     ------------------------------------------------------
-    SELECIONAR TODOS
+    MARCAR SELECIONAR TODOS
     ------------------------------------------------------
     */
 
@@ -2111,8 +1872,7 @@ function carregarOpcoesFiltro() {
 
         selecionarTodos.checked =
             selecionados.length === 0 ||
-            selecionados.length ===
-                valores.length;
+            selecionados.length === valores.length;
     }
 }
 
@@ -2130,58 +1890,30 @@ function pesquisarOpcoesFiltro() {
             "pesquisaFiltro"
         );
 
-
     if (!pesquisa) {
-
         return;
     }
 
-
-    /*
-    ------------------------------------------------------
-    TERMO
-    ------------------------------------------------------
-    */
-
     const termo =
-        pesquisa
-            .value
+        pesquisa.value
             .trim()
             .toLowerCase();
-
-
-    /*
-    ------------------------------------------------------
-    OPÇÕES
-    ------------------------------------------------------
-    */
 
     const opcoes =
         document.querySelectorAll(
             "#listaOpcoesFiltro .opcao-filtro"
         );
 
-
-    /*
-    ------------------------------------------------------
-    FILTRAR VISUALMENTE
-    ------------------------------------------------------
-    */
-
     opcoes.forEach(
         function (opcao) {
 
             const texto =
-                opcao
-                    .textContent
+                opcao.textContent
                     .trim()
                     .toLowerCase();
 
-
             opcao.style.display =
-                texto.includes(
-                    termo
-                )
+                texto.includes(termo)
                     ? "flex"
                     : "none";
         }
@@ -2198,16 +1930,8 @@ APLICAR FILTRO ATUAL
 function aplicarFiltroAtual() {
 
     if (!colunaFiltroAtual) {
-
         return;
     }
-
-
-    /*
-    ------------------------------------------------------
-    CHECKBOXES
-    ------------------------------------------------------
-    */
 
     const checkboxes =
         Array.from(
@@ -2216,24 +1940,17 @@ function aplicarFiltroAtual() {
             )
         );
 
-
-    /*
-    ------------------------------------------------------
-    VALORES SELECIONADOS
-    ------------------------------------------------------
-    */
-
     const selecionados =
         checkboxes
+
             .filter(
                 function (checkbox) {
-
                     return checkbox.checked;
                 }
             )
+
             .map(
                 function (checkbox) {
-
                     return checkbox.value;
                 }
             );
@@ -2241,7 +1958,7 @@ function aplicarFiltroAtual() {
 
     /*
     ------------------------------------------------------
-    TODOS SELECIONADOS = SEM FILTRO
+    TODOS SELECIONADOS
     ------------------------------------------------------
     */
 
@@ -2258,35 +1975,12 @@ function aplicarFiltroAtual() {
 
         filtrosAtivos[
             colunaFiltroAtual
-        ] =
-            selecionados;
+        ] = selecionados;
     }
 
-
-    /*
-    ------------------------------------------------------
-    VOLTAR PARA PÁGINA 1
-    ------------------------------------------------------
-    */
-
-    paginaAtual =
-        1;
-
-
-    /*
-    ------------------------------------------------------
-    FECHAR MENU
-    ------------------------------------------------------
-    */
+    paginaAtual = 1;
 
     fecharFiltro();
-
-
-    /*
-    ------------------------------------------------------
-    APLICAR TODOS OS FILTROS
-    ------------------------------------------------------
-    */
 
     aplicarTodosFiltros();
 }
@@ -2301,46 +1995,16 @@ LIMPAR FILTRO ATUAL
 function limparFiltroAtual() {
 
     if (!colunaFiltroAtual) {
-
         return;
     }
-
-
-    /*
-    ------------------------------------------------------
-    REMOVER FILTRO
-    ------------------------------------------------------
-    */
 
     delete filtrosAtivos[
         colunaFiltroAtual
     ];
 
-
-    /*
-    ------------------------------------------------------
-    VOLTAR PARA PÁGINA 1
-    ------------------------------------------------------
-    */
-
-    paginaAtual =
-        1;
-
-
-    /*
-    ------------------------------------------------------
-    FECHAR MENU
-    ------------------------------------------------------
-    */
+    paginaAtual = 1;
 
     fecharFiltro();
-
-
-    /*
-    ------------------------------------------------------
-    ATUALIZAR TABELA
-    ------------------------------------------------------
-    */
 
     aplicarTodosFiltros();
 }
@@ -2355,56 +2019,38 @@ FECHAR MENU DO FILTRO
 function fecharFiltro() {
 
     const menu =
-        document.getElementById(
-            "menuFiltro"
-        );
-
+        document.getElementById("menuFiltro");
 
     if (menu) {
-
-        menu.classList.remove(
-            "ativo"
-        );
+        menu.classList.remove("ativo");
     }
 
-
-    colunaFiltroAtual =
-        null;
+    colunaFiltroAtual = null;
 }
 
 
 /*
 ==========================================================
-APLICAR PESQUISA + FILTROS
+APLICAR PESQUISA E FILTROS
 ==========================================================
 */
 
 function aplicarTodosFiltros() {
 
     const campoPesquisa =
-        document.getElementById(
-            "pesquisa"
-        );
-
-
-    /*
-    ------------------------------------------------------
-    PESQUISA GERAL
-    ------------------------------------------------------
-    */
+        document.getElementById("pesquisa");
 
     const termo =
         campoPesquisa
-            ? campoPesquisa
-                .value
-                .trim()
-                .toLowerCase()
+            ? normalizarTexto(
+                campoPesquisa.value
+            )
             : "";
 
 
     /*
     ------------------------------------------------------
-    FILTRAR
+    FILTRAR REGISTROS
     ------------------------------------------------------
     */
 
@@ -2412,64 +2058,53 @@ function aplicarTodosFiltros() {
         todasLinhas.filter(
             function (item) {
 
-
                 /*
-                --------------------------------------------------
+                ------------------------------------------
                 PESQUISA GERAL
-                --------------------------------------------------
+                ------------------------------------------
                 */
 
                 if (termo) {
 
-                    const encontrou =
-                        [
-                            item.empresa,
-                            item.cod,
-                            item.linha,
-                            item.tipo,
-                            item.embarque_ida,
-                            item.embarque_volta,
-                            item.tarifa_cartao,
-                            item.tarifa_dinheiro,
-                            item.status
-                        ]
-                            .some(
-                                function (valor) {
+                    const encontrou = [
 
-                                    return String(
-                                        valor ?? ""
-                                    )
-                                        .toLowerCase()
-                                        .includes(
-                                            termo
-                                        );
-                                }
-                            );
+                        item.empresa,
+                        item.cod,
+                        item.linha,
+                        item.tipo,
+                        item.embarque_ida,
+                        item.embarque_volta,
+                        item.tarifa_cartao,
+                        item.tarifa_dinheiro,
+                        item.status
 
+                    ].some(
+                        function (valor) {
+
+                            return normalizarTexto(
+                                valor
+                            ).includes(termo);
+                        }
+                    );
 
                     if (!encontrou) {
-
                         return false;
                     }
                 }
 
 
                 /*
-                --------------------------------------------------
+                ------------------------------------------
                 FILTROS DAS COLUNAS
-                --------------------------------------------------
+                ------------------------------------------
                 */
 
                 for (
-                    const coluna
-                    in filtrosAtivos
+                    const coluna in filtrosAtivos
                 ) {
 
                     const permitidos =
-                        filtrosAtivos[
-                            coluna
-                        ];
-
+                        filtrosAtivos[coluna];
 
                     if (
                         !permitidos.includes(
@@ -2483,7 +2118,6 @@ function aplicarTodosFiltros() {
                     }
                 }
 
-
                 return true;
             }
         );
@@ -2495,16 +2129,7 @@ function aplicarTodosFiltros() {
     ------------------------------------------------------
     */
 
-    exibirLinhas(
-        resultado
-    );
-
-
-    /*
-    ------------------------------------------------------
-    INDICADORES DOS FILTROS
-    ------------------------------------------------------
-    */
+    exibirLinhas(resultado);
 
     atualizarIndicadoresFiltros();
 }
@@ -2519,17 +2144,13 @@ INDICAR FILTROS ATIVOS
 function atualizarIndicadoresFiltros() {
 
     const botoes =
-        document.querySelectorAll(
-            ".btn-filtro"
-        );
-
+        document.querySelectorAll(".btn-filtro");
 
     botoes.forEach(
         function (botao) {
 
             const coluna =
                 botao.dataset.coluna;
-
 
             if (
                 Object.prototype
@@ -2562,12 +2183,11 @@ PESQUISAR LINHAS
 
 function pesquisarLinhas() {
 
-    paginaAtual =
-        1;
-
+    paginaAtual = 1;
 
     aplicarTodosFiltros();
 }
+
 
 /*
 ==========================================================
@@ -2590,10 +2210,7 @@ async function editarLinha(idLinha) {
     */
 
     const modal =
-        document.getElementById(
-            "modalLinha"
-        );
-
+        document.getElementById("modalLinha");
 
     if (!modal) {
 
@@ -2613,11 +2230,625 @@ async function editarLinha(idLinha) {
         --------------------------------------------------
         */
 
-        const resposta =
-            await fetch(
-                `${API_URL}?acao=buscar&id_linha=${encodeURIComponent(idLinha)}`
-            );
+        const resposta = await fetch(
+            `${API_URL}?acao=buscar&id_linha=${encodeURIComponent(idLinha)}`
+        );
 
+        if (!resposta.ok) {
+
+            throw new Error(
+                "Erro HTTP: " +
+                resposta.status
+            );
+        }
+
+
+        /*
+        --------------------------------------------------
+        CONVERTER RETORNO
+        --------------------------------------------------
+        */
+
+        const resultado =
+            await resposta.json();
+
+        if (!resultado.sucesso) {
+
+            throw new Error(
+                resultado.mensagem ||
+                "Não foi possível localizar a linha."
+            );
+        }
+
+        const linha =
+            resultado.dados;
+
+        if (!linha) {
+
+            throw new Error(
+                "Registro não encontrado."
+            );
+        }
+
+
+        /*
+        --------------------------------------------------
+        PREENCHER ID INTERNO
+        --------------------------------------------------
+        */
+
+        const campoId =
+            document.getElementById("id_linha");
+
+        if (campoId) {
+
+            campoId.value =
+                linha.id_linha ?? idLinha;
+        }
+
+
+        /*
+        --------------------------------------------------
+        PREENCHER EMPRESA
+        --------------------------------------------------
+        */
+
+        const empresa =
+            document.getElementById("empresa");
+
+        if (empresa) {
+
+            empresa.value =
+                linha.empresa ?? "";
+        }
+
+
+        /*
+        --------------------------------------------------
+        PREENCHER CÓDIGO
+        --------------------------------------------------
+        */
+
+        const cod =
+            document.getElementById("cod");
+
+        if (cod) {
+
+            cod.value =
+                linha.cod ?? "";
+        }
+
+
+        /*
+        --------------------------------------------------
+        PREENCHER NOME DA LINHA
+        --------------------------------------------------
+        */
+
+        const campoLinha =
+            document.getElementById("linha");
+
+        if (campoLinha) {
+
+            campoLinha.value =
+                linha.linha ?? "";
+        }
+
+
+        /*
+        --------------------------------------------------
+        PREENCHER TIPO PELO ID_TARIFA
+        --------------------------------------------------
+        */
+
+        const selectTipo =
+            document.getElementById("tipo");
+
+        if (selectTipo) {
+
+            /*
+            ----------------------------------------------
+            REMOVER OPÇÕES TEMPORÁRIAS ANTERIORES
+            ----------------------------------------------
+            */
+
+            selectTipo
+                .querySelectorAll(
+                    'option[data-tipo-antigo="1"]'
+                )
+                .forEach(
+                    option => option.remove()
+                );
+
+
+            /*
+            ----------------------------------------------
+            IDENTIFICAR TARIFA E TIPO
+            ----------------------------------------------
+            */
+
+            const idTarifa =
+                String(
+                    linha.id_tarifa ?? ""
+                ).trim();
+
+            const tipoAtual =
+                String(
+                    linha.tipo ?? ""
+                ).trim();
+
+
+            /*
+            ----------------------------------------------
+            PROCURAR PELO ID DA TARIFA
+            ----------------------------------------------
+            */
+
+            const opcaoPorId =
+                Array.from(selectTipo.options)
+                    .find(
+                        option =>
+                            idTarifa !== "" &&
+                            option.value === idTarifa
+                    );
+
+
+            if (opcaoPorId) {
+
+                /*
+                ------------------------------------------
+                TARIFA VINCULADA ENCONTRADA
+                ------------------------------------------
+                */
+
+                selectTipo.value =
+                    opcaoPorId.value;
+
+            } else if (idTarifa) {
+
+                /*
+                ------------------------------------------
+                ID INFORMADO, MAS TARIFA NÃO ENCONTRADA
+                ------------------------------------------
+                */
+
+                const option =
+                    document.createElement("option");
+
+                option.value = "";
+
+                option.textContent =
+                    tipoAtual
+                        ? `${tipoAtual} (tarifa não encontrada: ID ${idTarifa})`
+                        : `Tarifa não encontrada: ID ${idTarifa}`;
+
+                option.dataset.tipoAntigo = "1";
+
+                selectTipo.appendChild(option);
+
+                selectTipo.selectedIndex =
+                    selectTipo.options.length - 1;
+
+            } else {
+
+                /*
+                ------------------------------------------
+                REGISTRO ANTIGO SEM ID_TARIFA
+                ------------------------------------------
+                */
+
+                const opcoesCorrespondentes =
+                    Array.from(selectTipo.options)
+                        .filter(
+                            option =>
+                                option.value !== "" &&
+                                normalizarTexto(
+                                    option.textContent
+                                ) === normalizarTexto(
+                                    tipoAtual
+                                )
+                        );
+
+                if (
+                    tipoAtual &&
+                    opcoesCorrespondentes.length === 1
+                ) {
+
+                    /*
+                    --------------------------------------
+                    CORRESPONDÊNCIA ÚNICA PELO NOME
+                    --------------------------------------
+                    */
+
+                    selectTipo.value =
+                        opcoesCorrespondentes[0].value;
+
+                } else if (tipoAtual) {
+
+                    /*
+                    --------------------------------------
+                    PRESERVAR TIPO ANTIGO SEM CRIAR
+                    VÍNCULO AUTOMÁTICO INCORRETO
+                    --------------------------------------
+                    */
+
+                    const option =
+                        document.createElement("option");
+
+                    option.value = "";
+
+                    option.textContent =
+                        tipoAtual +
+                        " (selecione uma tarifa)";
+
+                    option.dataset.tipoAntigo = "1";
+
+                    selectTipo.appendChild(option);
+
+                    selectTipo.selectedIndex =
+                        selectTipo.options.length - 1;
+
+                } else {
+
+                    selectTipo.value = "";
+                }
+            }
+        }
+
+
+        /*
+        --------------------------------------------------
+        PREENCHER EMBARQUE IDA
+        --------------------------------------------------
+        */
+
+        const embarqueIda =
+            document.getElementById("embarque_ida");
+
+        if (embarqueIda) {
+
+            embarqueIda.value =
+                linha.embarque_ida ?? "";
+        }
+
+
+        /*
+        --------------------------------------------------
+        PREENCHER EMBARQUE VOLTA
+        --------------------------------------------------
+        */
+
+        const embarqueVolta =
+            document.getElementById("embarque_volta");
+
+        if (embarqueVolta) {
+
+            embarqueVolta.value =
+                linha.embarque_volta ?? "";
+        }
+
+
+        /*
+        --------------------------------------------------
+        PREENCHER TARIFA CARTÃO
+        --------------------------------------------------
+        */
+
+        const tarifaCartao =
+            document.getElementById("tarifa_cartao");
+
+        if (tarifaCartao) {
+
+            tarifaCartao.value =
+                normalizarNumeroFormulario(
+                    linha.tarifa_cartao
+                );
+        }
+
+
+        /*
+        --------------------------------------------------
+        PREENCHER TARIFA DINHEIRO
+        --------------------------------------------------
+        */
+
+        const tarifaDinheiro =
+            document.getElementById("tarifa_dinheiro");
+
+        if (tarifaDinheiro) {
+
+            tarifaDinheiro.value =
+                normalizarNumeroFormulario(
+                    linha.tarifa_dinheiro
+                );
+        }
+
+
+        /*
+        --------------------------------------------------
+        PREENCHER STATUS
+        --------------------------------------------------
+        */
+
+        const status =
+            document.getElementById("status");
+
+        if (status) {
+
+            status.value =
+                linha.status ?? "Ativa";
+        }
+
+
+        /*
+        --------------------------------------------------
+        ALTERAR TÍTULO
+        --------------------------------------------------
+        */
+
+        const titulo =
+            document.getElementById("tituloModal");
+
+        if (titulo) {
+
+            titulo.textContent =
+                "Editar Linha";
+        }
+
+
+        /*
+        --------------------------------------------------
+        ABRIR MODAL
+        --------------------------------------------------
+        */
+
+        modal.classList.add("ativo");
+
+
+        /*
+        --------------------------------------------------
+        FOCO NO CAMPO EMPRESA
+        --------------------------------------------------
+        */
+
+        if (empresa) {
+
+            empresa.focus();
+        }
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao editar linha:",
+            erro
+        );
+
+        alert(
+            "Não foi possível carregar a linha.\n\n" +
+            erro.message
+        );
+    }
+}
+
+
+/*
+==========================================================
+EXCLUIR LINHA
+==========================================================
+*/
+
+function excluirLinha(idLinha) {
+
+    /*
+    ------------------------------------------------------
+    VALIDAR ID
+    ------------------------------------------------------
+    */
+
+    if (
+        !idLinha ||
+        Number(idLinha) <= 0
+    ) {
+
+        alert(
+            "Identificador da linha inválido."
+        );
+
+        return;
+    }
+
+
+    /*
+    ------------------------------------------------------
+    GUARDAR ID PARA EXCLUSÃO
+    ------------------------------------------------------
+    */
+
+    idLinhaParaExcluir = idLinha;
+
+
+    /*
+    ------------------------------------------------------
+    LOCALIZAR REGISTRO
+    ------------------------------------------------------
+    */
+
+    const linha =
+        todasLinhas.find(
+            item =>
+                String(item.id_linha) ===
+                String(idLinha)
+        );
+
+
+    /*
+    ------------------------------------------------------
+    IDENTIFICAR MODAL
+    ------------------------------------------------------
+    */
+
+    const modal =
+        document.getElementById("modalExclusao");
+
+    if (!modal) {
+
+        alert(
+            "Modal de exclusão não encontrado."
+        );
+
+        return;
+    }
+
+
+    /*
+    ------------------------------------------------------
+    DESCRIÇÃO DA LINHA
+    ------------------------------------------------------
+    */
+
+    const descricao =
+        document.getElementById(
+            "descricaoExclusao"
+        );
+
+    if (descricao) {
+
+        if (linha) {
+
+            descricao.textContent =
+                `${linha.cod} - ${linha.linha}`;
+
+        } else {
+
+            descricao.textContent =
+                `Linha ID ${idLinha}`;
+        }
+    }
+
+
+    /*
+    ------------------------------------------------------
+    ABRIR MODAL
+    ------------------------------------------------------
+    */
+
+    modal.classList.add("ativo");
+}
+
+
+/*
+==========================================================
+FECHAR MODAL DE EXCLUSÃO
+==========================================================
+*/
+
+function fecharModalExclusao() {
+
+    const modal =
+        document.getElementById("modalExclusao");
+
+    if (modal) {
+
+        modal.classList.remove("ativo");
+    }
+
+    /*
+    ------------------------------------------------------
+    LIMPAR IDENTIFICADOR
+    ------------------------------------------------------
+    */
+
+    idLinhaParaExcluir = null;
+}
+
+
+/*
+==========================================================
+CONFIRMAR EXCLUSÃO DA LINHA
+==========================================================
+*/
+
+async function confirmarExclusaoLinha() {
+
+    /*
+    ------------------------------------------------------
+    VALIDAR ID
+    ------------------------------------------------------
+    */
+
+    if (!idLinhaParaExcluir) {
+
+        alert(
+            "Nenhuma linha selecionada para exclusão."
+        );
+
+        return;
+    }
+
+
+    /*
+    ------------------------------------------------------
+    GUARDAR ID ANTES DE ENVIAR
+    ------------------------------------------------------
+    */
+
+    const idLinha =
+        idLinhaParaExcluir;
+
+
+    /*
+    ------------------------------------------------------
+    BOTÃO CONFIRMAR
+    ------------------------------------------------------
+    */
+
+    const botao =
+        document.getElementById(
+            "btnConfirmarExclusao"
+        );
+
+
+    /*
+    ------------------------------------------------------
+    DESABILITAR BOTÃO
+    ------------------------------------------------------
+    */
+
+    if (botao) {
+
+        botao.disabled = true;
+
+        botao.textContent = "EXCLUINDO...";
+    }
+
+
+    try {
+
+        /*
+        --------------------------------------------------
+        ENVIAR EXCLUSÃO PARA API
+        --------------------------------------------------
+        */
+
+        const resposta = await fetch(
+            API_URL,
+            {
+                method: "POST",
+
+                body: JSON.stringify({
+                    acao: "excluir",
+                    id_linha: idLinha
+                })
+            }
+        );
+
+
+        /*
+        --------------------------------------------------
+        VERIFICAR RESPOSTA HTTP
+        --------------------------------------------------
+        */
 
         if (!resposta.ok) {
 
@@ -2640,512 +2871,9 @@ async function editarLinha(idLinha) {
 
         /*
         --------------------------------------------------
-        VERIFICAR RETORNO
+        VERIFICAR SUCESSO
         --------------------------------------------------
         */
-
-        if (!resultado.sucesso) {
-
-            throw new Error(
-                resultado.mensagem ||
-                "Não foi possível localizar a linha."
-            );
-        }
-
-
-        /*
-        --------------------------------------------------
-        DADOS RETORNADOS
-        --------------------------------------------------
-        */
-
-        const linha =
-            resultado.dados;
-
-
-        if (!linha) {
-
-            throw new Error(
-                "Registro não encontrado."
-            );
-        }
-
-
-        /*
-        --------------------------------------------------
-        PREENCHER ID INTERNO
-        --------------------------------------------------
-        */
-
-        const campoId =
-            document.getElementById(
-                "id_linha"
-            );
-
-
-        if (campoId) {
-
-            campoId.value =
-                linha.id_linha ??
-                idLinha;
-        }
-
-
-        /*
-        --------------------------------------------------
-        PREENCHER EMPRESA
-        --------------------------------------------------
-        */
-
-        const empresa =
-            document.getElementById(
-                "empresa"
-            );
-
-
-        if (empresa) {
-
-            empresa.value =
-                linha.empresa ?? "";
-        }
-
-
-        /*
-        --------------------------------------------------
-        PREENCHER CÓDIGO
-        --------------------------------------------------
-        */
-
-        const cod =
-            document.getElementById(
-                "cod"
-            );
-
-
-        if (cod) {
-
-            cod.value =
-                linha.cod ?? "";
-        }
-
-
-        /*
-        --------------------------------------------------
-        PREENCHER LINHA
-        --------------------------------------------------
-        */
-
-        const campoLinha =
-            document.getElementById(
-                "linha"
-            );
-
-
-        if (campoLinha) {
-
-            campoLinha.value =
-                linha.linha ?? "";
-        }
-
-
-        /*
-        --------------------------------------------------
-        PREENCHER TIPO
-        --------------------------------------------------
-        */
-
-       
-        const selectTipo = document.getElementById("tipo");
-
-        const tipoAtual = String(linha.tipo || "").trim();
-
-        if (selectTipo) {
-
-            // Verificar se o tipo já existe nas opções
-            const existeTipo = Array.from(selectTipo.options)
-                .some(option => option.value === tipoAtual);
-
-            // Preservar o tipo antigo, caso não exista na aba tarifas
-            if (tipoAtual && !existeTipo) {
-
-                const option = document.createElement("option");
-
-                option.value = tipoAtual;
-                option.textContent = tipoAtual + " (tipo anterior)";
-
-                // Identificar a opção temporária
-                option.dataset.tipoAntigo = "1";
-
-                selectTipo.appendChild(option);
-            }
-
-            // Selecionar o tipo da linha em edição
-            selectTipo.value = tipoAtual;
-        }
-
-
-        /*
-        --------------------------------------------------
-        EMBARQUE IDA
-        --------------------------------------------------
-        */
-
-        const embarqueIda =
-            document.getElementById(
-                "embarque_ida"
-            );
-
-
-        if (embarqueIda) {
-
-            embarqueIda.value =
-                linha.embarque_ida ?? "";
-        }
-
-
-        /*
-        --------------------------------------------------
-        EMBARQUE VOLTA
-        --------------------------------------------------
-        */
-
-        const embarqueVolta =
-            document.getElementById(
-                "embarque_volta"
-            );
-
-
-        if (embarqueVolta) {
-
-            embarqueVolta.value =
-                linha.embarque_volta ?? "";
-        }
-
-
-        /*
-        --------------------------------------------------
-        TARIFA CARTÃO
-        --------------------------------------------------
-        */
-
-        const tarifaCartao =
-            document.getElementById(
-                "tarifa_cartao"
-            );
-
-
-        if (tarifaCartao) {
-
-            tarifaCartao.value =
-                normalizarNumeroFormulario(
-                    linha.tarifa_cartao
-                );
-        }
-
-
-        /*
-        --------------------------------------------------
-        TARIFA DINHEIRO
-        --------------------------------------------------
-        */
-
-        const tarifaDinheiro =
-            document.getElementById(
-                "tarifa_dinheiro"
-            );
-
-
-        if (tarifaDinheiro) {
-
-            tarifaDinheiro.value =
-                normalizarNumeroFormulario(
-                    linha.tarifa_dinheiro
-                );
-        }
-
-
-        /*
-        --------------------------------------------------
-        STATUS
-        --------------------------------------------------
-        */
-
-        const status =
-            document.getElementById(
-                "status"
-            );
-
-
-        if (status) {
-
-            status.value =
-                linha.status ??
-                "Ativa";
-        }
-
-
-        /*
-        --------------------------------------------------
-        ALTERAR TÍTULO
-        --------------------------------------------------
-        */
-
-        const titulo =
-            document.getElementById(
-                "tituloModal"
-            );
-
-
-        if (titulo) {
-
-            titulo.textContent =
-                "Editar Linha";
-        }
-
-
-        /*
-        --------------------------------------------------
-        ABRIR MODAL
-        --------------------------------------------------
-        */
-
-        modal.classList.add(
-            "ativo"
-        );
-
-
-        /*
-        --------------------------------------------------
-        FOCO
-        --------------------------------------------------
-        */
-
-        if (empresa) {
-
-            empresa.focus();
-        }
-
-
-    } catch (erro) {
-
-        console.error(
-            "Erro ao editar linha:",
-            erro
-        );
-
-
-        alert(
-            "Não foi possível carregar a linha.\n\n" +
-            erro.message
-        );
-    }
-}
-
-
-/*
-==========================================================
-ABRIR MODAL DE EXCLUSÃO
-==========================================================
-*/
-
-function excluirLinha(idLinha) {
-
-    const modal =
-        document.getElementById(
-            "modalExclusao"
-        );
-
-
-    const descricao =
-        document.getElementById(
-            "descricaoExclusao"
-        );
-
-
-    if (
-        !modal ||
-        !descricao
-    ) {
-
-        alert(
-            "A janela de confirmação ainda não foi carregada."
-        );
-
-        return;
-    }
-
-
-    /*
-    ------------------------------------------------------
-    LOCALIZAR REGISTRO
-    ------------------------------------------------------
-    */
-
-    const registro =
-        todasLinhas.find(
-            function (item) {
-
-                return (
-                    Number(item.id_linha) ===
-                    Number(idLinha)
-                );
-            }
-        );
-
-
-    /*
-    ------------------------------------------------------
-    GUARDAR ID
-    ------------------------------------------------------
-    */
-
-    idLinhaParaExcluir =
-        idLinha;
-
-
-    /*
-    ------------------------------------------------------
-    MOSTRAR DESCRIÇÃO
-    ------------------------------------------------------
-    */
-
-    if (registro) {
-
-        descricao.textContent =
-            `${registro.cod} - ${registro.linha}`;
-
-    } else {
-
-        descricao.textContent =
-            `ID ${idLinha}`;
-    }
-
-
-    /*
-    ------------------------------------------------------
-    ABRIR MODAL
-    ------------------------------------------------------
-    */
-
-    modal.classList.add(
-        "ativo"
-    );
-}
-
-
-/*
-==========================================================
-FECHAR MODAL DE EXCLUSÃO
-==========================================================
-*/
-
-function fecharModalExclusao() {
-
-    const modal =
-        document.getElementById(
-            "modalExclusao"
-        );
-
-
-    if (modal) {
-
-        modal.classList.remove(
-            "ativo"
-        );
-    }
-
-
-    idLinhaParaExcluir =
-        null;
-}
-
-
-/*
-==========================================================
-CONFIRMAR EXCLUSÃO
-==========================================================
-*/
-
-async function confirmarExclusaoLinha() {
-
-    if (!idLinhaParaExcluir) {
-
-        return;
-    }
-
-
-    const idLinha =
-        idLinhaParaExcluir;
-
-
-    const botao =
-        document.getElementById(
-            "btnConfirmarExclusao"
-        );
-
-
-    /*
-    ------------------------------------------------------
-    BLOQUEAR BOTÃO
-    ------------------------------------------------------
-    */
-
-    if (botao) {
-
-        botao.disabled =
-            true;
-
-        botao.textContent =
-            "EXCLUINDO...";
-    }
-
-
-    try {
-
-        /*
-        --------------------------------------------------
-        ENVIAR PARA API
-        --------------------------------------------------
-        */
-
-        const resposta =
-            await fetch(
-                API_URL,
-                {
-                    method: "POST",
-
-                    body:
-                        JSON.stringify(
-                            {
-                                acao:
-                                    "excluir",
-
-                                id_linha:
-                                    idLinha
-                            }
-                        )
-                }
-            );
-
-
-        if (!resposta.ok) {
-
-            throw new Error(
-                "Erro HTTP: " +
-                resposta.status
-            );
-        }
-
-
-        /*
-        --------------------------------------------------
-        RETORNO
-        --------------------------------------------------
-        */
-
-        const resultado =
-            await resposta.json();
-
 
         if (!resultado.sucesso) {
 
@@ -3167,7 +2895,7 @@ async function confirmarExclusaoLinha() {
 
         /*
         --------------------------------------------------
-        MENSAGEM
+        MOSTRAR MENSAGEM
         --------------------------------------------------
         */
 
@@ -3179,7 +2907,7 @@ async function confirmarExclusaoLinha() {
 
         /*
         --------------------------------------------------
-        ATUALIZAR LISTAGEM
+        ATUALIZAR TABELA
         --------------------------------------------------
         */
 
@@ -3192,7 +2920,6 @@ async function confirmarExclusaoLinha() {
             "Erro ao excluir linha:",
             erro
         );
-
 
         alert(
             "Não foi possível excluir a linha.\n\n" +
@@ -3210,11 +2937,9 @@ async function confirmarExclusaoLinha() {
 
         if (botao) {
 
-            botao.disabled =
-                false;
+            botao.disabled = false;
 
-            botao.textContent =
-                "EXCLUIR";
+            botao.textContent = "EXCLUIR";
         }
     }
 }
@@ -3222,7 +2947,555 @@ async function confirmarExclusaoLinha() {
 
 /*
 ==========================================================
-NORMALIZAR NÚMERO PARA FORMULÁRIO
+CARREGAR EMPRESAS NO SELECT
+==========================================================
+*/
+
+async function carregarEmpresasSelect() {
+
+    const selectEmpresa =
+        document.getElementById("empresa");
+
+    if (!selectEmpresa) {
+
+        console.warn(
+            "Campo empresa não encontrado."
+        );
+
+        return;
+    }
+
+    selectEmpresa.disabled = true;
+
+    selectEmpresa.innerHTML = `
+        <option value="">
+            Carregando empresas...
+        </option>
+    `;
+
+    try {
+
+        const resposta = await fetch(
+            `${API_URL}?acao=listar_empresas`
+        );
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                "Erro HTTP: " + resposta.status
+            );
+        }
+
+        const resultado =
+            await resposta.json();
+
+        if (!resultado.sucesso) {
+
+            throw new Error(
+                resultado.mensagem ||
+                "Erro ao carregar empresas."
+            );
+        }
+
+        const empresas =
+            Array.isArray(resultado.dados)
+                ? resultado.dados
+                : [];
+
+        /*
+        --------------------------------------------------
+        ORDENAR EMPRESAS
+        --------------------------------------------------
+        */
+
+        empresas.sort(
+            (a, b) =>
+                String(a.empresa || "")
+                    .localeCompare(
+                        String(b.empresa || ""),
+                        "pt-BR"
+                    )
+        );
+
+        /*
+        --------------------------------------------------
+        OPÇÃO INICIAL
+        --------------------------------------------------
+        */
+
+        selectEmpresa.innerHTML = `
+            <option value="">
+                Selecione uma empresa
+            </option>
+        `;
+
+        /*
+        --------------------------------------------------
+        ADICIONAR EMPRESAS
+        --------------------------------------------------
+        */
+
+        empresas.forEach(
+            function (empresa) {
+
+                const nome =
+                    String(
+                        empresa.empresa || ""
+                    ).trim();
+
+                if (!nome) {
+                    return;
+                }
+
+                const option =
+                    document.createElement("option");
+
+                option.value = nome;
+
+                option.textContent = nome;
+
+                selectEmpresa.appendChild(option);
+            }
+        );
+
+        console.log(
+            "Empresas carregadas:",
+            empresas.length
+        );
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar empresas:",
+            erro
+        );
+
+        selectEmpresa.innerHTML = `
+            <option value="">
+                Erro ao carregar empresas
+            </option>
+        `;
+
+    } finally {
+
+        selectEmpresa.disabled = false;
+    }
+}
+
+
+/*
+==========================================================
+CARREGAR TIPOS DE TARIFAS NO SELECT
+==========================================================
+*/
+
+async function carregarTiposSelect() {
+
+    const selectTipo =
+        document.getElementById("tipo");
+
+    if (!selectTipo) {
+
+        console.warn(
+            "Campo tipo não encontrado."
+        );
+
+        return;
+    }
+
+    /*
+    ------------------------------------------------------
+    DESABILITAR ENQUANTO CARREGA
+    ------------------------------------------------------
+    */
+
+    selectTipo.disabled = true;
+
+    selectTipo.innerHTML = `
+        <option value="">
+            Carregando tarifas...
+        </option>
+    `;
+
+    try {
+
+        /*
+        --------------------------------------------------
+        BUSCAR TARIFAS NA API
+        --------------------------------------------------
+        */
+
+        const resposta = await fetch(
+            `${API_URL}?acao=listar_tarifas`
+        );
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                "Erro HTTP: " +
+                resposta.status
+            );
+        }
+
+        const resultado =
+            await resposta.json();
+
+        if (!resultado.sucesso) {
+
+            throw new Error(
+                resultado.mensagem ||
+                "Erro ao carregar tarifas."
+            );
+        }
+
+        /*
+        --------------------------------------------------
+        RECEBER TARIFAS
+        --------------------------------------------------
+        */
+
+        const tarifas =
+            Array.isArray(resultado.dados)
+                ? resultado.dados
+                : [];
+
+        /*
+        --------------------------------------------------
+        ORDENAR POR TIPO
+        --------------------------------------------------
+        */
+
+        tarifas.sort(
+            function (a, b) {
+
+                return String(a.tipo || "")
+                    .localeCompare(
+                        String(b.tipo || ""),
+                        "pt-BR"
+                    );
+            }
+        );
+
+        /*
+        --------------------------------------------------
+        CRIAR OPÇÃO INICIAL
+        --------------------------------------------------
+        */
+
+        selectTipo.innerHTML = `
+            <option value="">
+                Selecione uma tarifa
+            </option>
+        `;
+
+        /*
+        --------------------------------------------------
+        ADICIONAR TARIFAS
+        --------------------------------------------------
+        */
+
+        tarifas.forEach(
+            function (tarifa) {
+
+                const idTarifa =
+                    String(
+                        tarifa.id_tarifa ?? ""
+                    ).trim();
+
+                const nomeTipo =
+                    String(
+                        tarifa.tipo ?? ""
+                    ).trim();
+
+                if (
+                    !idTarifa ||
+                    !nomeTipo
+                ) {
+                    return;
+                }
+
+                /*
+                ------------------------------------------
+                CRIAR OPÇÃO
+                ------------------------------------------
+                */
+
+                const option =
+                    document.createElement("option");
+
+                /*
+                ------------------------------------------
+                VALUE = ID_TARIFA
+                ------------------------------------------
+                */
+
+                option.value = idTarifa;
+
+                /*
+                ------------------------------------------
+                TEXTO = NOME DO TIPO
+                ------------------------------------------
+                */
+
+                option.textContent = nomeTipo;
+
+                /*
+                ------------------------------------------
+                GUARDAR VALORES DA TARIFA
+                ------------------------------------------
+                */
+
+                option.dataset.cartao =
+                    tarifa.tarifa_cartao ?? "";
+
+                option.dataset.dinheiro =
+                    tarifa.tarifa_dinheiro ?? "";
+
+                /*
+                ------------------------------------------
+                ADICIONAR AO SELECT
+                ------------------------------------------
+                */
+
+                selectTipo.appendChild(option);
+            }
+        );
+
+        console.log(
+            "Tarifas carregadas:",
+            tarifas.length
+        );
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar tarifas:",
+            erro
+        );
+
+        selectTipo.innerHTML = `
+            <option value="">
+                Erro ao carregar tarifas
+            </option>
+        `;
+
+    } finally {
+
+        selectTipo.disabled = false;
+    }
+
+
+    /*
+    ------------------------------------------------------
+    PREENCHER VALORES AO SELECIONAR TARIFA
+    ------------------------------------------------------
+    */
+
+    selectTipo.addEventListener(
+        "change",
+        function () {
+
+            const option =
+                selectTipo.selectedOptions[0];
+
+            const campoCartao =
+                document.getElementById(
+                    "tarifa_cartao"
+                );
+
+            const campoDinheiro =
+                document.getElementById(
+                    "tarifa_dinheiro"
+                );
+
+            if (
+                !campoCartao ||
+                !campoDinheiro
+            ) {
+                return;
+            }
+
+            /*
+            ----------------------------------------------
+            NENHUMA TARIFA SELECIONADA
+            ----------------------------------------------
+            */
+
+            if (
+                !option ||
+                !selectTipo.value
+            ) {
+
+                campoCartao.value = "";
+
+                campoDinheiro.value = "";
+
+                return;
+            }
+
+            /*
+            ----------------------------------------------
+            VALORES DA TARIFA SELECIONADA
+            ----------------------------------------------
+            */
+
+            const valorCartao =
+                option.dataset.cartao ?? "";
+
+            const valorDinheiro =
+                option.dataset.dinheiro ?? "";
+
+            /*
+            ----------------------------------------------
+            PREENCHER CAMPOS
+            ----------------------------------------------
+            */
+
+            campoCartao.value =
+                normalizarNumeroFormulario(
+                    valorCartao
+                );
+
+            campoDinheiro.value =
+                normalizarNumeroFormulario(
+                    valorDinheiro
+                );
+
+            console.log(
+                "Tarifa selecionada:",
+                {
+                    id_tarifa: selectTipo.value,
+                    tipo: option.textContent.trim(),
+                    cartao: valorCartao,
+                    dinheiro: valorDinheiro
+                }
+            );
+        }
+    );
+}
+
+
+/*
+==========================================================
+FORMATAR TARIFA PARA EXIBIÇÃO NA TABELA
+==========================================================
+*/
+
+function formatarTarifa(valor) {
+
+    if (
+        valor === null ||
+        valor === undefined ||
+        String(valor).trim() === ""
+    ) {
+        return "-";
+    }
+
+    const numero =
+        converterValorMonetario(valor);
+
+    if (!Number.isFinite(numero)) {
+        return "-";
+    }
+
+    return numero.toLocaleString(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
+        }
+    );
+}
+
+
+/*
+==========================================================
+CONVERTER VALOR MONETÁRIO PARA NÚMERO
+==========================================================
+*/
+
+function converterValorMonetario(valor) {
+
+    if (
+        valor === null ||
+        valor === undefined ||
+        String(valor).trim() === ""
+    ) {
+        return NaN;
+    }
+
+    if (typeof valor === "number") {
+        return valor;
+    }
+
+    let texto =
+        String(valor)
+            .trim()
+            .replace(/R\$\s*/gi, "")
+            .replace(/\s/g, "");
+
+    /*
+    ------------------------------------------------------
+    IDENTIFICAR SEPARADORES DECIMAIS
+    ------------------------------------------------------
+    */
+
+    const temVirgula =
+        texto.includes(",");
+
+    const temPonto =
+        texto.includes(".");
+
+    if (temVirgula && temPonto) {
+
+        /*
+        --------------------------------------------------
+        O ÚLTIMO SEPARADOR É O DECIMAL
+        --------------------------------------------------
+        */
+
+        if (
+            texto.lastIndexOf(",") >
+            texto.lastIndexOf(".")
+        ) {
+
+            // Exemplo: 1.234,56
+            texto = texto
+                .replace(/\./g, "")
+                .replace(",", ".");
+
+        } else {
+
+            // Exemplo: 1,234.56
+            texto = texto.replace(/,/g, "");
+        }
+
+    } else if (temVirgula) {
+
+        // Exemplo: 5,50
+        texto = texto.replace(",", ".");
+
+    } else if (
+        /^\d{1,3}(\.\d{3})+$/.test(texto)
+    ) {
+
+        // Exemplo: 1.234
+        texto = texto.replace(/\./g, "");
+    }
+
+    if (
+        !/^-?\d+(\.\d+)?$/.test(texto)
+    ) {
+        return NaN;
+    }
+
+    return Number(texto);
+}
+
+
+/*
+==========================================================
+NORMALIZAR NÚMERO PARA CAMPO DO FORMULÁRIO
 ==========================================================
 */
 
@@ -3231,92 +3504,37 @@ function normalizarNumeroFormulario(valor) {
     if (
         valor === null ||
         valor === undefined ||
-        valor === ""
+        String(valor).trim() === ""
     ) {
-
         return "";
     }
 
+    const numero =
+        converterValorMonetario(valor);
 
-    return String(
-        valor
-    )
-        .replace(
-            ",",
-            "."
-        );
+    if (!Number.isFinite(numero)) {
+        return "";
+    }
+
+    /*
+    ------------------------------------------------------
+    RETORNAR COM DUAS CASAS DECIMAIS
+    ------------------------------------------------------
+    */
+
+    return numero.toFixed(2);
 }
 
 
 /*
 ==========================================================
-FORMATAR TARIFA
+FORMATAR TARIFA PARA INPUT
 ==========================================================
 */
 
-function formatarTarifa(valor) {
+function formatarTarifaInput(valor) {
 
-    /*
-    ------------------------------------------------------
-    VAZIO
-    ------------------------------------------------------
-    */
-
-    if (
-        valor === null ||
-        valor === undefined ||
-        valor === ""
-    ) {
-
-        return "";
-    }
-
-
-    /*
-    ------------------------------------------------------
-    CONVERTER
-    ------------------------------------------------------
-    */
-
-    const numero =
-        Number(
-            String(valor)
-                .replace(
-                    ",",
-                    "."
-                )
-        );
-
-
-    /*
-    ------------------------------------------------------
-    VALOR INVÁLIDO
-    ------------------------------------------------------
-    */
-
-    if (
-        isNaN(numero)
-    ) {
-
-        return escaparHTML(
-            valor
-        );
-    }
-
-
-    /*
-    ------------------------------------------------------
-    FORMATO BRASILEIRO
-    ------------------------------------------------------
-    */
-
-    return numero.toLocaleString(
-        "pt-BR",
-        {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }
-    );
+    return normalizarNumeroFormulario(valor);
 }
 
 
@@ -3328,41 +3546,15 @@ ESCAPAR HTML
 
 function escaparHTML(valor) {
 
-    if (
-        valor === null ||
-        valor === undefined
-    ) {
+    const texto =
+        String(valor ?? "");
 
-        return "";
-    }
-
-
-    return String(valor)
-
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
+    return texto
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
 }
 
 
@@ -3372,359 +3564,75 @@ MOSTRAR MENSAGEM
 ==========================================================
 */
 
-function mostrarMensagem(texto) {
+function mostrarMensagem(mensagem) {
+
+    const texto =
+        String(mensagem ?? "").trim();
+
+    if (!texto) {
+        return;
+    }
+
+    /*
+    ------------------------------------------------------
+    PROCURAR ELEMENTO DE MENSAGEM
+    ------------------------------------------------------
+    */
 
     const elemento =
-        document.getElementById(
-            "mensagem"
-        );
+        document.getElementById("mensagem") ||
+        document.getElementById("mensagemSistema");
 
+    /*
+    ------------------------------------------------------
+    SE NÃO EXISTIR ELEMENTO, MOSTRAR ALERTA
+    ------------------------------------------------------
+    */
 
     if (!elemento) {
 
+        alert(texto);
+
         return;
     }
-
-
-    elemento.textContent =
-        texto;
-
 
     /*
     ------------------------------------------------------
-    LIMPAR APÓS 5 SEGUNDOS
+    EXIBIR MENSAGEM
     ------------------------------------------------------
     */
 
-    setTimeout(
-        function () {
+    elemento.textContent = texto;
 
-            elemento.textContent =
-                "";
-
-        },
-        5000
-    );
-}
-
-/*
-==========================================================
-CARREGAR EMPRESAS NO SELECT
-==========================================================
-*/
-
-async function carregarEmpresasSelect() {
-
-    const selectEmpresa =
-        document.getElementById(
-            "empresa"
-        );
-
-
-    if (!selectEmpresa) {
-
-        console.error(
-            "Select empresa não encontrado."
-        );
-
-        return;
-    }
-
+    elemento.style.display = "block";
 
     /*
     ------------------------------------------------------
-    MOSTRAR CARREGAMENTO
+    EVITAR TEMPORIZADORES DUPLICADOS
     ------------------------------------------------------
     */
 
-    selectEmpresa.innerHTML = `
-        <option value="">
-            Carregando empresas...
-        </option>
-    `;
+    if (mostrarMensagem.temporizador) {
 
-
-    selectEmpresa.disabled = true;
-
-
-    try {
-
-        /*
-        --------------------------------------------------
-        CONSULTAR EMPRESAS
-        --------------------------------------------------
-        */
-
-        const resposta =
-            await fetch(
-                `${API_URL}?acao=listar_empresas`
-            );
-
-
-        if (!resposta.ok) {
-
-            throw new Error(
-                "Erro HTTP: " +
-                resposta.status
-            );
-        }
-
-
-        const resultado =
-            await resposta.json();
-
-
-        if (!resultado.sucesso) {
-
-            throw new Error(
-                resultado.mensagem ||
-                "Erro ao carregar empresas."
-            );
-        }
-
-
-        const empresas =
-            resultado.dados || [];
-
-
-        /*
-        --------------------------------------------------
-        LIMPAR SELECT
-        --------------------------------------------------
-        */
-
-        selectEmpresa.innerHTML = `
-            <option value="">
-                Selecione uma empresa
-            </option>
-        `;
-
-
-        /*
-        --------------------------------------------------
-        ORDENAR POR NOME
-        --------------------------------------------------
-        */
-
-        empresas.sort(
-            function (a, b) {
-
-                return String(
-                    a.empresa || ""
-                ).localeCompare(
-                    String(
-                        b.empresa || ""
-                    ),
-                    "pt-BR"
-                );
-            }
+        clearTimeout(
+            mostrarMensagem.temporizador
         );
-
-
-        /*
-        --------------------------------------------------
-        CRIAR OPÇÕES
-        --------------------------------------------------
-        */
-
-        empresas.forEach(
-            function (item) {
-
-                const option =
-                    document.createElement(
-                        "option"
-                    );
-
-
-                option.value =
-                    item.empresa;
-
-
-                option.textContent =
-                    item.empresa;
-
-
-                selectEmpresa.appendChild(
-                    option
-                );
-            }
-        );
-
-
-        selectEmpresa.disabled = false;
-
-
-    } catch (erro) {
-
-        console.error(
-            "Erro ao carregar empresas:",
-            erro
-        );
-
-
-        selectEmpresa.innerHTML = `
-            <option value="">
-                Erro ao carregar empresas
-            </option>
-        `;
-
-
-        selectEmpresa.disabled = true;
     }
 
-} 
+    /*
+    ------------------------------------------------------
+    OCULTAR APÓS 4 SEGUNDOS
+    ------------------------------------------------------
+    */
 
-/*
-==========================================================
-CARREGAR TIPOS DE LINHA NO SELECT
-==========================================================
-*/
+    mostrarMensagem.temporizador =
+        setTimeout(
+            function () {
 
+                elemento.style.display = "none";
 
-async function carregarTiposSelect() {
-
-    const select = document.getElementById("tipo");
-
-    const campoCartao =
-        document.getElementById("tarifa_cartao");
-
-    const campoDinheiro =
-        document.getElementById("tarifa_dinheiro");
-
-    if (!select) {
-        console.error("Campo #tipo não encontrado.");
-        return;
-    }
-
-    select.innerHTML =
-        '<option value="">Carregando tipos...</option>';
-
-    try {
-
-        const resposta = await fetch(
-            `${API_URL}?acao=listar_tarifas`
+            },
+            4000
         );
-
-        if (!resposta.ok) {
-            throw new Error("Erro ao consultar tarifas.");
-        }
-
-        const resultado = await resposta.json();
-
-        if (!resultado.sucesso) {
-            throw new Error(
-                resultado.mensagem ||
-                "Erro ao carregar tarifas."
-            );
-        }
-
-        const tarifas = resultado.dados || [];
-
-        // Ordenar os registros pelo tipo
-        tarifas.sort((a, b) =>
-            String(a.tipo || "").localeCompare(
-                String(b.tipo || ""),
-                "pt-BR"
-            )
-        );
-
-        select.innerHTML = "";
-
-        const inicial = document.createElement("option");
-        inicial.value = "";
-        inicial.textContent = "Selecione";
-        select.appendChild(inicial);
-
-        // Criar as opções com os valores das tarifas
-        tarifas.forEach(tarifa => {
-
-            const tipo = String(tarifa.tipo || "").trim();
-
-            if (!tipo) {
-                return;
-            }
-
-            const option = document.createElement("option");
-
-            option.value = tipo;
-            option.textContent = tipo;
-
-            option.dataset.cartao =
-                tarifa.tarifa_cartao ?? "";
-
-            option.dataset.dinheiro =
-                tarifa.tarifa_dinheiro ?? "";
-
-            select.appendChild(option);
-
-        });
-
-        // Evitar cadastrar o mesmo evento várias vezes
-        if (!select.dataset.eventoTarifaConfigurado) {
-
-            select.addEventListener("change", function () {
-
-                const option =
-                    this.options[this.selectedIndex];
-
-                const valorCartao =
-                    option?.dataset.cartao ?? "";
-
-                const valorDinheiro =
-                    option?.dataset.dinheiro ?? "";
-
-                if (campoCartao) {
-                    campoCartao.value =
-                        formatarTarifaInput(valorCartao);
-                }
-
-                if (campoDinheiro) {
-                    campoDinheiro.value =
-                        formatarTarifaInput(valorDinheiro);
-                }
-
-            });
-
-            select.dataset.eventoTarifaConfigurado = "1";
-        }
-
-    } catch (erro) {
-
-        console.error(
-            "Erro ao carregar tipos e tarifas:",
-            erro
-        );
-
-        select.innerHTML =
-            '<option value="">Erro ao carregar tipos</option>';
-
-    }
 }
-
-
-
-function formatarTarifaInput(valor) {
-
-    if (
-        valor === null ||
-        valor === undefined ||
-        String(valor).trim() === ""
-    ) {
-        return "";
-    }
-
-    const numero = Number(
-        String(valor)
-            .trim()
-            .replace(",", ".")
-    );
-
-    if (!Number.isFinite(numero)) {
-        return "";
-    }
-
-    // Input type="number" exige ponto decimal
-    return numero.toFixed(2);
-}
-
 
