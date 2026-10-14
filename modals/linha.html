@@ -230,6 +230,38 @@
 
             </div>
 
+             
+                <!--
+                ==============================================
+                ARQUIVO KML - TRAJETO DA LINHA
+                ==============================================
+                -->
+
+                <div class="campo campo-grande campo-kml">
+
+                    <label for="arquivoKml">
+                        Trajeto da Linha (KML)
+                    </label>
+
+                    <input
+                        type="file"
+                        id="arquivoKml"
+                        name="arquivoKml"
+                        accept=".kml,application/vnd.google-earth.kml+xml"
+                    >
+
+                    <small class="kml-informacao">
+                        Selecione um arquivo KML contendo
+                        o trajeto de ida e volta da linha.
+                    </small>
+
+                    <div
+                        id="kmlSelecionado"
+                        class="kml-selecionado"
+                        aria-live="polite"
+                    ></div>
+
+                </div>
 
             <!--
             ==============================================

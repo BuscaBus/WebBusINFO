@@ -122,6 +122,8 @@ document.addEventListener(
 
             configurarEventosModal();
 
+            configurarCampoKml();
+
             await carregarEmpresasSelect();
 
             await carregarTiposSelect();
@@ -3636,3 +3638,64 @@ function mostrarMensagem(mensagem) {
         );
 }
 
+
+/*
+==================================================
+VALIDAR ARQUIVO KML SELECIONADO
+==================================================
+*/
+
+function configurarCampoKml() {
+
+    const inputKml =
+        document.getElementById("arquivoKml");
+
+    const informacao =
+        document.getElementById("kmlSelecionado");
+
+    if (!inputKml || !informacao) {
+        return;
+    }
+
+    // Evita registrar o evento mais de uma vez.
+    if (inputKml.dataset.configurado === "1") {
+        return;
+    }
+
+    inputKml.dataset.configurado = "1";
+
+    inputKml.addEventListener("change", function () {
+
+        const arquivo = inputKml.files[0];
+
+        informacao.textContent = "";
+
+        if (!arquivo) {
+            return;
+        }
+
+        // Aceitar somente arquivos .kml.
+        if (!arquivo.name.toLowerCase().endsWith(".kml")) {
+
+            alert("Selecione um arquivo no formato KML.");
+
+            inputKml.value = "";
+            return;
+        }
+
+        // Limite inicial de 5 MB.
+        const tamanhoMaximo = 5 * 1024 * 1024;
+
+        if (arquivo.size > tamanhoMaximo) {
+
+            alert("O arquivo KML deve ter no máximo 5 MB.");
+
+            inputKml.value = "";
+            return;
+        }
+
+        informacao.textContent =
+            "Arquivo selecionado: " + arquivo.name;
+
+    });
+}
