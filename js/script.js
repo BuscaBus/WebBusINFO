@@ -132,6 +132,8 @@ document.addEventListener(
 
             configurarEventosModalExclusao();
 
+            await carregarModalMapa();
+
         } catch (erro) {
 
             console.error(
@@ -1399,6 +1401,18 @@ function exibirLinhas(linhas) {
                 </td>
 
                 <td>
+                    
+                    <button
+                        type="button"
+                        class="btn-mapa"
+                        onclick="abrirMapaLinha(${Number(item.id_linha)})"
+                        ${String(item.id_kml || "").trim() ? "" : "disabled"}
+                        title="${String(item.id_kml || "").trim()
+                            ? "Visualizar trajeto"
+                            : "Linha sem KML cadastrado"}"
+                    >
+                        Mapa
+                    </button>
 
                     <button
                         type="button"
@@ -3892,5 +3906,298 @@ async function enviarKmlLinha(idLinha) {
 
     return resultado;
 }
+
+
+/*
+==================================================
+MAPA DAS LINHAS - LEAFLET + KML
+==================================================
+*/
+
+let mapaLinhaLeaflet = null;
+let camadaTrajetos = null;
+
+async function carregarModalMapa() {
+
+    const container =
+        document.getElementById("containerModalMapa");
+
+    if (!container) {
+        throw new Error(
+            "containerModalMapa não encontrado."
+        );
+    }
+
+    const resposta = await fetch("./modals/mapa.html");
+
+    if (!resposta.ok) {
+        throw new Error("Não foi possível carregar o modal mapa.");
+    }
+
+    container.innerHTML = await resposta.text();
+
+    document.getElementById("btnFecharMapa")
+        .addEventListener("click", fecharMapaLinha);
+
+    document.getElementById("btnVoltarMapa")
+        .addEventListener("click", fecharMapaLinha);
+
+    document.getElementById("modalMapa")
+        .addEventListener("click", function(event) {
+            if (event.target === this) {
+                fecharMapaLinha();
+            }
+        });
+}
+
+
+/*
+==================================================
+ABRIR MAPA DA LINHA
+==================================================
+*/
+
+async function abrirMapaLinha(idLinha) {
+
+    const modal = document.getElementById("modalMapa");
+    const titulo = document.getElementById("tituloMapa");
+    const legenda = document.getElementById("legendaMapa");
+
+    if (!modal || typeof L === "undefined") {
+        alert("O mapa ainda não foi carregado.");
+        return;
+    }
+
+    const linha = todasLinhas.find(
+        item => String(item.id_linha) === String(idLinha)
+    );
+
+    titulo.textContent = linha
+        ? `${linha.cod} - ${linha.linha}`
+        : `Mapa da linha ${idLinha}`;
+
+    legenda.textContent = "Carregando trajeto...";
+
+    modal.classList.add("ativo");
+
+    if (!mapaLinhaLeaflet) {
+
+        mapaLinhaLeaflet = L.map("mapaLinha");
+
+        L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                maxZoom: 19,
+                attribution: '&copy; OpenStreetMap contributors'
+            }
+        ).addTo(mapaLinhaLeaflet);
+
+        camadaTrajetos = L.featureGroup()
+            .addTo(mapaLinhaLeaflet);
+    }
+
+    camadaTrajetos.clearLayers();
+
+    mapaLinhaLeaflet.setView([-15.78, -47.93], 4);
+
+    setTimeout(() => {
+        mapaLinhaLeaflet.invalidateSize();
+    }, 100);
+
+    try {
+
+        const resposta = await fetch(
+            `${API_URL}?acao=obter_kml&id_linha=${encodeURIComponent(idLinha)}`
+        );
+
+        if (!resposta.ok) {
+            throw new Error("Erro HTTP: " + resposta.status);
+        }
+
+        const resultado = await resposta.json();
+
+        if (!resultado.sucesso) {
+            throw new Error(
+                resultado.mensagem || "Não foi possível obter o KML."
+            );
+        }
+
+        const trajetos = extrairTrajetosKml(resultado.kml);
+
+        if (!trajetos.length) {
+            throw new Error(
+                "O KML não contém trajetos LineString válidos."
+            );
+        }
+
+        const cores = [
+            "#1565c0",
+            "#e60000",
+            "#2e7d32",
+            "#8e24aa"
+        ];
+
+        legenda.innerHTML = "";
+
+        trajetos.forEach((trajeto, indice) => {
+
+            const cor = cores[indice % cores.length];
+
+            L.polyline(trajeto.pontos, {
+                color: cor,
+                weight: 5,
+                opacity: 0.9
+            })
+            .bindPopup(trajeto.nome)
+            .addTo(camadaTrajetos);
+
+            const item = document.createElement("span");
+            item.className = "legenda-item";
+
+            const faixa = document.createElement("span");
+            faixa.className = "legenda-cor";
+            faixa.style.backgroundColor = cor;
+
+            const nome = document.createElement("span");
+            nome.textContent = trajeto.nome;
+
+            item.append(faixa, nome);
+            legenda.appendChild(item);
+        });
+
+        mapaLinhaLeaflet.invalidateSize();
+
+        mapaLinhaLeaflet.fitBounds(
+            camadaTrajetos.getBounds(),
+            {
+                padding: [30, 30],
+                maxZoom: 16
+            }
+        );
+
+        console.log(
+            "Trajetos KML carregados:",
+            trajetos.length
+        );
+
+    } catch (erro) {
+
+        console.error("Erro ao abrir mapa:", erro);
+
+        legenda.textContent =
+            "Erro ao carregar o trajeto: " + erro.message;
+    }
+}
+
+
+/*
+==================================================
+EXTRAIR TRAJETOS DO KML
+==================================================
+*/
+
+function extrairTrajetosKml(conteudoKml) {
+
+    const documento = new DOMParser().parseFromString(
+        conteudoKml,
+        "application/xml"
+    );
+
+    if (
+        documento.getElementsByTagName("parsererror").length
+    ) {
+        throw new Error("XML do KML inválido.");
+    }
+
+    const elementos = Array.from(
+        documento.getElementsByTagName("*")
+    );
+
+    const placemarks = elementos.filter(
+        elemento => elemento.localName === "Placemark"
+    );
+
+    const trajetos = [];
+
+    placemarks.forEach((placemark, indicePlacemark) => {
+
+        const filhos = Array.from(placemark.children);
+
+        const elementoNome = filhos.find(
+            elemento => elemento.localName === "name"
+        );
+
+        const nome = elementoNome?.textContent?.trim()
+            || `Trajeto ${indicePlacemark + 1}`;
+
+        const linhas = Array.from(
+            placemark.getElementsByTagName("*")
+        ).filter(
+            elemento => elemento.localName === "LineString"
+        );
+
+        linhas.forEach((linha, indiceLinha) => {
+
+            const coordenadas = Array.from(
+                linha.getElementsByTagName("*")
+            ).find(
+                elemento => elemento.localName === "coordinates"
+            );
+
+            if (!coordenadas) return;
+
+            const pontos = coordenadas.textContent
+                .trim()
+                .split(/\s+/)
+                .map(par => {
+
+                    const valores = par.split(",");
+
+                    const longitude = Number(valores[0]);
+                    const latitude = Number(valores[1]);
+
+                    if (
+                        !Number.isFinite(latitude) ||
+                        !Number.isFinite(longitude) ||
+                        Math.abs(latitude) > 90 ||
+                        Math.abs(longitude) > 180
+                    ) {
+                        return null;
+                    }
+
+                    return [latitude, longitude];
+                })
+                .filter(Boolean);
+
+            if (pontos.length >= 2) {
+                trajetos.push({
+                    nome: linhas.length > 1
+                        ? `${nome} (${indiceLinha + 1})`
+                        : nome,
+                    pontos: pontos
+                });
+            }
+        });
+    });
+
+    return trajetos;
+}
+
+
+/*
+==================================================
+FECHAR MAPA
+==================================================
+*/
+
+function fecharMapaLinha() {
+
+    const modal = document.getElementById("modalMapa");
+
+    if (modal) {
+        modal.classList.remove("ativo");
+    }
+}
+
 
 
