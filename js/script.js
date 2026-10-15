@@ -835,108 +835,183 @@ async function salvarLinha(event) {
         }
 
 
-        /*
-        --------------------------------------------------
-        FECHAR MODAL
-        --------------------------------------------------
-        */
+       
+    /*
+    --------------------------------------------------
+    IDENTIFICAR A LINHA SALVA
+    --------------------------------------------------
+    */
 
-        fecharModal();
+    // Cadastro: usa o ID retornado pelo Apps Script.
+    // Edição: usa o ID já existente no formulário.
+
+    const idLinhaSalva =
+        resultado.id_linha || dados.id_linha;
+
+    console.log(
+        "Linha salva com ID:",
+        idLinhaSalva
+    );
 
 
-        /*
-        --------------------------------------------------
-        MOSTRAR MENSAGEM DE SUCESSO
-        --------------------------------------------------
-        */
+    /*
+    --------------------------------------------------
+    ENVIAR ARQUIVO KML
+    --------------------------------------------------
+    */
 
-        mostrarMensagem(
+    let mensagemKml = "";
+
+    const campoKml =
+        document.getElementById("arquivoKml");
+
+    if (campoKml && campoKml.files.length > 0) {
+
+        console.log(
+            "Arquivo KML selecionado:",
+            campoKml.files[0].name
+        );
+
+        try {
+
+            const resultadoKml =
+                await enviarKmlLinha(idLinhaSalva);
+
+            console.log(
+                "Resultado do upload KML:",
+                resultadoKml
+            );
+
+            mensagemKml =
+                " Trajeto KML salvo com sucesso.";
+
+        } catch (erroKml) {
+
+            console.error(
+                "Erro no upload KML:",
+                erroKml
+            );
+
+            mensagemKml =
+                " ATENÇÃO: A linha foi salva, " +
+                "mas o KML não foi enviado: " +
+                erroKml.message;
+
+        }
+
+    } else {
+
+        console.log(
+            "Nenhum arquivo KML selecionado."
+        );
+
+    }
+
+
+    /*
+    --------------------------------------------------
+    FECHAR MODAL
+    --------------------------------------------------
+    */
+
+    fecharModal();
+
+
+    /*
+    --------------------------------------------------
+    MOSTRAR MENSAGEM
+    --------------------------------------------------
+    */
+
+    mostrarMensagem(
+        (
             resultado.mensagem ||
             (
                 idLinha
                     ? "Linha atualizada com sucesso."
                     : "Linha cadastrada com sucesso."
             )
-        );
+        ) + mensagemKml
+    );
 
 
-        /*
-        --------------------------------------------------
-        ATUALIZAR LISTAGEM
-        --------------------------------------------------
-        */
+            /*
+            --------------------------------------------------
+            ATUALIZAR LISTAGEM
+            --------------------------------------------------
+            */
 
-        await carregarLinhas();
-
-
-    } catch (erro) {
-
-        console.error(
-            "Erro ao salvar linha:",
-            erro
-        );
-
-        alert(
-            "Não foi possível salvar a linha.\n\n" +
-            erro.message
-        );
+            await carregarLinhas();
 
 
-    } finally {
+        } catch (erro) {
 
-        /*
-        --------------------------------------------------
-        REATIVAR BOTÃO SALVAR
-        --------------------------------------------------
-        */
+            console.error(
+                "Erro ao salvar linha:",
+                erro
+            );
 
-        if (botao) {
+            alert(
+                "Não foi possível salvar a linha.\n\n" +
+                erro.message
+            );
 
-            botao.disabled = false;
 
-            botao.textContent = "SALVAR";
+        } finally {
+
+            /*
+            --------------------------------------------------
+            REATIVAR BOTÃO SALVAR
+            --------------------------------------------------
+            */
+
+            if (botao) {
+
+                botao.disabled = false;
+
+                botao.textContent = "SALVAR";
+            }
         }
-    }
-}
-
-
-/*
-==========================================================
-CARREGAR LINHAS
-==========================================================
-*/
-
-async function carregarLinhas() {
-
-    const tbody =
-        document.getElementById("listaLinhas");
-
-    if (!tbody) {
-
-        console.error(
-            "listaLinhas não encontrado."
-        );
-
-        return;
     }
 
 
     /*
-    ------------------------------------------------------
-    MOSTRAR CARREGAMENTO
-    ------------------------------------------------------
+    ==========================================================
+    CARREGAR LINHAS
+    ==========================================================
     */
 
-    tbody.innerHTML = `
-        <tr>
-            <td colspan="10">
-                Carregando dados...
-            </td>
-        </tr>
-    `;
+    async function carregarLinhas() {
+
+        const tbody =
+            document.getElementById("listaLinhas");
+
+        if (!tbody) {
+
+            console.error(
+                "listaLinhas não encontrado."
+            );
+
+            return;
+        }
 
 
-    try {
+        /*
+        ------------------------------------------------------
+        MOSTRAR CARREGAMENTO
+        ------------------------------------------------------
+        */
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="10">
+                    Carregando dados...
+                </td>
+            </tr>
+        `;
+
+
+        try {
 
         /*
         --------------------------------------------------
@@ -3722,6 +3797,7 @@ function configurarCampoKml() {
 }
 
 
+
 /*
 ==================================================
 ENVIAR KML PARA GOOGLE DRIVE
@@ -3740,6 +3816,12 @@ async function enviarKmlLinha(idLinha) {
         };
     }
 
+    if (!idLinha) {
+        throw new Error(
+            "ID da linha não recebido após o cadastro."
+        );
+    }
+
     const arquivo = inputKml.files[0];
 
     if (!arquivo.name.toLowerCase().endsWith(".kml")) {
@@ -3755,6 +3837,7 @@ async function enviarKmlLinha(idLinha) {
         const leitor = new FileReader();
 
         leitor.onload = () => {
+
             const resultado = String(leitor.result || "");
 
             resolve(resultado.split(",")[1] || "");
@@ -3767,8 +3850,16 @@ async function enviarKmlLinha(idLinha) {
         leitor.readAsDataURL(arquivo);
     });
 
+    console.log("INICIANDO UPLOAD KML");
+    console.log("ID da linha:", idLinha);
+    console.log("Arquivo:", arquivo.name);
+    console.log("Tamanho:", arquivo.size);
+    console.log("Base64 gerado:", base64.length);
+
     const resposta = await fetch(API_URL, {
+
         method: "POST",
+
         body: JSON.stringify({
             acao: "salvar_kml",
             id_linha: idLinha,
@@ -3778,44 +3869,28 @@ async function enviarKmlLinha(idLinha) {
     });
 
     if (!resposta.ok) {
-        throw new Error("Erro HTTP ao enviar KML.");
+        throw new Error(
+            "Erro HTTP ao enviar KML: " + resposta.status
+        );
     }
 
     const resultado = await resposta.json();
 
+    console.log("RESPOSTA DO UPLOAD KML:", resultado);
+
     if (!resultado.sucesso) {
-    throw new Error(
-        resultado.mensagem || "Erro ao salvar a linha."
-    );
+        throw new Error(
+            resultado.mensagem || "Erro ao salvar o KML."
+        );
     }
 
-    // Para cadastro, a API retorna o novo ID.
-    // Para edição, usamos o ID existente.
-    const idLinhaSalva =
-        resultado.id_linha || dados.id_linha;
-
-    let avisoKml = "";
-
-    try {
-
-        await enviarKmlLinha(idLinhaSalva);
-
-    } catch (erroKml) {
-
-        avisoKml =
-            " A linha foi salva, mas o KML não foi enviado: " +
-            erroKml.message;
-
-        console.error(erroKml);
+    if (!resultado.id_kml) {
+        throw new Error(
+            "A API não retornou o ID do arquivo KML."
+        );
     }
 
-    fecharModal();
-
-    mostrarMensagem(
-        (resultado.mensagem || "Linha salva com sucesso.") +
-        avisoKml
-    );
-
-    await carregarLinhas();
+    return resultado;
 }
+
 
