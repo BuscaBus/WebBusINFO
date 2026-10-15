@@ -1261,3 +1261,30 @@ AJUSTE PARA TELAS MENORES
 
 }
 
+
+/*
+=========================================
+AJUSTE DA BORDA DIREITA DA TABELA
+=========================================
+*/
+
+/* Reduzir a largura da coluna Ações */
+#tabelaLinhas th:nth-child(10),
+#tabelaLinhas td:nth-child(10) {
+    width: 14%;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Reduzir o espaço interno */
+#tabelaLinhas td:nth-child(10) {
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+/* Aproveitar o espaço liberado na coluna Linha */
+#tabelaLinhas th:nth-child(3),
+#tabelaLinhas td:nth-child(3) {
+    width: 21%;
+}
+
