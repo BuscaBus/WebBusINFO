@@ -1120,3 +1120,144 @@ PESQUISA TARIFAS
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
+
+/*
+==================================================
+AJUSTE DA TABELA - BOTÕES MAPA / EDITAR / EXCLUIR
+==================================================
+*/
+
+/* Aproveitar melhor a largura disponível */
+
+main {
+    width: 98%;
+    max-width: 1700px;
+}
+
+/* Distribuição das colunas */
+
+#tabelaLinhas {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+/* Empresa */
+#tabelaLinhas th:nth-child(1),
+#tabelaLinhas td:nth-child(1) {
+    width: 10%;
+}
+
+/* Código */
+#tabelaLinhas th:nth-child(2),
+#tabelaLinhas td:nth-child(2) {
+    width: 5%;
+}
+
+/* Linha */
+#tabelaLinhas th:nth-child(3),
+#tabelaLinhas td:nth-child(3) {
+    width: 18%;
+    overflow-wrap: anywhere;
+}
+
+/* Tipo */
+#tabelaLinhas th:nth-child(4),
+#tabelaLinhas td:nth-child(4) {
+    width: 12%;
+    overflow-wrap: anywhere;
+}
+
+/* Embarque Ida */
+#tabelaLinhas th:nth-child(5),
+#tabelaLinhas td:nth-child(5) {
+    width: 9%;
+    overflow-wrap: anywhere;
+}
+
+/* Embarque Volta */
+#tabelaLinhas th:nth-child(6),
+#tabelaLinhas td:nth-child(6) {
+    width: 10%;
+    overflow-wrap: anywhere;
+}
+
+/* Cartão */
+#tabelaLinhas th:nth-child(7),
+#tabelaLinhas td:nth-child(7) {
+    width: 6%;
+    white-space: nowrap;
+}
+
+/* Dinheiro */
+#tabelaLinhas th:nth-child(8),
+#tabelaLinhas td:nth-child(8) {
+    width: 6%;
+    white-space: nowrap;
+}
+
+/* Status */
+#tabelaLinhas th:nth-child(9),
+#tabelaLinhas td:nth-child(9) {
+    width: 7%;
+}
+
+/* Ações */
+#tabelaLinhas th:nth-child(10),
+#tabelaLinhas td:nth-child(10) {
+    width: 17%;
+    white-space: nowrap;
+    text-align: center;
+}
+
+/*
+==================================================
+BOTÕES DE AÇÃO
+==================================================
+*/
+
+#tabelaLinhas td:nth-child(10) {
+    padding: 8px 5px;
+}
+
+#tabelaLinhas td:nth-child(10) button {
+    display: inline-block;
+    padding: 7px 9px;
+    margin: 2px;
+    font-size: 12px;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+/* Preservar destaque do botão Mapa */
+
+#tabelaLinhas .btn-mapa:not(:disabled) {
+    background-color: #00843d;
+    color: white;
+}
+
+#tabelaLinhas .btn-mapa:disabled {
+    background-color: #aaa;
+    color: white;
+}
+
+
+/*
+==================================================
+AJUSTE PARA TELAS MENORES
+==================================================
+*/
+
+@media (max-width: 1100px) {
+
+    #tabelaLinhas {
+        min-width: 1100px;
+    }
+
+    main {
+        overflow-x: auto;
+    }
+
+}
+
