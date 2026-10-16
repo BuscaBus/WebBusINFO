@@ -4129,13 +4129,45 @@ async function abrirMapaLinha(idLinha) {
             ? camadaIda
             : camadaVolta;
 
-        L.polyline(trajeto.pontos, {
+        
+        // Criar a linha do trajeto
+        const linhaTrajeto = L.polyline(trajeto.pontos, {
             color: cor,
             weight: 4,
             opacity: 0.9
         })
         .bindPopup(trajeto.nome)
         .addTo(camada);
+
+        // Adicionar setas ao longo do trajeto
+        if (typeof L.polylineDecorator === "function") {
+
+            L.polylineDecorator(linhaTrajeto, {
+                patterns: [
+                    {
+                        offset: "5%",
+                        repeat: "8%",
+                        symbol: L.Symbol.arrowHead({
+                            pixelSize: 12,
+                            polygon: true,
+                            pathOptions: {
+                                color: cor,
+                                fillColor: cor,
+                                fillOpacity: 1,
+                                weight: 1,
+                                interactive: false
+                            }
+                        })
+                    }
+                ]
+            }).addTo(camada);
+
+        } else {
+            console.warn(
+                "Plugin de setas do Leaflet não carregado."
+            );
+        }
+
 
     });
 
