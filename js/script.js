@@ -3970,15 +3970,21 @@ async function carregarModalMapa() {
 
 
 
+
 /*
 ==================================================
-CAMADAS DOS SENTIDOS
+MAPA LEAFLET E CAMADAS DOS SENTIDOS
 ==================================================
 */
 
+// Instância principal do mapa
+let mapaLinhaLeaflet = null;
+
+// Camadas independentes
 let camadaIda = null;
 let camadaVolta = null;
 
+// Sentido selecionado
 let sentidoSelecionado = "ambos";
 
 
@@ -4024,6 +4030,7 @@ async function abrirMapaLinha(idLinha) {
 
     modal.classList.add("ativo");
 
+    
     if (!mapaLinhaLeaflet) {
 
         mapaLinhaLeaflet = L.map("mapaLinha");
@@ -4032,15 +4039,20 @@ async function abrirMapaLinha(idLinha) {
             "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
             {
                 maxZoom: 19,
-                attribution: '&copy; OpenStreetMap contributors'
+                attribution: "&copy; OpenStreetMap contributors"
             }
         ).addTo(mapaLinhaLeaflet);
-
-        camadaTrajetos = L.featureGroup()
-            .addTo(mapaLinhaLeaflet);
     }
 
-    camadaTrajetos.clearLayers();
+    // Limpar as camadas da linha anteriormente exibida
+    if (camadaIda) {
+        mapaLinhaLeaflet.removeLayer(camadaIda);
+    }
+
+    if (camadaVolta) {
+        mapaLinhaLeaflet.removeLayer(camadaVolta);
+    }
+
 
     camadaIda = null;
     camadaVolta = null;
