@@ -3990,6 +3990,20 @@ let sentidoSelecionado = "ambos";
 
 /*
 ==================================================
+CONTROLE DE VISIBILIDADE DAS SETAS
+==================================================
+*/
+
+// Nível mínimo de zoom para mostrar as setas
+const ZOOM_MINIMO_SETAS = 14;
+
+// Armazenar as camadas de setas
+let setasIda = [];
+let setasVolta = [];
+
+
+/*
+==================================================
 ABRIR MAPA DA LINHA
 ==================================================
 */
@@ -4042,6 +4056,9 @@ async function abrirMapaLinha(idLinha) {
                 attribution: "&copy; OpenStreetMap contributors"
             }
         ).addTo(mapaLinhaLeaflet);
+
+        // Atualizar as setas quando o zoom mudar
+        mapaLinhaLeaflet.on("zoomend", atualizarSetasMapa);
     }
 
     // Limpar as camadas da linha anteriormente exibida
@@ -4053,11 +4070,21 @@ async function abrirMapaLinha(idLinha) {
         mapaLinhaLeaflet.removeLayer(camadaVolta);
     }
 
+        // Remover os decoradores da linha anterior
+    [...setasIda, ...setasVolta].forEach(decorador => {
+        mapaLinhaLeaflet.removeLayer(decorador);
+    });
+
+    setasIda = [];
+    setasVolta = [];
+
 
     camadaIda = null;
     camadaVolta = null;
 
     selecionarSentidoMapa("ambos");
+            
+    atualizarSetasMapa();
 
     mapaLinhaLeaflet.setView([-15.78, -47.93], 4);
 
@@ -4142,25 +4169,36 @@ async function abrirMapaLinha(idLinha) {
         // Adicionar setas ao longo do trajeto
         if (typeof L.polylineDecorator === "function") {
 
-            L.polylineDecorator(linhaTrajeto, {
-                patterns: [
-                    {
-                        offset: "5%",
-                        repeat: "8%",
-                        symbol: L.Symbol.arrowHead({
-                            pixelSize: 12,
-                            polygon: true,
-                            pathOptions: {
-                                color: cor,
-                                fillColor: cor,
-                                fillOpacity: 1,
-                                weight: 1,
-                                interactive: false
-                            }
-                        })
-                    }
-                ]
-            }).addTo(camada);
+            
+        // Criar o conjunto de setas, mas não adicionar
+        // diretamente à camada do trajeto.
+
+        const decorador = L.polylineDecorator(linhaTrajeto, {
+            patterns: [
+                {
+                    offset: "5%",
+                    repeat: "8%",
+                    symbol: L.Symbol.arrowHead({
+                        pixelSize: 12,
+                        polygon: true,
+                        pathOptions: {
+                            color: cor,
+                            fillColor: cor,
+                            fillOpacity: 1,
+                            weight: 1,
+                            interactive: false
+                        }
+                    })
+                }
+            ]
+        });
+
+        // Armazenar as setas conforme o sentido
+        if (sentido === "ida") {
+            setasIda.push(decorador);
+        } else {
+            setasVolta.push(decorador);
+        }
 
         } else {
             console.warn(
@@ -4369,7 +4407,7 @@ function selecionarSentidoMapa(sentido) {
     });
 
     if (!mapaLinhaLeaflet) {
-        return;
+        return;selecionarSentidoM
     }
 
     // Remover os trajetos atualmente visíveis.
@@ -4424,7 +4462,54 @@ function selecionarSentidoMapa(sentido) {
             });
         }
     }
+    atualizarSetasMapa();
 }
+
+
+/*
+==================================================
+MOSTRAR / OCULTAR SETAS CONFORME O ZOOM
+==================================================
+*/
+
+function atualizarSetasMapa() {
+
+    if (!mapaLinhaLeaflet) {
+        return;
+    }
+
+    const mostrarSetas =
+        mapaLinhaLeaflet.getZoom() >= ZOOM_MINIMO_SETAS;
+
+    // Remover todas as setas atualmente exibidas
+    [...setasIda, ...setasVolta].forEach(decorador => {
+        mapaLinhaLeaflet.removeLayer(decorador);
+    });
+
+    if (!mostrarSetas) {
+        return;
+    }
+
+    // Mostrar setas somente do sentido selecionado
+    if (
+        sentidoSelecionado === "ambos" ||
+        sentidoSelecionado === "ida"
+    ) {
+        setasIda.forEach(decorador => {
+            decorador.addTo(mapaLinhaLeaflet);
+        });
+    }
+
+    if (
+        sentidoSelecionado === "ambos" ||
+        sentidoSelecionado === "volta"
+    ) {
+        setasVolta.forEach(decorador => {
+            decorador.addTo(mapaLinhaLeaflet);
+        });
+    }
+}
+
 
 
 
