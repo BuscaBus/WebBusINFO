@@ -3995,7 +3995,7 @@ CONTROLE DE VISIBILIDADE DAS SETAS
 */
 
 // Nível mínimo de zoom para mostrar as setas
-const ZOOM_MINIMO_SETAS = 17;
+const ZOOM_MINIMO_SETAS = 15;
 
 // Armazenar as camadas de setas
 let setasIda = [];
@@ -4081,10 +4081,6 @@ async function abrirMapaLinha(idLinha) {
 
     camadaIda = null;
     camadaVolta = null;
-
-    selecionarSentidoMapa("ambos");
-            
-    atualizarSetasMapa();
 
     mapaLinhaLeaflet.setView([-15.78, -47.93], 4);
 
@@ -4407,7 +4403,82 @@ function selecionarSentidoMapa(sentido) {
     });
 
     if (!mapaLinhaLeaflet) {
-        return;selecionarSentidoM
+        return;
+    }
+
+    // Remover os trajetos atualmente visíveis.
+    if (camadaIda) {
+        mapaLinhaLeaflet.removeLayer(camadaIda);
+    }
+
+    if (camadaVolta) {
+        mapaLinhaLeaflet.removeLayer(camadaVolta);
+    }
+
+    // Mostrar os trajetos selecionados.
+    if (
+        (sentido === "ambos" || sentido === "ida") &&
+        camadaIda
+    ) {
+        camadaIda.addTo(mapaLinhaLeaflet);
+    }
+
+    if (
+        (sentido === "ambos" || sentido === "volta") &&
+        camadaVolta
+    ) {
+        camadaVolta.addTo(mapaLinhaLeaflet);
+    }
+
+    // Centralizar somente os trajetos visíveis.
+    const camadasVisiveis = L.featureGroup();
+
+    if (
+        (sentido === "ambos" || sentido === "ida") &&
+        camadaIda
+    ) {
+        camadasVisiveis.addLayer(camadaIda);
+    }
+
+    if (
+        (sentido === "ambos" || sentido === "volta") &&
+        camadaVolta
+    ) {
+        camadasVisiveis.addLayer(camadaVolta);
+    }
+
+    /*
+==================================================
+SELECIONAR SENTIDO DO MAPA
+==================================================
+*/
+
+function selecionarSentidoMapa(sentido) {
+
+    if (!["ambos", "ida", "volta"].includes(sentido)) {
+        return;
+    }
+
+    sentidoSelecionado = sentido;
+
+    // Atualizar aparência dos botões.
+    document.querySelectorAll(
+        "#modalMapa .btn-sentido"
+    ).forEach(botao => {
+
+        const ativo =
+            botao.dataset.sentido === sentido;
+
+        botao.classList.toggle("ativo", ativo);
+
+        botao.setAttribute(
+            "aria-pressed",
+            String(ativo)
+        );
+    });
+
+    if (!mapaLinhaLeaflet) {
+        return;
     }
 
     // Remover os trajetos atualmente visíveis.
@@ -4462,13 +4533,15 @@ function selecionarSentidoMapa(sentido) {
             });
         }
     }
+    
     atualizarSetasMapa();
+
 }
 
 
 /*
 ==================================================
-MOSTRAR / OCULTAR SETAS CONFORME O ZOOM
+ATUALIZAR SETAS CONFORME ZOOM E SENTIDO
 ==================================================
 */
 
@@ -4478,37 +4551,61 @@ function atualizarSetasMapa() {
         return;
     }
 
-    const mostrarSetas =
-        mapaLinhaLeaflet.getZoom() >= ZOOM_MINIMO_SETAS;
+    const zoomAtual = mapaLinhaLeaflet.getZoom();
 
-    // Remover todas as setas atualmente exibidas
-    [...setasIda, ...setasVolta].forEach(decorador => {
-        mapaLinhaLeaflet.removeLayer(decorador);
+    const mostrarSetas =
+        zoomAtual >= ZOOM_MINIMO_SETAS;
+
+    const todosDecoradores = [
+        ...setasIda,
+        ...setasVolta
+    ];
+
+    // Ocultar todos os decoradores
+    todosDecoradores.forEach(decorador => {
+
+        if (mapaLinhaLeaflet.hasLayer(decorador)) {
+            mapaLinhaLeaflet.removeLayer(decorador);
+        }
+
     });
 
     if (!mostrarSetas) {
         return;
     }
 
-    // Mostrar setas somente do sentido selecionado
+    // Mostrar setas de ida
     if (
         sentidoSelecionado === "ambos" ||
         sentidoSelecionado === "ida"
     ) {
+
         setasIda.forEach(decorador => {
             decorador.addTo(mapaLinhaLeaflet);
         });
+
     }
 
+    // Mostrar setas de volta
     if (
         sentidoSelecionado === "ambos" ||
         sentidoSelecionado === "volta"
     ) {
+
         setasVolta.forEach(decorador => {
             decorador.addTo(mapaLinhaLeaflet);
         });
+
     }
+
+    console.log(
+        "Zoom:", zoomAtual,
+        "| Sentido:", sentidoSelecionado,
+        "| Setas ida:", setasIda.length,
+        "| Setas volta:", setasVolta.length
+    );
 }
+
 
 
 
