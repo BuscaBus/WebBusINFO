@@ -3995,7 +3995,7 @@ CONTROLE DE VISIBILIDADE DAS SETAS
 */
 
 // Nível mínimo de zoom para mostrar as setas
-const ZOOM_MINIMO_SETAS = 14;
+const ZOOM_MINIMO_SETAS = 17;
 
 // Armazenar as camadas de setas
 let setasIda = [];
