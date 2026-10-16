@@ -3915,7 +3915,6 @@ MAPA DAS LINHAS - LEAFLET + KML
 */
 
 let mapaLinhaLeaflet = null;
-let camadaTrajetos = null;
 
 async function carregarModalMapa() {
 
@@ -3942,13 +3941,33 @@ async function carregarModalMapa() {
     document.getElementById("btnVoltarMapa")
         .addEventListener("click", fecharMapaLinha);
 
+    
     document.getElementById("modalMapa")
         .addEventListener("click", function(event) {
+
             if (event.target === this) {
                 fecharMapaLinha();
             }
+
         });
+
+    // Configurar os botões uma única vez,
+    // depois que o HTML do modal for carregado.
+    configurarControlesSentido();
+
 }
+
+
+/*
+==================================================
+CAMADAS DOS SENTIDOS
+==================================================
+*/
+
+let camadaIda = null;
+let camadaVolta = null;
+
+let sentidoSelecionado = "ambos";
 
 
 /*
@@ -3998,6 +4017,11 @@ async function abrirMapaLinha(idLinha) {
 
     camadaTrajetos.clearLayers();
 
+    camadaIda = null;
+    camadaVolta = null;
+
+    selecionarSentidoMapa("ambos");
+
     mapaLinhaLeaflet.setView([-15.78, -47.93], 4);
 
     setTimeout(() => {
@@ -4030,65 +4054,84 @@ async function abrirMapaLinha(idLinha) {
             );
         }
 
-        const cores = [
-            "#1565c0",
-            "#e60000",
-            "#2e7d32",
-            "#8e24aa"
-        ];
-
         legenda.innerHTML = "";
 
-        trajetos.forEach((trajeto, indice) => {
+       
+    /*
+    ==================================================
+    CRIAR CAMADAS SEPARADAS - IDA E VOLTA
+    ==================================================
+    */
 
-            const cor = cores[indice % cores.length];
+    camadaIda = L.featureGroup();
+    camadaVolta = L.featureGroup();
 
-            L.polyline(trajeto.pontos, {
-                color: cor,
-                weight: 5,
-                opacity: 0.9
-            })
-            .bindPopup(trajeto.nome)
-            .addTo(camadaTrajetos);
+    trajetos.forEach((trajeto, indice) => {
 
-            const item = document.createElement("span");
-            item.className = "legenda-item";
+        const nome = String(trajeto.nome || "").toLowerCase();
 
-            const faixa = document.createElement("span");
-            faixa.className = "legenda-cor";
-            faixa.style.backgroundColor = cor;
+        // Identificar o sentido pelo nome do Placemark.
+        // Se não houver identificação, usar a ordem:
+        // primeiro trajeto = ida; segundo = volta.
 
-            const nome = document.createElement("span");
-            nome.textContent = trajeto.nome;
+        let sentido;
 
-            item.append(faixa, nome);
-            legenda.appendChild(item);
-        });
+        if (/\bida\b/i.test(nome)) {
+            sentido = "ida";
+        } else if (/\bvolta\b/i.test(nome)) {
+            sentido = "volta";
+        } else {
+            sentido = indice === 0 ? "ida" : "volta";
+        }
 
-        mapaLinhaLeaflet.invalidateSize();
+        const cor = sentido === "ida"
+            ? "#1565c0"
+            : "#e65100";
 
-        mapaLinhaLeaflet.fitBounds(
-            camadaTrajetos.getBounds(),
-            {
-                padding: [30, 30],
-                maxZoom: 16
-            }
-        );
+        const camada = sentido === "ida"
+            ? camadaIda
+            : camadaVolta;
 
-        console.log(
-            "Trajetos KML carregados:",
-            trajetos.length
-        );
+        L.polyline(trajeto.pontos, {
+            color: cor,
+            weight: 4,
+            opacity: 0.9
+        })
+        .bindPopup(trajeto.nome)
+        .addTo(camada);
+
+    });
+
+    // Mostrar ambos inicialmente.
+    selecionarSentidoMapa("ambos");
+
+    
+    document.getElementById("legendaMapa").textContent =
+        "Selecione um sentido para visualizar.";
 
     } catch (erro) {
 
-        console.error("Erro ao abrir mapa:", erro);
+        console.error(
+            "Erro ao carregar mapa:",
+            erro
+        );
 
-        legenda.textContent =
-            "Erro ao carregar o trajeto: " + erro.message;
+        if (legenda) {
+            legenda.textContent =
+                "Erro ao carregar trajeto: " + erro.message;
+        }
+
+    } finally {
+
+        if (mapaLinhaLeaflet) {
+            setTimeout(() => {
+                mapaLinhaLeaflet.invalidateSize();
+            }, 100);
+        }
+
     }
-}
 
+}
 
 /*
 ==================================================
@@ -4196,6 +4239,121 @@ function fecharMapaLinha() {
 
     if (modal) {
         modal.classList.remove("ativo");
+    }
+}
+
+
+/*
+==================================================
+CONFIGURAR BOTÕES IDA / VOLTA / AMBOS
+==================================================
+*/
+
+function configurarControlesSentido() {
+
+    const botoes = document.querySelectorAll(
+        "#modalMapa .btn-sentido"
+    );
+
+    botoes.forEach(botao => {
+
+        botao.addEventListener("click", function() {
+
+            selecionarSentidoMapa(
+                this.dataset.sentido
+            );
+
+        });
+
+    });
+}
+
+
+/*
+==================================================
+SELECIONAR SENTIDO DO MAPA
+==================================================
+*/
+
+function selecionarSentidoMapa(sentido) {
+
+    if (!["ambos", "ida", "volta"].includes(sentido)) {
+        return;
+    }
+
+    sentidoSelecionado = sentido;
+
+    // Atualizar aparência dos botões.
+    document.querySelectorAll(
+        "#modalMapa .btn-sentido"
+    ).forEach(botao => {
+
+        const ativo =
+            botao.dataset.sentido === sentido;
+
+        botao.classList.toggle("ativo", ativo);
+
+        botao.setAttribute(
+            "aria-pressed",
+            String(ativo)
+        );
+    });
+
+    if (!mapaLinhaLeaflet) {
+        return;
+    }
+
+    // Remover os trajetos atualmente visíveis.
+    if (camadaIda) {
+        mapaLinhaLeaflet.removeLayer(camadaIda);
+    }
+
+    if (camadaVolta) {
+        mapaLinhaLeaflet.removeLayer(camadaVolta);
+    }
+
+    // Mostrar os trajetos selecionados.
+    if (
+        (sentido === "ambos" || sentido === "ida") &&
+        camadaIda
+    ) {
+        camadaIda.addTo(mapaLinhaLeaflet);
+    }
+
+    if (
+        (sentido === "ambos" || sentido === "volta") &&
+        camadaVolta
+    ) {
+        camadaVolta.addTo(mapaLinhaLeaflet);
+    }
+
+    // Centralizar somente os trajetos visíveis.
+    const camadasVisiveis = L.featureGroup();
+
+    if (
+        (sentido === "ambos" || sentido === "ida") &&
+        camadaIda
+    ) {
+        camadasVisiveis.addLayer(camadaIda);
+    }
+
+    if (
+        (sentido === "ambos" || sentido === "volta") &&
+        camadaVolta
+    ) {
+        camadasVisiveis.addLayer(camadaVolta);
+    }
+
+    if (camadasVisiveis.getLayers().length) {
+
+        const limites = camadasVisiveis.getBounds();
+
+        if (limites.isValid()) {
+            mapaLinhaLeaflet.fitBounds(limites, {
+                padding: [30, 30],
+                maxZoom: 16
+            });
+        }
     }
 }
 

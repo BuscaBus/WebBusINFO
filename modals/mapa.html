@@ -22,19 +22,49 @@
 
         </div>
 
-        <div id="legendaMapa" class="legenda-mapa"></div>
+        
+    <!-- CONTROLES DOS SENTIDOS -->
 
-        <div id="mapaLinha"></div>
+    <div class="legenda-mapa">
 
-        <div class="modal-mapa-rodape">
+        <span class="legenda-titulo">
+            Exibir trajeto:
+        </span>
+
+        <div class="controles-sentido">
+
             <button
                 type="button"
-                id="btnVoltarMapa"
-                class="btn-voltar-mapa"
+                class="btn-sentido ativo"
+                data-sentido="ambos"
             >
-                FECHAR
+                Ambos
             </button>
+
+            <button
+                type="button"
+                class="btn-sentido"
+                data-sentido="ida"
+            >
+                <span class="indicador-ida"></span>
+                Ida
+            </button>
+
+            <button
+                type="button"
+                class="btn-sentido"
+                data-sentido="volta"
+            >
+                <span class="indicador-volta"></span>
+                Volta
+            </button>
+
         </div>
+
+        <span id="legendaMapa" class="legenda-status"></span>
+
+    </div>
+
 
     </div>
 

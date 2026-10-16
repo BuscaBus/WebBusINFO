@@ -134,3 +134,91 @@ BOTÃO MAPA NA TABELA
         font-size: 16px;
     }
 }
+
+
+/*
+==================================================
+CONTROLES DA LEGENDA DO MAPA
+==================================================
+*/
+
+.legenda-mapa {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.legenda-titulo {
+    font-size: 13px;
+    font-weight: bold;
+    color: #444;
+}
+
+.controles-sentido {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-sentido {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f5f5f5;
+    color: #333;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-sentido:hover {
+    background: #e5e7eb;
+}
+
+.btn-sentido.ativo {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #fff;
+    font-weight: bold;
+}
+
+.indicador-ida,
+.indicador-volta {
+    width: 20px;
+    height: 4px;
+    display: inline-block;
+    border-radius: 2px;
+}
+
+.indicador-ida {
+    background: #1565c0;
+}
+
+.indicador-volta {
+    background: #e65100;
+}
+
+.legenda-status {
+    font-size: 12px;
+    color: #666;
+}
+
+@media (max-width: 600px) {
+    .legenda-mapa {
+        padding: 10px;
+        gap: 8px;
+    }
+
+    .btn-sentido {
+        padding: 7px 10px;
+    }
+}
+
