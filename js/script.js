@@ -3908,13 +3908,12 @@ async function enviarKmlLinha(idLinha) {
 }
 
 
+
 /*
 ==================================================
-MAPA DAS LINHAS - LEAFLET + KML
+CARREGAR MODAL DO MAPA
 ==================================================
 */
-
-let mapaLinhaLeaflet = null;
 
 async function carregarModalMapa() {
 
@@ -3923,39 +3922,52 @@ async function carregarModalMapa() {
 
     if (!container) {
         throw new Error(
-            "containerModalMapa não encontrado."
+            "Container do modal mapa não encontrado."
         );
     }
 
     const resposta = await fetch("./modals/mapa.html");
 
     if (!resposta.ok) {
-        throw new Error("Não foi possível carregar o modal mapa.");
+        throw new Error(
+            "Erro ao carregar modals/mapa.html."
+        );
     }
 
     container.innerHTML = await resposta.text();
 
-    document.getElementById("btnFecharMapa")
-        .addEventListener("click", fecharMapaLinha);
+    const modal = document.getElementById("modalMapa");
+    const btnFechar = document.getElementById("btnFecharMapa");
+    const btnVoltar = document.getElementById("btnVoltarMapa");
+    const elementoMapa = document.getElementById("mapaLinha");
 
-    document.getElementById("btnVoltarMapa")
-        .addEventListener("click", fecharMapaLinha);
+    if (!modal || !elementoMapa) {
+        throw new Error(
+            "modalMapa ou mapaLinha não encontrado no HTML."
+        );
+    }
 
-    
-    document.getElementById("modalMapa")
-        .addEventListener("click", function(event) {
+    if (btnFechar) {
+        btnFechar.addEventListener("click", fecharMapaLinha);
+    }
 
-            if (event.target === this) {
-                fecharMapaLinha();
-            }
+    if (btnVoltar) {
+        btnVoltar.addEventListener("click", fecharMapaLinha);
+    }
 
-        });
+    modal.addEventListener("click", function(event) {
 
-    // Configurar os botões uma única vez,
-    // depois que o HTML do modal for carregado.
+        if (event.target === modal) {
+            fecharMapaLinha();
+        }
+
+    });
+
     configurarControlesSentido();
 
+    console.log("Modal mapa carregado com sucesso.");
 }
+
 
 
 /*
@@ -3981,6 +3993,19 @@ async function abrirMapaLinha(idLinha) {
     const modal = document.getElementById("modalMapa");
     const titulo = document.getElementById("tituloMapa");
     const legenda = document.getElementById("legendaMapa");
+
+    if (!document.getElementById("mapaLinha")) {
+
+    console.error(
+        "Elemento mapaLinha não encontrado."
+    );
+
+    alert(
+        "O mapa ainda não está disponível. Atualize a página."
+    );
+
+    return;
+    }
 
     if (!modal || typeof L === "undefined") {
         alert("O mapa ainda não foi carregado.");
