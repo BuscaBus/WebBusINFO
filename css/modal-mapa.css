@@ -1,8 +1,8 @@
 
 /*
-=========================================
+==================================================
 MODAL DO MAPA
-=========================================
+==================================================
 */
 
 .modal-mapa {
@@ -25,12 +25,19 @@ MODAL DO MAPA
     max-width: 1200px;
     height: 90vh;
     max-height: 900px;
-    background: white;
+    background: #fff;
     border-radius: 10px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    min-height: 0;
 }
+
+/*
+==================================================
+CABEÇALHO
+==================================================
+*/
 
 .modal-mapa-cabecalho {
     display: flex;
@@ -39,6 +46,7 @@ MODAL DO MAPA
     gap: 15px;
     padding: 15px 20px;
     border-bottom: 1px solid #ddd;
+    flex-shrink: 0;
 }
 
 .modal-mapa-cabecalho h2 {
@@ -51,94 +59,12 @@ MODAL DO MAPA
     border: none;
     font-size: 30px;
     cursor: pointer;
+    line-height: 1;
 }
-
-#mapaLinha {
-    flex: 1;
-    width: 100%;
-    min-height: 250px;
-    z-index: 1;
-}
-
-.legenda-mapa {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-    padding: 10px 20px;
-    font-size: 13px;
-}
-
-.legenda-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-}
-
-.legenda-cor {
-    display: inline-block;
-    width: 20px;
-    height: 4px;
-}
-
-.modal-mapa-rodape {
-    padding: 12px 20px;
-    border-top: 1px solid #ddd;
-    text-align: right;
-}
-
-.btn-voltar-mapa {
-    background: #555;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-/*
-=========================================
-BOTÃO MAPA NA TABELA
-=========================================
-*/
-
-.btn-mapa {
-    background: #16803c;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 7px 10px;
-    cursor: pointer;
-    margin: 2px;
-}
-
-.btn-mapa:hover {
-    background: #11652f;
-}
-
-.btn-mapa:disabled {
-    background: #aaa;
-    cursor: not-allowed;
-}
-
-@media (max-width: 600px) {
-    .modal-mapa {
-        padding: 5px;
-    }
-
-    .modal-mapa-conteudo {
-        width: 100%;
-        height: 95vh;
-    }
-
-    .modal-mapa-cabecalho h2 {
-        font-size: 16px;
-    }
-}
-
 
 /*
 ==================================================
-CONTROLES DA LEGENDA DO MAPA
+LEGENDA INTERATIVA
 ==================================================
 */
 
@@ -150,6 +76,7 @@ CONTROLES DA LEGENDA DO MAPA
     padding: 10px 20px;
     background: #fff;
     border-bottom: 1px solid #ddd;
+    flex-shrink: 0;
 }
 
 .legenda-titulo {
@@ -190,12 +117,17 @@ CONTROLES DA LEGENDA DO MAPA
     font-weight: bold;
 }
 
+.btn-sentido.ativo:hover {
+    background: #1d4ed8;
+}
+
 .indicador-ida,
 .indicador-volta {
     width: 20px;
     height: 4px;
     display: inline-block;
     border-radius: 2px;
+    flex-shrink: 0;
 }
 
 .indicador-ida {
@@ -211,7 +143,92 @@ CONTROLES DA LEGENDA DO MAPA
     color: #666;
 }
 
+/*
+==================================================
+MAPA LEAFLET
+==================================================
+*/
+
+#mapaLinha {
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 250px;
+    position: relative;
+    z-index: 1;
+}
+
+/*
+==================================================
+RODAPÉ
+==================================================
+*/
+
+.modal-mapa-rodape {
+    padding: 12px 20px;
+    border-top: 1px solid #ddd;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.btn-voltar-mapa {
+    background: #555;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.btn-voltar-mapa:hover {
+    background: #444;
+}
+
+/*
+==================================================
+BOTÃO MAPA NA TABELA
+==================================================
+*/
+
+.btn-mapa {
+    background: #16803c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 7px 10px;
+    cursor: pointer;
+    margin: 2px;
+}
+
+.btn-mapa:hover {
+    background: #11652f;
+}
+
+.btn-mapa:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+/*
+==================================================
+RESPONSIVIDADE
+==================================================
+*/
+
 @media (max-width: 600px) {
+
+    .modal-mapa {
+        padding: 5px;
+    }
+
+    .modal-mapa-conteudo {
+        width: 100%;
+        height: 95vh;
+    }
+
+    .modal-mapa-cabecalho h2 {
+        font-size: 16px;
+    }
+
     .legenda-mapa {
         padding: 10px;
         gap: 8px;
@@ -220,5 +237,8 @@ CONTROLES DA LEGENDA DO MAPA
     .btn-sentido {
         padding: 7px 10px;
     }
-}
 
+    .modal-mapa-rodape {
+        padding: 10px;
+    }
+}

@@ -1,9 +1,15 @@
 
-<!-- MODAL MAPA DA LINHA -->
+<!--
+==================================================
+MODAL MAPA DA LINHA
+==================================================
+-->
 
 <div id="modalMapa" class="modal modal-mapa">
 
     <div class="modal-mapa-conteudo">
+
+        <!-- CABEÇALHO -->
 
         <div class="modal-mapa-cabecalho">
 
@@ -22,49 +28,77 @@
 
         </div>
 
-        
-    <!-- CONTROLES DOS SENTIDOS -->
 
-    <div class="legenda-mapa">
+        <!-- CONTROLES IDA / VOLTA / AMBOS -->
 
-        <span class="legenda-titulo">
-            Exibir trajeto:
-        </span>
+        <div class="legenda-mapa">
 
-        <div class="controles-sentido">
+            <span class="legenda-titulo">
+                Exibir trajeto:
+            </span>
 
-            <button
-                type="button"
-                class="btn-sentido ativo"
-                data-sentido="ambos"
-            >
-                Ambos
-            </button>
+            <div class="controles-sentido">
 
-            <button
-                type="button"
-                class="btn-sentido"
-                data-sentido="ida"
-            >
-                <span class="indicador-ida"></span>
-                Ida
-            </button>
+                <button
+                    type="button"
+                    class="btn-sentido ativo"
+                    data-sentido="ambos"
+                    aria-pressed="true"
+                >
+                    Ambos
+                </button>
 
-            <button
-                type="button"
-                class="btn-sentido"
-                data-sentido="volta"
-            >
-                <span class="indicador-volta"></span>
-                Volta
-            </button>
+                <button
+                    type="button"
+                    class="btn-sentido"
+                    data-sentido="ida"
+                    aria-pressed="false"
+                >
+                    <span class="indicador-ida"></span>
+                    Ida
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-sentido"
+                    data-sentido="volta"
+                    aria-pressed="false"
+                >
+                    <span class="indicador-volta"></span>
+                    Volta
+                </button>
+
+            </div>
+
+            <!-- MENSAGENS DO MAPA -->
+
+            <span
+                id="legendaMapa"
+                class="legenda-status"
+                aria-live="polite"
+            ></span>
 
         </div>
 
-        <span id="legendaMapa" class="legenda-status"></span>
 
-    </div>
+        <!-- MAPA LEAFLET -->
 
+        <div id="mapaLinha"></div>
+
+
+        <!-- RODAPÉ -->
+
+        <div class="modal-mapa-rodape">
+
+            <button
+                type="button"
+                id="btnVoltarMapa"
+                class="btn-voltar-mapa"
+            >
+                FECHAR
+            </button>
+
+        </div>
 
     </div>
 
