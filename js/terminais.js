@@ -18,6 +18,14 @@ VARIÁVEIS
 let todosTerminais = [];
 let idTerminalParaExcluir = null;
 
+// ==========================================
+// PAGINAÇÃO
+// ==========================================
+
+let terminaisFiltrados = [];
+let paginaAtualTerminal = 1;
+
+const itensPorPaginaTerminal = 15;
 
 /*
 ==========================================================
@@ -55,6 +63,16 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     await carregarTerminais();
+
+    document.getElementById("btnAnteriorTerminal")
+    ?.addEventListener("click", function () {
+        mudarPaginaTerminal(-1);
+    });
+
+    document.getElementById("btnProximaTerminal")
+    ?.addEventListener("click", function () {
+        mudarPaginaTerminal(1);
+    });
 
 });
 
@@ -352,31 +370,100 @@ function normalizarTextoTerminal(valor) {
 
 function pesquisarTerminais() {
 
-    const campo = document.getElementById("pesquisaTerminal");
-
-    const termo = normalizarTextoTerminal(
-        campo ? campo.value : ""
+    const termo = normalizarTexto(
+        document.getElementById("pesquisaTerminal")?.value.trim()
     );
 
-    if (!termo) {
-        exibirTerminais(todosTerminais);
+    terminaisFiltrados = todosTerminais.filter(item =>
+        normalizarTexto(item.terminal).includes(termo) ||
+        normalizarTexto(item.box).includes(termo)
+    );
+
+    paginaAtualTerminal = 1;
+
+    atualizarPaginacaoTerminais();
+}
+
+
+/* ==========================================
+   ATUALIZAR PAGINAÇÃO DOS TERMINAIS
+========================================== */
+
+function atualizarPaginacaoTerminais() {
+
+    const totalPaginas = Math.max(
+        1,
+        Math.ceil(
+            terminaisFiltrados.length / itensPorPaginaTerminal
+        )
+    );
+
+    // Evita permanecer em uma página inexistente
+    paginaAtualTerminal = Math.min(
+        Math.max(1, paginaAtualTerminal),
+        totalPaginas
+    );
+
+    const inicio =
+        (paginaAtualTerminal - 1) * itensPorPaginaTerminal;
+
+    const fim = inicio + itensPorPaginaTerminal;
+
+    const registrosPagina = terminaisFiltrados.slice(
+        inicio,
+        fim
+    );
+
+    // Reutiliza a função existente de montar a tabela
+    exibirTerminais(registrosPagina);
+
+    const infoPagina =
+        document.getElementById("infoPaginaTerminal");
+
+    if (infoPagina) {
+        infoPagina.textContent =
+            `Página ${paginaAtualTerminal} de ${totalPaginas}`;
+    }
+
+    const btnAnterior =
+        document.getElementById("btnAnteriorTerminal");
+
+    const btnProxima =
+        document.getElementById("btnProximaTerminal");
+
+    if (btnAnterior) {
+        btnAnterior.disabled = paginaAtualTerminal <= 1;
+    }
+
+    if (btnProxima) {
+        btnProxima.disabled =
+            paginaAtualTerminal >= totalPaginas;
+    }
+}
+
+
+/* ==========================================
+   MUDAR PÁGINA
+========================================== */
+
+function mudarPaginaTerminal(direcao) {
+
+    const totalPaginas = Math.max(
+        1,
+        Math.ceil(
+            terminaisFiltrados.length / itensPorPaginaTerminal
+        )
+    );
+
+    const novaPagina = paginaAtualTerminal + direcao;
+
+    if (novaPagina < 1 || novaPagina > totalPaginas) {
         return;
     }
 
-    const filtrados = todosTerminais.filter(function (item) {
+    paginaAtualTerminal = novaPagina;
 
-        return [
-            item.terminal,
-            item.box
-        ].some(function (valor) {
-
-            return normalizarTextoTerminal(valor).includes(termo);
-
-        });
-
-    });
-
-    exibirTerminais(filtrados);
+    atualizarPaginacaoTerminais();
 }
 
 

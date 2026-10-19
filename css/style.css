@@ -1414,4 +1414,11 @@ AJUSTE DA BORDA DIREITA DA TABELA
     }
 }
 
+/* ==========================================
+   PAGINAÇÃO - TERMINAIS
+========================================== */
 
+#infoPaginaTerminal {
+    font-weight: bold;
+    font-size: 14px;
+}
