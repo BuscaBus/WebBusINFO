@@ -1288,3 +1288,130 @@ AJUSTE DA BORDA DIREITA DA TABELA
     width: 21%;
 }
 
+
+/* ==========================================
+   PÁGINA DE TERMINAIS
+========================================== */
+
+#tabelaTerminais {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+/* Largura das colunas */
+
+#tabelaTerminais th:nth-child(1),
+#tabelaTerminais td:nth-child(1) {
+    width: 45%;
+}
+
+#tabelaTerminais th:nth-child(2),
+#tabelaTerminais td:nth-child(2) {
+    width: 35%;
+}
+
+#tabelaTerminais th:nth-child(3),
+#tabelaTerminais td:nth-child(3) {
+    width: 20%;
+}
+
+/* Conteúdo das células */
+
+#tabelaTerminais th,
+#tabelaTerminais td {
+    padding: 12px;
+    text-align: left;
+    vertical-align: middle;
+    overflow-wrap: anywhere;
+}
+
+/* Botões de ação */
+
+#tabelaTerminais .btn-editar,
+#tabelaTerminais .btn-excluir {
+    padding: 8px 12px;
+    margin: 2px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Pesquisa */
+
+#pesquisaTerminal {
+    width: 300px;
+    max-width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Telas menores */
+
+@media (max-width: 768px) {
+    #pesquisaTerminal {
+        width: 100%;
+    }
+
+    #tabelaTerminais {
+        min-width: 580px;
+    }
+
+    .tabela-container {
+        overflow-x: auto;
+    }
+}
+
+
+/* ==========================================
+   AJUSTES VISUAIS - TERMINAIS
+========================================== */
+
+/* Cabeçalho da tabela */
+#tabelaTerminais th {
+    background: #eeeeee;
+    font-weight: bold;
+}
+
+/* Separação das linhas */
+#tabelaTerminais td {
+    border-bottom: 1px solid #ddd;
+}
+
+/* Destaque ao passar o mouse */
+#tabelaTerminais tbody tr:hover {
+    background: #f7f7f7;
+}
+
+/* Coluna de ações */
+#tabelaTerminais th:nth-child(3),
+#tabelaTerminais td:nth-child(3) {
+    text-align: center;
+}
+
+/* Manter os botões lado a lado */
+#tabelaTerminais td:nth-child(3) {
+    white-space: nowrap;
+}
+
+/* Botões com padrão visual do sistema */
+#tabelaTerminais .btn-editar,
+#tabelaTerminais .btn-excluir {
+    background: #e8e8e8;
+    color: #333;
+}
+
+#tabelaTerminais .btn-editar:hover,
+#tabelaTerminais .btn-excluir:hover {
+    background: #d8d8d8;
+}
+
+/* Barra de navegação em telas menores */
+@media (max-width: 700px) {
+    .acoes-esquerda {
+        flex-wrap: wrap;
+    }
+}
+
+

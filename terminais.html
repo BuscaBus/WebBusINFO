@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cadastro de Terminais</title>
+
+    <!-- CSS PRINCIPAL -->
+    <link
+        rel="stylesheet"
+        href="./css/style.css?v=4"
+    >
+
+    <!-- CSS DO MODAL TERMINAL -->
+    <link
+        rel="stylesheet"
+        href="./css/modal-terminal.css?v=1"
+    >
+
+</head>
+
+<body>
+
+    <!--
+    ==========================================================
+    CABEÇALHO
+    ==========================================================
+    -->
+
+    <header>
+
+        <h1>
+            Cadastro de Terminais
+        </h1>
+
+    </header>
+
+
+    <!--
+    ==========================================================
+    CONTEÚDO
+    ==========================================================
+    -->
+
+    <main>
+
+        <!--
+        ======================================================
+        BARRA DE AÇÕES
+        ======================================================
+        -->
+
+        <div class="barra-acoes">
+
+            <div class="acoes-esquerda">
+
+                <!-- NOVO TERMINAL -->
+                <button
+                    type="button"
+                    id="btnNovoTerminal"
+                    class="btn-novo"
+                >
+                    NOVO TERMINAL
+                </button>
+
+                <!-- EMPRESAS -->
+                <a
+                    href="./empresas.html"
+                    class="btn-tarifas"
+                >
+                    EMPRESAS
+                </a>
+
+                <!-- TARIFAS -->
+                <a
+                    href="./tarifas.html"
+                    class="btn-tarifas"
+                >
+                    TARIFAS
+                </a>
+
+                <!-- LINHAS -->
+                <a
+                    href="./index.html"
+                    class="btn-tarifas"
+                >
+                    LINHAS
+                </a>
+
+            </div>
+
+
+            <!-- PESQUISA -->
+            <input
+                type="text"
+                id="pesquisaTerminal"
+                placeholder="Pesquisar terminais ou boxes..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <!--
+        ======================================================
+        TABELA DE TERMINAIS
+        ======================================================
+        -->
+
+        <div class="tabela-container">
+
+            <table id="tabelaTerminais">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Terminal
+                        </th>
+
+                        <th>
+                            Box
+                        </th>
+
+                        <th>
+                            Ações
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="listaTerminais">
+
+                    <tr>
+
+                        <td colspan="3">
+                            Carregando dados...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!--
+        ======================================================
+        MENSAGENS
+        ======================================================
+        -->
+
+        <div
+            id="mensagem"
+            class="mensagem"
+            role="status"
+            aria-live="polite"
+        ></div>
+
+    </main>
+
+
+    <!--
+    ==========================================================
+    MODAL CADASTRO / EDIÇÃO
+    ==========================================================
+    -->
+
+    <div id="containerModalTerminal"></div>
+
+
+    <!--
+    ==========================================================
+    MODAL EXCLUSÃO
+    ==========================================================
+    -->
+
+    <div id="containerModalExclusao"></div>
+
+
+    <!--
+    ==========================================================
+    JAVASCRIPT
+    ==========================================================
+    -->
+
+    <script src="./js/terminais.js?v=1"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+
+<!-- ==========================================
+     MODAL - CADASTRO / EDIÇÃO DE TERMINAIS
+========================================== -->
+
+<div id="modalTerminal" class="modal">
+
+    <div class="modal-conteudo">
+
+        <!-- CABEÇALHO -->
+        <div class="modal-cabecalho">
+
+            <h2 id="tituloModalTerminal">
+                Novo Terminal
+            </h2>
+
+            <button
+                type="button"
+                id="btnFecharModalTerminal"
+                class="modal-fechar"
+                aria-label="Fechar"
+            >
+                &times;
+            </button>
+
+        </div>
+
+
+        <!-- FORMULÁRIO -->
+        <form id="formTerminal">
+
+            <!-- ID INTERNO -->
+            <input
+                type="hidden"
+                id="id_terminal"
+                name="id_terminal"
+            >
+
+
+            <!-- TERMINAL -->
+            <div class="campo-form">
+
+                <label for="terminal">
+                    Terminal
+                </label>
+
+                <input
+                    type="text"
+                    id="terminal"
+                    name="terminal"
+                    placeholder="Digite o nome do terminal"
+                    maxlength="150"
+                    required
+                >
+
+            </div>
+
+
+            <!-- BOX -->
+            <div class="campo-form">
+
+                <label for="box">
+                    Box
+                </label>
+
+                <input
+                    type="text"
+                    id="box"
+                    name="box"
+                    placeholder="Ex.: TICEN A - Box 1"
+                    maxlength="150"
+                    required
+                >
+
+            </div>
+
+
+            <!-- BOTÕES -->
+            <div class="modal-acoes">
+
+                <button
+                    type="button"
+                    id="btnCancelarTerminal"
+                    class="btn-cancelar"
+                >
+                    CANCELAR
+                </button>
+
+                <button
+                    type="submit"
+                    id="btnSalvarTerminal"
+                    class="btn-salvar"
+                >
+                    SALVAR
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
