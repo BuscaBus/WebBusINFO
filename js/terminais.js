@@ -25,7 +25,7 @@ let idTerminalParaExcluir = null;
 let terminaisFiltrados = [];
 let paginaAtualTerminal = 1;
 
-const itensPorPaginaTerminal = 15;
+const itensPorPaginaTerminal = 10;
 
 /*
 ==========================================================
