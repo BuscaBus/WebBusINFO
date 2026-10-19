@@ -367,22 +367,28 @@ function normalizarTextoTerminal(valor) {
         .trim();
 }
 
-
 function pesquisarTerminais() {
 
-    const termo = normalizarTexto(
-        document.getElementById("pesquisaTerminal")?.value.trim()
+    const campo = document.getElementById("pesquisaTerminal");
+
+    const termo = normalizarTextoTerminal(
+        campo ? campo.value : ""
     );
 
-    terminaisFiltrados = todosTerminais.filter(item =>
-        normalizarTexto(item.terminal).includes(termo) ||
-        normalizarTexto(item.box).includes(termo)
-    );
+    terminaisFiltrados = todosTerminais.filter(function (item) {
+
+        return (
+            normalizarTextoTerminal(item.terminal).includes(termo) ||
+            normalizarTextoTerminal(item.box).includes(termo)
+        );
+
+    });
 
     paginaAtualTerminal = 1;
 
     atualizarPaginacaoTerminais();
 }
+
 
 
 /* ==========================================
