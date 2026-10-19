@@ -194,3 +194,88 @@
         flex: 1;
     }
 }
+
+/* ==========================================
+   MODAL DE EXCLUSÃO - TERMINAIS
+========================================== */
+
+#modalExclusao {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+}
+
+/* Abrir modal */
+#modalExclusao.ativo {
+    display: flex;
+}
+
+/* Caixa de confirmação */
+#modalExclusao .modal-conteudo {
+    width: 100%;
+    max-width: 450px;
+
+    padding: 25px;
+
+    background: #ffffff;
+    border-radius: 8px;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Cabeçalho */
+#modalExclusao .modal-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+#modalExclusao .modal-cabecalho h2 {
+    margin: 0;
+    font-size: 21px;
+}
+
+/* Botão fechar */
+#modalExclusao .modal-fechar {
+    border: none;
+    background: transparent;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+/* Botões */
+#modalExclusao .modal-acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+#modalExclusao .btn-cancelar,
+#modalExclusao .btn-excluir {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#modalExclusao .btn-cancelar {
+    background: #e8e8e8;
+    color: #333;
+}
+
+#modalExclusao .btn-excluir {
+    background: #dc3545;
+    color: #ffffff;
+}
