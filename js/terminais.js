@@ -344,19 +344,29 @@ function exibirTerminais(terminais) {
         const btnConsultar = document.createElement("button");
 
         btnConsultar.type = "button";
-        btnConsultar.className = "btn-consultar";
-        btnConsultar.textContent = "CONSULTAR";
+        btnConsultar.className = "btn-editar";
+        btnConsultar.textContent = "Consultar";
 
         btnConsultar.addEventListener("click", function () {
             consultarLinhasBox(item.terminal, item.box);
         });
 
-        // Adicionar os botões na coluna Ações
+       
+        /* ==========================================
+        BOTÕES DE AÇÕES
+        ========================================== */
+
+        // CONSULTAR
+        tdAcoes.appendChild(btnConsultar);
+        tdAcoes.appendChild(document.createTextNode(" "));
+
+        // EDITAR
         tdAcoes.appendChild(btnEditar);
         tdAcoes.appendChild(document.createTextNode(" "));
 
+        // EXCLUIR
         tdAcoes.appendChild(btnExcluir);
-        tdAcoes.appendChild(document.createTextNode(" "));
+
 
         // ADICIONAR BOTÕES
         tdAcoes.appendChild(btnEditar);
@@ -916,8 +926,7 @@ async function consultarLinhasBox(terminal, box) {
     document.getElementById("tituloConsultaBox").textContent =
         `Linhas do ${terminal} - ${box}`;
 
-    document.getElementById("descricaoConsultaBox").textContent =
-        `Terminal: ${terminal} | Box: ${box}`;
+    document.getElementById("descricaoConsultaBox").style.display = "none";
 
     document.getElementById("totalLinhasBox").textContent = "";
 
