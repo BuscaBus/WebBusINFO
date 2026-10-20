@@ -888,12 +888,15 @@ function mostrarMensagem(texto, erro = false) {
 ========================================== */
 
 function normalizarEmbarque(valor) {
+
     return String(valor ?? "")
-        .trim()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s*-\s*/g, " - ")
         .replace(/\s+/g, " ")
+        .trim()
         .toUpperCase();
+
 }
 
 
@@ -907,9 +910,7 @@ async function consultarLinhasBox(terminal, box) {
         return;
     }
 
-    const embarqueSelecionado = normalizarEmbarque(
-        `${terminal} - ${/^box\b/i.test(String(box).trim()) ? box : "Box " + box}`
-    );
+    const embarqueSelecionado = normalizarEmbarque(box);
 
     document.getElementById("tituloConsultaBox").textContent =
         `Linhas do ${terminal} - ${box}`;
