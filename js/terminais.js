@@ -364,7 +364,7 @@ function exibirTerminais(terminais) {
         tdAcoes.appendChild(btnEditar);
         tdAcoes.appendChild(document.createTextNode(" "));
         tdAcoes.appendChild(btnExcluir);
-        celulaAcoes.appendChild(btnConsultar);
+        tdAcoes.appendChild(btnConsultar);
 
         tr.appendChild(tdTerminal);
         tr.appendChild(tdBox);
