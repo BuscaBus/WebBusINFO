@@ -358,12 +358,13 @@ function exibirTerminais(terminais) {
         tdAcoes.appendChild(btnExcluir);
         tdAcoes.appendChild(document.createTextNode(" "));
 
-        tdAcoes.appendChild(btnConsultar);
-
-
+        // ADICIONAR BOTÕES
         tdAcoes.appendChild(btnEditar);
         tdAcoes.appendChild(document.createTextNode(" "));
+
         tdAcoes.appendChild(btnExcluir);
+        tdAcoes.appendChild(document.createTextNode(" "));
+
         tdAcoes.appendChild(btnConsultar);
 
         tr.appendChild(tdTerminal);
@@ -953,6 +954,33 @@ async function consultarLinhasBox(terminal, box) {
         if (!Array.isArray(linhas)) {
             throw new Error("Resposta inválida da API.");
         }
+
+
+        console.log("BOX SELECIONADO:", embarqueSelecionado);
+
+        console.log("TOTAL DE LINHAS RECEBIDAS:", linhas.length);
+
+        console.log("CAMPOS DA PRIMEIRA LINHA:",
+            Object.keys(linhas[0] || {})
+        );
+
+        console.table(
+            linhas
+                .filter(linha =>
+                    normalizarEmbarque(linha.embarque_ida)
+                        .includes("TICEN A") ||
+                    normalizarEmbarque(linha.embarque_volta)
+                        .includes("TICEN A")
+                )
+                .slice(0, 20)
+                .map(linha => ({
+                    codigo: linha.cod,
+                    linha: linha.linha,
+                    embarque_ida: linha.embarque_ida,
+                    embarque_volta: linha.embarque_volta
+                }))
+        );
+
 
         const encontradas = [];
 
