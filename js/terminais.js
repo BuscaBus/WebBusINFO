@@ -64,6 +64,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     await carregarTerminais();
 
+    configurarEventosConsultaBox();
+
     document.getElementById("btnAnteriorTerminal")
     ?.addEventListener("click", function () {
         mudarPaginaTerminal(-1);
@@ -338,9 +340,31 @@ function exibirTerminais(terminais) {
             excluirTerminal(item.id_terminal);
         });
 
+        
+        const btnConsultar = document.createElement("button");
+
+        btnConsultar.type = "button";
+        btnConsultar.className = "btn-consultar";
+        btnConsultar.textContent = "CONSULTAR";
+
+        btnConsultar.addEventListener("click", function () {
+            consultarLinhasBox(item.terminal, item.box);
+        });
+
+        // Adicionar os botões na coluna Ações
+        tdAcoes.appendChild(btnEditar);
+        tdAcoes.appendChild(document.createTextNode(" "));
+
+        tdAcoes.appendChild(btnExcluir);
+        tdAcoes.appendChild(document.createTextNode(" "));
+
+        tdAcoes.appendChild(btnConsultar);
+
+
         tdAcoes.appendChild(btnEditar);
         tdAcoes.appendChild(document.createTextNode(" "));
         tdAcoes.appendChild(btnExcluir);
+        celulaAcoes.appendChild(btnConsultar);
 
         tr.appendChild(tdTerminal);
         tr.appendChild(tdBox);
@@ -858,3 +882,212 @@ function mostrarMensagem(texto, erro = false) {
 
     }, 5000);
 }
+
+/* ==========================================
+   CONSULTAR LINHAS DO BOX
+========================================== */
+
+function normalizarEmbarque(valor) {
+    return String(valor ?? "")
+        .trim()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, " ")
+        .toUpperCase();
+}
+
+
+async function consultarLinhasBox(terminal, box) {
+
+    const modal = document.getElementById("modalConsultaBox");
+    const tbody = document.getElementById("listaLinhasBox");
+
+    if (!modal || !tbody) {
+        mostrarMensagem("Modal de consulta não encontrado.", true);
+        return;
+    }
+
+    const embarqueSelecionado = normalizarEmbarque(
+        `${terminal} - ${/^box\b/i.test(String(box).trim()) ? box : "Box " + box}`
+    );
+
+    document.getElementById("tituloConsultaBox").textContent =
+        `Linhas do ${terminal} - ${box}`;
+
+    document.getElementById("descricaoConsultaBox").textContent =
+        `Terminal: ${terminal} | Box: ${box}`;
+
+    document.getElementById("totalLinhasBox").textContent = "";
+
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="4">Carregando linhas...</td>
+        </tr>
+    `;
+
+    modal.classList.add("ativo");
+
+    try {
+
+        const resposta = await fetch(
+            `${API_URL}?acao=listar`
+        );
+
+        if (!resposta.ok) {
+            throw new Error("Erro ao consultar linhas.");
+        }
+
+        const resultado = await resposta.json();
+
+        if (resultado.sucesso === false) {
+            throw new Error(
+                resultado.mensagem || "Erro ao carregar linhas."
+            );
+        }
+
+        const linhas = Array.isArray(resultado)
+            ? resultado
+            : resultado.dados;
+
+        if (!Array.isArray(linhas)) {
+            throw new Error("Resposta inválida da API.");
+        }
+
+        const encontradas = [];
+
+        linhas.forEach(function (linha) {
+
+            const ida = normalizarEmbarque(linha.embarque_ida);
+            const volta = normalizarEmbarque(linha.embarque_volta);
+
+            const correspondeIda = ida === embarqueSelecionado;
+            const correspondeVolta = volta === embarqueSelecionado;
+
+            if (!correspondeIda && !correspondeVolta) {
+                return;
+            }
+
+            let sentido = "";
+
+            if (correspondeIda && correspondeVolta) {
+                sentido = "IDA / VOLTA";
+            } else if (correspondeIda) {
+                sentido = "IDA";
+            } else {
+                sentido = "VOLTA";
+            }
+
+            encontradas.push({
+                ...linha,
+                sentido: sentido
+            });
+
+        });
+
+        encontradas.sort((a, b) =>
+            String(a.cod ?? "").localeCompare(
+                String(b.cod ?? ""),
+                "pt-BR",
+                { numeric: true }
+            )
+        );
+
+        tbody.innerHTML = "";
+
+        if (encontradas.length === 0) {
+
+            const tr = tbody.insertRow();
+            const td = tr.insertCell();
+
+            td.colSpan = 4;
+            td.textContent =
+                "Nenhuma linha encontrada para este box.";
+
+        } else {
+
+            encontradas.forEach(function (linha) {
+
+                const tr = tbody.insertRow();
+
+                [
+                    linha.cod,
+                    linha.linha,
+                    linha.empresa,
+                    linha.sentido
+                ].forEach(function (valor) {
+
+                    const td = tr.insertCell();
+                    td.textContent = valor ?? "";
+
+                });
+
+            });
+
+        }
+
+        document.getElementById("totalLinhasBox").textContent =
+            `Total: ${encontradas.length} linha(s)`;
+
+    } catch (erro) {
+
+        console.error("Erro na consulta:", erro);
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="4">
+                    Erro ao carregar as linhas.
+                </td>
+            </tr>
+        `;
+
+        mostrarMensagem(erro.message, true);
+    }
+}
+
+
+/* ==========================================
+   FECHAR MODAL CONSULTA BOX
+========================================== */
+
+function fecharConsultaBox() {
+
+    const modal = document.getElementById("modalConsultaBox");
+
+    if (modal) {
+        modal.classList.remove("ativo");
+    }
+}
+
+/* ==========================================
+   CONFIGURAR EVENTOS DO MODAL
+========================================== */
+
+function configurarEventosConsultaBox() {
+
+    const modal = document.getElementById("modalConsultaBox");
+
+    const btnFechar =
+        document.getElementById("btnFecharConsultaBox");
+
+    const btnRodape =
+        document.getElementById("btnFecharConsultaRodape");
+
+    btnFechar?.addEventListener(
+        "click",
+        fecharConsultaBox
+    );
+
+    btnRodape?.addEventListener(
+        "click",
+        fecharConsultaBox
+    );
+
+    modal?.addEventListener("click", function (event) {
+
+        if (event.target === modal) {
+            fecharConsultaBox();
+        }
+
+    });
+}
+

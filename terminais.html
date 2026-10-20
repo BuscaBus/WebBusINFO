@@ -25,6 +25,11 @@
         href="./css/modal-terminal.css?v=2"
     >
 
+    <link
+        rel="stylesheet"
+        href="./css/modal-consulta-box.css?v=1"
+    >
+
 </head>
 
 <body>
@@ -208,13 +213,77 @@
     <div id="containerModalExclusao"></div>
 
 
+    <!-- MODAL CONSULTAR LINHAS DO BOX -->
+    <div id="modalConsultaBox" class="modal-consulta-box">
+
+        <div class="modal-consulta-conteudo">
+
+            <div class="modal-consulta-cabecalho">
+                <h2 id="tituloConsultaBox">
+                    Linhas do Box
+                </h2>
+
+                <button
+                    type="button"
+                    id="btnFecharConsultaBox"
+                    class="btn-fechar-consulta"
+                >
+                    &times;
+                </button>
+            </div>
+
+            <div class="modal-consulta-corpo">
+
+                <p id="descricaoConsultaBox"></p>
+
+                <div class="tabela-container">
+                    <table class="tabela-consulta-linhas">
+
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Linha</th>
+                                <th>Empresa</th>
+                                <th>Sentido</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="listaLinhasBox">
+                            <tr>
+                                <td colspan="4">
+                                    Carregando linhas...
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+                <p id="totalLinhasBox"></p>
+
+            </div>
+
+            <div class="modal-consulta-rodape">
+                <button
+                    type="button"
+                    id="btnFecharConsultaRodape"
+                >
+                    FECHAR
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+
     <!--
     ==========================================================
     JAVASCRIPT
     ==========================================================
     -->
 
-    <script src="./js/terminais.js?v=4"></script>
+    <script src="./js/terminais.js?v=5"></script>
 
 </body>
 
