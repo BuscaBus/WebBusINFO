@@ -352,6 +352,7 @@ function exibirTerminais(terminais) {
         });
 
        
+        
         /* ==========================================
         BOTÕES DE AÇÕES
         ========================================== */
@@ -367,24 +368,16 @@ function exibirTerminais(terminais) {
         // EXCLUIR
         tdAcoes.appendChild(btnExcluir);
 
-
-        // ADICIONAR BOTÕES
-        tdAcoes.appendChild(btnEditar);
-        tdAcoes.appendChild(document.createTextNode(" "));
-
-        tdAcoes.appendChild(btnExcluir);
-        tdAcoes.appendChild(document.createTextNode(" "));
-
-        tdAcoes.appendChild(btnConsultar);
-
+        // ADICIONAR COLUNAS NA TABELA
         tr.appendChild(tdTerminal);
         tr.appendChild(tdBox);
         tr.appendChild(tdAcoes);
 
         tbody.appendChild(tr);
 
-    });
-}
+
+            });
+        }
 
 
 /*
@@ -928,8 +921,6 @@ async function consultarLinhasBox(terminal, box) {
 
     document.getElementById("descricaoConsultaBox").style.display = "none";
 
-    document.getElementById("totalLinhasBox").textContent = "";
-
     tbody.innerHTML = `
         <tr>
             <td colspan="4">Carregando linhas...</td>
@@ -1063,9 +1054,7 @@ async function consultarLinhasBox(terminal, box) {
 
         }
 
-        document.getElementById("totalLinhasBox").textContent =
-            `Total: ${encontradas.length} linha(s)`;
-
+       
     } catch (erro) {
 
         console.error("Erro na consulta:", erro);
