@@ -4632,21 +4632,6 @@ INICIAR EDIÇÃO
 
 function iniciarEdicaoTracado() {
 
-    console.log(
-    "Total de polilinhas:",
-    linhas.length
-    );
-
-    linhas.forEach((linha, indice) => {
-
-        console.log(
-            `Trajeto ${indice + 1}`,
-            "Pontos:", linha.getLatLngs().length,
-            "Editável:", linha.pm?.enabled()
-        );
-
-    });
-
     if (editandoTracado) return;
 
     if (sentidoSelecionado === "ambos") {
@@ -4682,6 +4667,16 @@ function iniciarEdicaoTracado() {
         return;
     }
 
+    console.log("Total de polilinhas:", linhas.length);
+
+    linhas.forEach((linha, indice) => {
+        console.log(
+            `Trajeto ${indice + 1}`,
+            "Pontos:", linha.getLatLngs().length,
+            "Editor disponível:", !!linha.pm
+        );
+    });
+
     polilinhasEmEdicao = linhas;
 
     pontosOriginais = linhas.map(linha =>
@@ -4706,9 +4701,8 @@ function iniciarEdicaoTracado() {
         }
 
         linha.pm.enable({
-            allowSelfIntersection: false,
-            snappable: true,
-            snapDistance: 15
+            allowSelfIntersection: true,
+            snappable: false
         });
 
     });
