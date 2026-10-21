@@ -4632,6 +4632,21 @@ INICIAR EDIÇÃO
 
 function iniciarEdicaoTracado() {
 
+    console.log(
+    "Total de polilinhas:",
+    linhas.length
+    );
+
+    linhas.forEach((linha, indice) => {
+
+        console.log(
+            `Trajeto ${indice + 1}`,
+            "Pontos:", linha.getLatLngs().length,
+            "Editável:", linha.pm?.enabled()
+        );
+
+    });
+
     if (editandoTracado) return;
 
     if (sentidoSelecionado === "ambos") {
@@ -4643,8 +4658,17 @@ function iniciarEdicaoTracado() {
         ? camadaIda
         : camadaVolta;
 
-    if (!camada || !camada.getLayers().some(linha => linha.pm?.enable)) {
-        alert("Traçado ou editor não disponível.");
+    if (!camada) {
+        alert("Traçado não encontrado.");
+        return;
+    }
+
+    if (
+        !mapaLinhaLeaflet ||
+        typeof L === "undefined" ||
+        !L.PM
+    ) {
+        alert("O editor de trajetos não está disponível.");
         return;
     }
 
@@ -4675,9 +4699,18 @@ function iniciarEdicaoTracado() {
     });
 
     linhas.forEach(linha => {
+
+    if (!linha.pm || typeof linha.pm.enable !== "function") {
+            console.error("Polilinha sem suporte à edição:", linha);
+            return;
+        }
+
         linha.pm.enable({
-            allowSelfIntersection: false
+            allowSelfIntersection: false,
+            snappable: true,
+            snapDistance: 15
         });
+
     });
 
     atualizarBotoesEdicao();
