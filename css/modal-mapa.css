@@ -316,3 +316,61 @@ RESPONSIVIDADE
     opacity: 0.6;
     cursor: not-allowed;
 }
+
+/* ==========================================
+   PADRONIZAR BOTÕES DO RODAPÉ DO MAPA
+========================================== */
+
+#modalMapa #btnEditarTracado,
+#modalMapa #btnSalvarTracado,
+#modalMapa #btnCancelarEdicao,
+#modalMapa #btnVoltarMapa {
+    padding: 10px 20px;
+    min-height: 38px;
+
+    border: none;
+    border-radius: 6px;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+
+    line-height: 18px;
+    white-space: nowrap;
+
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* EDITAR - LARANJA */
+#modalMapa #btnEditarTracado {
+    background-color: #f0ad4e;
+    color: white;
+}
+
+/* SALVAR - VERDE */
+#modalMapa #btnSalvarTracado {
+    background-color: #198754;
+    color: white;
+}
+
+/* CANCELAR - VERMELHO */
+#modalMapa #btnCancelarEdicao {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* FECHAR - CINZA */
+#modalMapa #btnVoltarMapa {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* ALINHAMENTO */
+#modalMapa .modal-rodape {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
