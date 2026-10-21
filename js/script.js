@@ -3965,6 +3965,15 @@ async function carregarModalMapa() {
 
     configurarControlesSentido();
 
+    document.getElementById("btnEditarTracado")
+    .addEventListener("click", iniciarEdicaoTracado);
+
+    document.getElementById("btnSalvarTracado")
+    ?.addEventListener("click", salvarEdicaoTracado);
+
+    document.getElementById("btnCancelarEdicao")
+    .addEventListener("click", cancelarEdicaoTracado);
+
     console.log("Modal mapa carregado com sucesso.");
 }
 
@@ -3983,6 +3992,13 @@ let mapaLinhaLeaflet = null;
 // Camadas independentes
 let camadaIda = null;
 let camadaVolta = null;
+
+let editandoTracado = false;
+let pontosOriginais = [];
+let polilinhasEmEdicao = [];
+let idLinhaMapaAtual = null;
+let kmlOriginalMapa = "";
+let nomeArquivoKmlMapa = "";
 
 // Sentido selecionado
 let sentidoSelecionado = "ambos";
@@ -4009,6 +4025,19 @@ ABRIR MAPA DA LINHA
 */
 
 async function abrirMapaLinha(idLinha) {
+
+    // IMPEDIR ABERTURA DE OUTRA LINHA DURANTE A EDIÇÃO
+    if (editandoTracado) {
+        alert("Salve ou cancele a edição antes de abrir outra linha.");
+        return;
+    }
+
+    // Identificar a linha que está sendo visualizada
+    idLinhaMapaAtual = idLinha;
+
+    // Limpar informações do KML anterior
+    kmlOriginalMapa = "";
+    nomeArquivoKmlMapa = "";
 
     const modal = document.getElementById("modalMapa");
     const titulo = document.getElementById("tituloMapa");
@@ -4106,7 +4135,33 @@ async function abrirMapaLinha(idLinha) {
             );
         }
 
-        const trajetos = extrairTrajetosKml(resultado.kml);
+        // Validar o conteúdo retornado
+        if (
+            typeof resultado.kml !== "string" ||
+            !resultado.kml.trim()
+        ) {
+            throw new Error(
+                "A API não retornou um arquivo KML válido."
+            );
+        }
+
+        // Armazenar o KML original para edição
+        kmlOriginalMapa = resultado.kml;
+
+        // Preservar o nome do arquivo, quando disponível
+        nomeArquivoKmlMapa =
+            resultado.nome_arquivo || "trajeto.kml";
+
+        // Extrair os trajetos de ida e volta
+        const trajetos = extrairTrajetosKml(kmlOriginalMapa);
+
+        if (!trajetos.length) {
+            throw new Error(
+                "O KML não contém trajetos LineString válidos."
+            );
+        }
+
+        legenda.innerHTML = "";
 
         if (!trajetos.length) {
             throw new Error(
@@ -4161,6 +4216,9 @@ async function abrirMapaLinha(idLinha) {
         })
         .bindPopup(trajeto.nome)
         .addTo(camada);
+
+        // Vincular a polilinha ao LineString original do KML
+        linhaTrajeto.indiceKml = indice;
 
         // Adicionar setas ao longo do trajeto
         if (typeof L.polylineDecorator === "function") {
@@ -4343,6 +4401,10 @@ function fecharMapaLinha() {
     if (modal) {
         modal.classList.remove("ativo");
     }
+
+    if (editandoTracado) {
+        cancelarEdicaoTracado();
+    }
 }
 
 
@@ -4379,6 +4441,11 @@ SELECIONAR SENTIDO DO MAPA
 */
 
 function selecionarSentidoMapa(sentido) {
+
+    if (editandoTracado) {
+        alert("Conclua ou cancele a edição antes de mudar o sentido.");
+        return;
+    }
 
     if (!["ambos", "ida", "volta"].includes(sentido)) {
         return;
@@ -4495,6 +4562,10 @@ function atualizarSetasMapa() {
 
     });
 
+    if (editandoTracado) {
+        return;
+    }
+
     if (!mostrarSetas) {
         return;
     }
@@ -4531,7 +4602,314 @@ function atualizarSetasMapa() {
     );
 }
 
+/*
+==================================================
+CONTROLES DE EDIÇÃO DO TRAÇADO
+==================================================
+*/
 
+function atualizarBotoesEdicao() {
+
+    document.getElementById("btnEditarTracado")
+        .style.display = editandoTracado
+            ? "none" : "inline-block";
+
+    document.getElementById("btnSalvarTracado")
+        .style.display = editandoTracado
+            ? "inline-block" : "none";
+
+    document.getElementById("btnCancelarEdicao")
+        .style.display = editandoTracado
+            ? "inline-block" : "none";
+}
+
+
+/*
+==================================================
+INICIAR EDIÇÃO
+==================================================
+*/
+
+function iniciarEdicaoTracado() {
+
+    if (editandoTracado) return;
+
+    if (sentidoSelecionado === "ambos") {
+        alert("Selecione Ida ou Volta para editar.");
+        return;
+    }
+
+    const camada = sentidoSelecionado === "ida"
+        ? camadaIda
+        : camadaVolta;
+
+    if (!camada || !camada.getLayers().some(linha => linha.pm?.enable)) {
+        alert("Traçado ou editor não disponível.");
+        return;
+    }
+
+    const linhas = camada.getLayers().filter(
+        item => item instanceof L.Polyline &&
+                !(item instanceof L.Polygon)
+    );
+
+    if (!linhas.length) {
+        alert("Nenhum traçado encontrado.");
+        return;
+    }
+
+    polilinhasEmEdicao = linhas;
+
+    pontosOriginais = linhas.map(linha =>
+        linha.getLatLngs().map(ponto => [
+            ponto.lat,
+            ponto.lng
+        ])
+    );
+
+    editandoTracado = true;
+
+    // Ocultar setas durante a edição.
+    [...setasIda, ...setasVolta].forEach(seta => {
+        mapaLinhaLeaflet.removeLayer(seta);
+    });
+
+    linhas.forEach(linha => {
+        linha.pm.enable({
+            allowSelfIntersection: false
+        });
+    });
+
+    atualizarBotoesEdicao();
+
+    document.getElementById("legendaMapa")
+        .textContent = "Arraste os pontos para editar o trajeto.";
+}
+
+
+/*
+==================================================
+CANCELAR EDIÇÃO
+==================================================
+*/
+
+function cancelarEdicaoTracado() {
+
+    if (!editandoTracado) return;
+
+    polilinhasEmEdicao.forEach((linha, indice) => {
+
+        linha.pm.disable();
+
+        linha.setLatLngs(pontosOriginais[indice]);
+
+    });
+
+    finalizarEdicaoTracado();
+}
+
+
+/*
+==================================================
+FINALIZAR EDIÇÃO VISUAL
+==================================================
+*/
+
+function finalizarEdicaoTracado() {
+
+    polilinhasEmEdicao.forEach(linha => {
+        linha.pm.disable();
+    });
+
+    editandoTracado = false;
+    pontosOriginais = [];
+    polilinhasEmEdicao = [];
+
+    atualizarBotoesEdicao();
+    atualizarSetasMapa();
+}
+
+/*
+==================================================
+SALVAR EDIÇÃO DO TRAÇADO NO KML
+==================================================
+*/
+
+async function salvarEdicaoTracado() {
+
+    if (!editandoTracado || !idLinhaMapaAtual) {
+        alert("Nenhum trajeto está em edição.");
+        return;
+    }
+
+    const botao = document.getElementById("btnSalvarTracado");
+
+    if (!kmlOriginalMapa) {
+        alert("O KML original não está disponível.");
+        return;
+    }
+
+    if (!confirm("Deseja salvar as alterações do trajeto?")) {
+        return;
+    }
+
+    if (botao) {
+        botao.disabled = true;
+        botao.textContent = "SALVANDO...";
+    }
+
+    try {
+
+        const documento = new DOMParser().parseFromString(
+            kmlOriginalMapa,
+            "application/xml"
+        );
+
+        if (documento.getElementsByTagName("parsererror").length) {
+            throw new Error("O KML original contém XML inválido.");
+        }
+
+        const placemarks = Array.from(
+            documento.getElementsByTagName("*")
+        ).filter(elemento => elemento.localName === "Placemark");
+
+        const elementosCoordenadas = [];
+
+        placemarks.forEach(placemark => {
+
+            const linhas = Array.from(
+                placemark.getElementsByTagName("*")
+            ).filter(elemento => elemento.localName === "LineString");
+
+            linhas.forEach(linha => {
+
+                const coordenadas = Array.from(
+                    linha.getElementsByTagName("*")
+                ).find(elemento => elemento.localName === "coordinates");
+
+                if (coordenadas) {
+
+                    const pontosValidos = coordenadas.textContent
+                        .trim()
+                        .split(/\s+/)
+                        .filter(par => {
+                            const valores = par.split(",");
+                            const longitude = Number(valores[0]);
+                            const latitude = Number(valores[1]);
+
+                            return (
+                                Number.isFinite(latitude) &&
+                                Number.isFinite(longitude) &&
+                                Math.abs(latitude) <= 90 &&
+                                Math.abs(longitude) <= 180
+                            );
+                        });
+
+                    if (pontosValidos.length >= 2) {
+                        elementosCoordenadas.push(coordenadas);
+                    }
+                }
+            });
+        });
+
+        polilinhasEmEdicao.forEach(linha => {
+
+            const indice = linha.indiceKml;
+            const coordenadas = elementosCoordenadas[indice];
+
+            if (!coordenadas) {
+                throw new Error(
+                    "Não foi possível identificar o traçado no KML."
+                );
+            }
+
+            const pontos = linha.getLatLngs();
+
+            if (pontos.length < 2) {
+                throw new Error(
+                    "O trajeto precisa ter pelo menos dois pontos."
+                );
+            }
+
+            coordenadas.textContent = pontos.map(ponto => {
+
+                if (
+                    !Number.isFinite(ponto.lat) ||
+                    !Number.isFinite(ponto.lng)
+                ) {
+                    throw new Error("Coordenadas inválidas.");
+                }
+
+                return `${ponto.lng},${ponto.lat},0`;
+
+            }).join(" ");
+
+        });
+
+        const kmlAtualizado = new XMLSerializer()
+            .serializeToString(documento);
+
+        const bytes = new TextEncoder().encode(kmlAtualizado);
+
+        let binario = "";
+
+        for (let i = 0; i < bytes.length; i += 8192) {
+            binario += String.fromCharCode(
+                ...bytes.subarray(i, i + 8192)
+            );
+        }
+
+        const arquivoBase64 = btoa(binario);
+
+        const resposta = await fetch(API_URL, {
+            method: "POST",
+            body: JSON.stringify({
+                acao: "salvar_kml",
+                id_linha: idLinhaMapaAtual,
+                nome_arquivo: nomeArquivoKmlMapa,
+                arquivo_base64: arquivoBase64
+            })
+        });
+
+        if (!resposta.ok) {
+            throw new Error("Erro HTTP: " + resposta.status);
+        }
+
+        const resultado = await resposta.json();
+
+        if (!resultado.sucesso) {
+            throw new Error(
+                resultado.mensagem || "Erro ao salvar o KML."
+            );
+        }
+
+        kmlOriginalMapa = kmlAtualizado;
+
+        finalizarEdicaoTracado();
+
+        document.getElementById("legendaMapa").textContent =
+            "Trajeto atualizado com sucesso.";
+
+        alert("Alterações do trajeto salvas com sucesso!");
+
+    } catch (erro) {
+
+        console.error("Erro ao salvar edição do traçado:", erro);
+
+        alert(
+            "Não foi possível salvar as alterações.\n\n" +
+            erro.message
+        );
+
+    } finally {
+
+        if (botao) {
+            botao.disabled = false;
+            botao.textContent = "SALVAR ALTERAÇÕES";
+        }
+
+    }
+}
 
 
 
