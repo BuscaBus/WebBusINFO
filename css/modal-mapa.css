@@ -373,4 +373,16 @@ RESPONSIVIDADE
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
+
+    /* Espaçamento entre mapa e botões */
+    padding-top: 15px;
+
+    /* Espaçamento entre botões e final do modal */
+    padding-bottom: 15px;
+
+    /* Espaçamento nas laterais */
+    padding-left: 20px;
+    padding-right: 20px;
+
+    box-sizing: border-box;
 }
