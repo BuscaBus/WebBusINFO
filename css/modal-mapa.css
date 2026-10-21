@@ -242,3 +242,77 @@ RESPONSIVIDADE
         padding: 10px;
     }
 }
+
+/* ==========================================
+   PADRONIZAÇÃO DOS BOTÕES DO MAPA
+========================================== */
+
+#modalMapa .modal-rodape {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Formatação compartilhada */
+#modalMapa .modal-rodape button {
+    padding: 10px 16px;
+    min-height: 38px;
+
+    border: none;
+    border-radius: 6px;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+/* EDITAR TRAÇADO */
+#modalMapa .btn-editar-tracado {
+    background: #f0ad4e;
+    color: #fff;
+}
+
+#modalMapa .btn-editar-tracado:hover {
+    background: #ec971f;
+}
+
+/* SALVAR ALTERAÇÕES */
+#modalMapa .btn-salvar-tracado {
+    background: #198754;
+    color: #fff;
+}
+
+#modalMapa .btn-salvar-tracado:hover {
+    background: #157347;
+}
+
+/* CANCELAR EDIÇÃO */
+#modalMapa .btn-cancelar-edicao {
+    background: #dc3545;
+    color: #fff;
+}
+
+#modalMapa .btn-cancelar-edicao:hover {
+    background: #bb2d3b;
+}
+
+/* FECHAR */
+#modalMapa .btn-voltar-mapa {
+    background: #6c757d;
+    color: #fff;
+}
+
+#modalMapa .btn-voltar-mapa:hover {
+    background: #5c636a;
+}
+
+/* Botões desabilitados */
+#modalMapa .modal-rodape button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
