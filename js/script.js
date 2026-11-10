@@ -27,6 +27,19 @@ let filtrosAtivos = {};
 
 
 /*
+==================================================
+EMPRESA FIXA RECEBIDA PELA URL
+==================================================
+*/
+
+const parametrosURL =
+    new URLSearchParams(window.location.search);
+
+const empresaFixa =
+    parametrosURL.get("empresa") || "";
+
+
+/*
 ==========================================================
 INICIALIZAÇÃO
 ==========================================================
@@ -2052,9 +2065,26 @@ function aplicarFiltroAtual() {
         checkboxes.length
     ) {
 
-        delete filtrosAtivos[
-            colunaFiltroAtual
-        ];
+       /*
+            ------------------------------------------
+            PROTEGER EMPRESA FIXA
+            ------------------------------------------
+            */
+
+            if (
+                colunaFiltroAtual === "empresa" &&
+                empresaFixa
+            ) {
+
+                filtrosAtivos.empresa = [empresaFixa];
+
+            } else {
+
+                delete filtrosAtivos[
+                    colunaFiltroAtual
+                ];
+
+            }
 
     } else {
 
@@ -2063,12 +2093,22 @@ function aplicarFiltroAtual() {
         ] = selecionados;
     }
 
-    paginaAtual = 1;
+    /*
+        ------------------------------------------
+        GARANTIR EMPRESA FIXA
+        ------------------------------------------
+        */
 
-    fecharFiltro();
+        if (empresaFixa) {
+            filtrosAtivos.empresa = [empresaFixa];
+        }
 
-    aplicarTodosFiltros();
-}
+            paginaAtual = 1;
+
+            fecharFiltro();
+
+            aplicarTodosFiltros();
+        }
 
 
 /*
@@ -2142,6 +2182,21 @@ function aplicarTodosFiltros() {
     const resultado =
         todasLinhas.filter(
             function (item) {
+
+
+                /*
+                ------------------------------------------
+                MANTER EMPRESA SELECIONADA FIXA
+                ------------------------------------------
+                */
+
+                if (
+                    empresaFixa &&
+                    normalizarTexto(item.empresa) !==
+                    normalizarTexto(empresaFixa)
+                ) {
+                    return false;
+                }
 
                 /*
                 ------------------------------------------
