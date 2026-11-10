@@ -1129,44 +1129,27 @@ async function salvarLinha(event) {
 
 
         /*
-        --------------------------------------------------
-        FILTRAR EMPRESA RECEBIDA PELA URL
-        --------------------------------------------------
+        ==================================================
+        FILTRO PADRÃO DA EMPRESA
+        ==================================================
         */
 
         if (empresaURL) {
 
-            const empresaProcurada =
-                normalizarTexto(empresaURL);
+            filtrosAtivos.empresa = [empresaURL];
 
-            const linhasEmpresa =
-                todasLinhas.filter(
-                    function (item) {
+            // Aplicar status Ativa por padrão
+            if (!Object.prototype.hasOwnProperty.call(
+                filtrosAtivos,
+                "status"
+            )) {
+                filtrosAtivos.status = ["Ativa"];
+            }
 
-                        return (
-                            normalizarTexto(item.empresa) ===
-                            empresaProcurada
-                        );
-                    }
-                );
-
-            console.log(
-                "LINHAS DA EMPRESA:",
-                linhasEmpresa.length
-            );
-
-            exibirLinhas(linhasEmpresa);
-
-        } else {
-
-            /*
-            ----------------------------------------------
-            APLICAR PESQUISA E FILTROS EXISTENTES
-            ----------------------------------------------
-            */
-
-            aplicarTodosFiltros();
         }
+
+        // Aplicar filtros e atualizar tabela
+        aplicarTodosFiltros();
 
 
     } catch (erro) {
@@ -2209,16 +2192,16 @@ function aplicarTodosFiltros() {
                         filtrosAtivos[coluna];
 
                     if (
-                        !permitidos.includes(
-                            String(
-                                item[coluna] ?? ""
-                            ).trim()
-                        )
-                    ) {
+                    !permitidos.some(
+                        valor =>
+                            normalizarTexto(valor) ===
+                            normalizarTexto(item[coluna])
+                    )
+                ) {
 
-                        return false;
-                    }
+                    return false;
                 }
+                                }
 
                 return true;
             }
