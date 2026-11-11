@@ -1414,11 +1414,13 @@ AJUSTE DA BORDA DIREITA DA TABELA
     }
 }
 
+
 /* ==========================================
-   PAGINAÇÃO - TERMINAIS
+   PAGINAÇÃO - TERMINAIS E TARIFAS
 ========================================== */
 
-#infoPaginaTerminal {
+#infoPaginaTerminal,
+#infoPaginaTarifa {
     font-weight: bold;
     font-size: 14px;
 }

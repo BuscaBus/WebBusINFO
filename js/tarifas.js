@@ -12,6 +12,17 @@ let todasTarifas = [];
 
 let idTarifaExcluir = null;
 
+/*
+==========================================================
+PAGINAÇÃO DAS TARIFAS
+==========================================================
+*/
+
+let tarifasFiltradas = [];
+
+let paginaAtualTarifa = 1;
+
+const ITENS_POR_PAGINA_TARIFA = 10;
 
 /*
 ==========================================================
@@ -79,6 +90,36 @@ document.addEventListener(
         await carregarModalExclusao();
 
         configurarEventosModalExclusao();
+
+        /*
+        ==================================================
+        CONFIGURAR PAGINAÇÃO DAS TARIFAS
+        ==================================================
+        */
+
+        const btnAnteriorTarifa =
+            document.getElementById("btnAnteriorTarifa");
+
+        const btnProximaTarifa =
+            document.getElementById("btnProximaTarifa");
+
+        if (btnAnteriorTarifa) {
+
+            btnAnteriorTarifa.addEventListener(
+                "click",
+                paginaAnteriorTarifa
+            );
+
+        }
+
+        if (btnProximaTarifa) {
+
+            btnProximaTarifa.addEventListener(
+                "click",
+                proximaPaginaTarifa
+            );
+
+        }
 
 
         /*
@@ -578,12 +619,18 @@ async function carregarTarifas() {
         );
 
 
-        renderizarTarifas(
-            todasTarifas
-        );
+        /*
+        --------------------------------------------------
+        ATUALIZAR LISTAGEM E PAGINAÇÃO
+        --------------------------------------------------
+        */
+
+        paginaAtualTarifa = 1;
+
+        filtrarTarifas();
 
 
-    } catch (erro) {
+            } catch (erro) {
 
         console.error(
             "Erro ao carregar tarifas:",
@@ -630,8 +677,55 @@ function renderizarTarifas(tarifas) {
 
     lista.innerHTML = "";
 
+    /*
+        --------------------------------------------------
+        ARMAZENAR TARIFAS FILTRADAS
+        --------------------------------------------------
+        */
 
-    if (!tarifas.length) {
+        tarifasFiltradas = tarifas;
+
+
+        /*
+        --------------------------------------------------
+        CALCULAR TOTAL DE PÁGINAS
+        --------------------------------------------------
+        */
+
+        const totalPaginas = Math.max(
+            1,
+            Math.ceil(
+                tarifas.length / ITENS_POR_PAGINA_TARIFA
+            )
+        );
+
+
+        /*
+        --------------------------------------------------
+        VALIDAR PÁGINA ATUAL
+        --------------------------------------------------
+        */
+
+        if (paginaAtualTarifa > totalPaginas) {
+            paginaAtualTarifa = totalPaginas;
+        }
+
+        if (paginaAtualTarifa < 1) {
+            paginaAtualTarifa = 1;
+        }
+
+
+        if (!tarifas.length) {
+
+            lista.innerHTML = `
+                <tr>
+                    <td colspan="5">
+                        Nenhuma tarifa encontrada.
+                    </td>
+                </tr>
+            `;
+
+            if (!tarifas.length) {
 
         lista.innerHTML = `
             <tr>
@@ -641,80 +735,123 @@ function renderizarTarifas(tarifas) {
             </tr>
         `;
 
+        atualizarPaginacaoTarifas();
+
         return;
     }
 
+     
+    /*
+    --------------------------------------------------
+    SELECIONAR REGISTROS DA PÁGINA
+    --------------------------------------------------
+    */
 
-    tarifas.forEach(
+    const inicio =
+        (paginaAtualTarifa - 1) *
+        ITENS_POR_PAGINA_TARIFA;
+
+    const fim =
+        inicio + ITENS_POR_PAGINA_TARIFA;
+
+    const tarifasPagina =
+        tarifas.slice(inicio, fim);
+
+
+    /*
+    --------------------------------------------------
+    EXIBIR REGISTROS DA PÁGINA
+    --------------------------------------------------
+    */
+
+    tarifasPagina.forEach(
         tarifa => {
-
-            const tr =
-                document.createElement(
-                    "tr"
-                );
+    }
 
 
-            tr.innerHTML = `
 
-                <td>
-                    ${escaparHTML(
-                        tarifa.tipo
-                    )}
-                </td>
+/*
+==========================================================
+ATUALIZAR PAGINAÇÃO DAS TARIFAS
+==========================================================
+*/
 
-                <td>
-                    ${formatarMoeda(
-                        tarifa.tarifa_cartao
-                    )}
-                </td>
+function atualizarPaginacaoTarifas() {
 
-                <td>
-                    ${formatarMoeda(
-                        tarifa.tarifa_dinheiro
-                    )}
-                </td>
+    const infoPagina =
+        document.getElementById("infoPaginaTarifa");
 
-               <td>
-                    ${escaparHTML(
-                        formatarData(
-                            tarifa.atualizacao
-                        )
-                    )}
-                </td>
+    const btnAnterior =
+        document.getElementById("btnAnteriorTarifa");
 
-                <td class="acoes">
+    const btnProxima =
+        document.getElementById("btnProximaTarifa");
 
-                    <button
-                        type="button"
-                        class="btn-editar"
-                        onclick="editarTarifa('${escaparJS(
-                            tarifa.id_tarifa
-                        )}')"
-                    >
-                        EDITAR
-                    </button>
-
-                    <button
-                        type="button"
-                        class="btn-excluir"
-                        onclick="confirmarExclusaoTarifa('${escaparJS(
-                            tarifa.id_tarifa
-                        )}')"
-                    >
-                        EXCLUIR
-                    </button>
-
-                </td>
-
-            `;
-
-
-            lista.appendChild(
-                tr
-            );
-
-           }
+    const totalPaginas = Math.max(
+        1,
+        Math.ceil(
+            tarifasFiltradas.length /
+            ITENS_POR_PAGINA_TARIFA
+        )
     );
+
+    if (infoPagina) {
+        infoPagina.textContent =
+            `Página ${paginaAtualTarifa} de ${totalPaginas}`;
+    }
+
+    if (btnAnterior) {
+        btnAnterior.disabled =
+            paginaAtualTarifa <= 1;
+    }
+
+    if (btnProxima) {
+        btnProxima.disabled =
+            paginaAtualTarifa >= totalPaginas;
+    }
+
+}
+
+
+/*
+==========================================================
+PÁGINA ANTERIOR
+==========================================================
+*/
+
+function paginaAnteriorTarifa() {
+
+    if (paginaAtualTarifa <= 1) {
+        return;
+    }
+
+    paginaAtualTarifa--;
+
+    renderizarTarifas(tarifasFiltradas);
+
+}
+
+
+/*
+==========================================================
+PRÓXIMA PÁGINA
+==========================================================
+*/
+
+function proximaPaginaTarifa() {
+
+    const totalPaginas = Math.ceil(
+        tarifasFiltradas.length /
+        ITENS_POR_PAGINA_TARIFA
+    );
+
+    if (paginaAtualTarifa >= totalPaginas) {
+        return;
+    }
+
+    paginaAtualTarifa++;
+
+    renderizarTarifas(tarifasFiltradas);
 
 }
 
@@ -737,6 +874,8 @@ function filtrarTarifas() {
 
         return;
     }
+
+    paginaAtualTarifa = 1;
 
 
     const termo =
