@@ -1231,24 +1231,45 @@ function exibirLinhas(linhas) {
     }
 
 
-    /*
-    ------------------------------------------------------
-    GARANTIR ARRAY
-    ------------------------------------------------------
-    */
+    
+        /*
+        ------------------------------------------------------
+        GARANTIR ARRAY
+        ------------------------------------------------------
+        */
 
-    if (!Array.isArray(linhas)) {
-        linhas = [];
-    }
+        if (!Array.isArray(linhas)) {
+            linhas = [];
+        }
 
 
-    /*
-    ------------------------------------------------------
-    GUARDAR LISTA ATUAL
-    ------------------------------------------------------
-    */
+        /*
+        ------------------------------------------------------
+        ORDENAR PELO CÓDIGO EM ORDEM CRESCENTE
+        ------------------------------------------------------
+        */
 
-    linhasFiltradas = linhas;
+        linhas = [...linhas].sort(function (a, b) {
+
+            return String(a.cod ?? "").localeCompare(
+                String(b.cod ?? ""),
+                "pt-BR",
+                {
+                    numeric: true,
+                    sensitivity: "base"
+                }
+            );
+
+        });
+
+
+        /*
+        ------------------------------------------------------
+        GUARDAR LISTA ATUAL
+        ------------------------------------------------------
+        */
+
+        linhasFiltradas = linhas;
 
 
     /*
