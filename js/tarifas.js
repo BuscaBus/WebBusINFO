@@ -655,6 +655,7 @@ async function carregarTarifas() {
 }
 
 
+
 /*
 ==========================================================
 RENDERIZAR TARIFAS
@@ -663,69 +664,56 @@ RENDERIZAR TARIFAS
 
 function renderizarTarifas(tarifas) {
 
-    const lista =
-        document.getElementById(
-            "listaTarifas"
-        );
-
+    const lista = document.getElementById("listaTarifas");
 
     if (!lista) {
-
         return;
     }
-
 
     lista.innerHTML = "";
 
     /*
-        --------------------------------------------------
-        ARMAZENAR TARIFAS FILTRADAS
-        --------------------------------------------------
-        */
+    --------------------------------------------------
+    ARMAZENAR TARIFAS FILTRADAS
+    --------------------------------------------------
+    */
 
-        tarifasFiltradas = tarifas;
+    tarifasFiltradas = tarifas;
 
+    /*
+    --------------------------------------------------
+    CALCULAR TOTAL DE PÁGINAS
+    --------------------------------------------------
+    */
 
-        /*
-        --------------------------------------------------
-        CALCULAR TOTAL DE PÁGINAS
-        --------------------------------------------------
-        */
+    const totalPaginas = Math.max(
+        1,
+        Math.ceil(
+            tarifas.length / ITENS_POR_PAGINA_TARIFA
+        )
+    );
 
-        const totalPaginas = Math.max(
-            1,
-            Math.ceil(
-                tarifas.length / ITENS_POR_PAGINA_TARIFA
-            )
-        );
+    /*
+    --------------------------------------------------
+    VALIDAR PÁGINA ATUAL
+    --------------------------------------------------
+    */
 
+    if (paginaAtualTarifa > totalPaginas) {
+        paginaAtualTarifa = totalPaginas;
+    }
 
-        /*
-        --------------------------------------------------
-        VALIDAR PÁGINA ATUAL
-        --------------------------------------------------
-        */
+    if (paginaAtualTarifa < 1) {
+        paginaAtualTarifa = 1;
+    }
 
-        if (paginaAtualTarifa > totalPaginas) {
-            paginaAtualTarifa = totalPaginas;
-        }
+    /*
+    --------------------------------------------------
+    VERIFICAR SE EXISTEM TARIFAS
+    --------------------------------------------------
+    */
 
-        if (paginaAtualTarifa < 1) {
-            paginaAtualTarifa = 1;
-        }
-
-
-        if (!tarifas.length) {
-
-            lista.innerHTML = `
-                <tr>
-                    <td colspan="5">
-                        Nenhuma tarifa encontrada.
-                    </td>
-                </tr>
-            `;
-
-            if (!tarifas.length) {
+    if (!tarifas.length) {
 
         lista.innerHTML = `
             <tr>
@@ -740,7 +728,6 @@ function renderizarTarifas(tarifas) {
         return;
     }
 
-     
     /*
     --------------------------------------------------
     SELECIONAR REGISTROS DA PÁGINA
@@ -757,17 +744,75 @@ function renderizarTarifas(tarifas) {
     const tarifasPagina =
         tarifas.slice(inicio, fim);
 
-
     /*
     --------------------------------------------------
     EXIBIR REGISTROS DA PÁGINA
     --------------------------------------------------
     */
 
-    tarifasPagina.forEach(
-        tarifa => {
-    }
+    tarifasPagina.forEach(tarifa => {
 
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+
+            <td>
+                ${escaparHTML(tarifa.tipo)}
+            </td>
+
+            <td>
+                ${formatarMoeda(tarifa.tarifa_cartao)}
+            </td>
+
+            <td>
+                ${formatarMoeda(tarifa.tarifa_dinheiro)}
+            </td>
+
+            <td>
+                ${escaparHTML(
+                    formatarData(tarifa.atualizacao)
+                )}
+            </td>
+
+            <td class="acoes">
+
+                <button
+                    type="button"
+                    class="btn-editar"
+                    onclick="editarTarifa('${escaparJS(
+                        tarifa.id_tarifa
+                    )}')"
+                >
+                    EDITAR
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-excluir"
+                    onclick="confirmarExclusaoTarifa('${escaparJS(
+                        tarifa.id_tarifa
+                    )}')"
+                >
+                    EXCLUIR
+                </button>
+
+            </td>
+
+        `;
+
+        lista.appendChild(tr);
+
+    });
+
+    /*
+    --------------------------------------------------
+    ATUALIZAR CONTROLES DA PAGINAÇÃO
+    --------------------------------------------------
+    */
+
+    atualizarPaginacaoTarifas();
+
+}
 
 
 /*
