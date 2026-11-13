@@ -1433,6 +1433,14 @@ function exibirLinhas(linhas) {
 
                     <button
                         type="button"
+                        class="btn-horarios"
+                        onclick="abrirHorarios(${Number(item.id_linha)})"
+                    >
+                        Horários
+                    </button>
+
+                    <button
+                        type="button"
                         class="btn-editar"
                         onclick="editarLinha(${Number(item.id_linha)})"
                     >
@@ -4995,6 +5003,26 @@ async function salvarEdicaoTracado() {
         }
 
     }
+}
+
+/*
+==========================================================
+ABRIR HORÁRIOS DA LINHA
+==========================================================
+*/
+
+function abrirHorarios(idLinha) {
+
+    if (!idLinha || Number(idLinha) <= 0) {
+
+        alert("Identificador da linha inválido.");
+
+        return;
+    }
+
+    window.location.href =
+        `./horarios.html?id_linha=${encodeURIComponent(idLinha)}`;
+
 }
 
 

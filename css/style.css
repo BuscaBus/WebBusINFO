@@ -1424,3 +1424,29 @@ AJUSTE DA BORDA DIREITA DA TABELA
     font-weight: bold;
     font-size: 14px;
 }
+
+/*
+==========================================================
+BOTÃO HORÁRIOS
+==========================================================
+*/
+
+.btn-horarios {
+    background-color: #007bff;
+    color: #ffffff;
+
+    border: none;
+    border-radius: 5px;
+
+    padding: 8px 12px;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-horarios:hover {
+    background-color: #0056b3;
+}
