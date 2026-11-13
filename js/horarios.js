@@ -312,3 +312,519 @@ function mostrarMensagemHorarios(texto) {
         elemento.textContent = texto;
     }
 }
+
+
+/*
+==========================================================
+PARTE 4 - CADASTRO DE HORÁRIOS
+==========================================================
+*/
+
+let horariosCadastrados = [];
+let proximoIdHorario = 1;
+
+
+/*
+==========================================================
+CONFIGURAR EVENTOS
+==========================================================
+*/
+
+function configurarEventosHorarios() {
+
+    const btnAdicionar =
+        document.getElementById("btnAdicionarHorario");
+
+    const btnLista =
+        document.getElementById("btnListaHorarios");
+
+    const btnFechar =
+        document.getElementById("btnFecharLista");
+
+    const btnCancelar =
+        document.getElementById("btnCancelarLista");
+
+    const btnSalvarLista =
+        document.getElementById("btnSalvarLista");
+
+    const modal =
+        document.getElementById("modalListaHorarios");
+
+    if (btnAdicionar) {
+        btnAdicionar.addEventListener(
+            "click",
+            adicionarHorarioIndividual
+        );
+    }
+
+    if (btnLista) {
+        btnLista.addEventListener(
+            "click",
+            abrirModalLista
+        );
+    }
+
+    if (btnFechar) {
+        btnFechar.addEventListener(
+            "click",
+            fecharModalLista
+        );
+    }
+
+    if (btnCancelar) {
+        btnCancelar.addEventListener(
+            "click",
+            fecharModalLista
+        );
+    }
+
+    if (btnSalvarLista) {
+        btnSalvarLista.addEventListener(
+            "click",
+            adicionarListaHorarios
+        );
+    }
+
+    if (modal) {
+        modal.addEventListener("click", function (event) {
+
+            if (event.target === modal) {
+                fecharModalLista();
+            }
+
+        });
+    }
+
+    document.addEventListener("keydown", function (event) {
+
+        if (event.key === "Escape") {
+            fecharModalLista();
+        }
+
+    });
+}
+
+
+/*
+==========================================================
+VALIDAR HORÁRIO
+==========================================================
+*/
+
+function horarioValido(horario) {
+
+    return /^([01]\d|2[0-3]):[0-5]\d$/.test(horario);
+
+}
+
+
+/*
+==========================================================
+ADICIONAR HORÁRIO INDIVIDUAL
+==========================================================
+*/
+
+function adicionarHorarioIndividual() {
+
+    const viagem =
+        document.getElementById("viagem").value;
+
+    const campoHorario =
+        document.getElementById("horario");
+
+    const horario =
+        campoHorario.value.trim();
+
+    if (!viagem) {
+        alert("Selecione uma viagem.");
+        return;
+    }
+
+    if (!horarioValido(horario)) {
+        alert("Informe um horário válido.");
+        return;
+    }
+
+    if (horarioJaExiste(horario, viagem)) {
+        alert("Este horário já está cadastrado nesta viagem.");
+        return;
+    }
+
+    horariosCadastrados.push({
+        id: proximoIdHorario++,
+        id_linha: idLinhaHorarios,
+        horario: horario,
+        viagem: viagem
+    });
+
+    ordenarHorarios();
+    exibirHorarios();
+
+    campoHorario.value = "";
+    campoHorario.focus();
+
+    mostrarMensagemHorarios(
+        "Horário adicionado à lista temporária."
+    );
+}
+
+
+/*
+==========================================================
+VERIFICAR HORÁRIO DUPLICADO
+==========================================================
+*/
+
+function horarioJaExiste(horario, viagem) {
+
+    return horariosCadastrados.some(function (item) {
+
+        return (
+            item.horario === horario &&
+            item.viagem === viagem
+        );
+
+    });
+}
+
+
+/*
+==========================================================
+ORDENAR HORÁRIOS
+==========================================================
+*/
+
+function ordenarHorarios() {
+
+    horariosCadastrados.sort(function (a, b) {
+
+        return a.horario.localeCompare(b.horario);
+
+    });
+}
+
+
+/*
+==========================================================
+ABRIR MODAL LISTA
+==========================================================
+*/
+
+function abrirModalLista() {
+
+    const viagem =
+        document.getElementById("viagem").value;
+
+    if (!viagem) {
+        alert("Selecione uma viagem antes de inserir a lista.");
+        return;
+    }
+
+    const modal =
+        document.getElementById("modalListaHorarios");
+
+    const campo =
+        document.getElementById("listaHorariosTexto");
+
+    campo.value = "";
+
+    modal.classList.add("ativo");
+
+    campo.focus();
+}
+
+
+/*
+==========================================================
+FECHAR MODAL LISTA
+==========================================================
+*/
+
+function fecharModalLista() {
+
+    const modal =
+        document.getElementById("modalListaHorarios");
+
+    if (modal) {
+        modal.classList.remove("ativo");
+    }
+}
+
+
+/*
+==========================================================
+ADICIONAR LISTA DE HORÁRIOS
+==========================================================
+*/
+
+function adicionarListaHorarios() {
+
+    const viagem =
+        document.getElementById("viagem").value;
+
+    const campo =
+        document.getElementById("listaHorariosTexto");
+
+    const texto =
+        campo.value.trim();
+
+    if (!viagem) {
+        alert("Selecione uma viagem.");
+        return;
+    }
+
+    if (!texto) {
+        alert("Informe a lista de horários.");
+        return;
+    }
+
+    /*
+    ------------------------------------------------------
+    SEPARAR HORÁRIOS
+    ------------------------------------------------------
+    */
+
+    const horarios =
+        texto.split(/[\s,;]+/)
+            .map(item => item.trim())
+            .filter(item => item !== "");
+
+    /*
+    ------------------------------------------------------
+    VALIDAR TODOS OS HORÁRIOS
+    ------------------------------------------------------
+    */
+
+    const invalidos =
+        horarios.filter(
+            horario => !horarioValido(horario)
+        );
+
+    if (invalidos.length > 0) {
+
+        alert(
+            "Existem horários inválidos:\n\n" +
+            invalidos.join(", ")
+        );
+
+        return;
+    }
+
+    /*
+    ------------------------------------------------------
+    ADICIONAR SEM DUPLICAR
+    ------------------------------------------------------
+    */
+
+    let adicionados = 0;
+
+    horarios.forEach(function (horario) {
+
+        if (!horarioJaExiste(horario, viagem)) {
+
+            horariosCadastrados.push({
+                id: proximoIdHorario++,
+                id_linha: idLinhaHorarios,
+                horario: horario,
+                viagem: viagem
+            });
+
+            adicionados++;
+        }
+
+    });
+
+    ordenarHorarios();
+    exibirHorarios();
+    fecharModalLista();
+
+    mostrarMensagemHorarios(
+        adicionados +
+        " horário(s) adicionado(s) à lista temporária."
+    );
+}
+
+
+/*
+==========================================================
+IDENTIFICAR NOME DA VIAGEM
+==========================================================
+*/
+
+function obterNomeViagem(viagem) {
+
+    if (!linhaSelecionada) {
+        return viagem;
+    }
+
+    if (viagem === "ida") {
+
+        return String(
+            linhaSelecionada.embarque_ida ?? ""
+        ).trim();
+
+    }
+
+    if (viagem === "volta") {
+
+        return String(
+            linhaSelecionada.embarque_volta ?? ""
+        ).trim();
+
+    }
+
+    return viagem;
+}
+
+
+/*
+==========================================================
+EXIBIR HORÁRIOS
+==========================================================
+*/
+
+function exibirHorarios() {
+
+    const tbody =
+        document.getElementById("listaHorarios");
+
+    if (!tbody) {
+        return;
+    }
+
+    tbody.innerHTML = "";
+
+    if (horariosCadastrados.length === 0) {
+
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+
+        td.colSpan = 3;
+        td.textContent = "Nenhum horário cadastrado.";
+
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+
+        return;
+    }
+
+    horariosCadastrados.forEach(function (item) {
+
+        const tr = document.createElement("tr");
+
+        const tdHorario = document.createElement("td");
+        tdHorario.textContent = item.horario;
+
+        const tdViagem = document.createElement("td");
+        tdViagem.textContent = obterNomeViagem(item.viagem);
+
+        const tdAcoes = document.createElement("td");
+
+        const btnEditar = document.createElement("button");
+        btnEditar.type = "button";
+        btnEditar.className = "btn-editar-horario";
+        btnEditar.textContent = "Editar";
+
+        btnEditar.addEventListener("click", function () {
+            editarHorario(item.id);
+        });
+
+        const btnExcluir = document.createElement("button");
+        btnExcluir.type = "button";
+        btnExcluir.className = "btn-excluir-horario";
+        btnExcluir.textContent = "Excluir";
+
+        btnExcluir.addEventListener("click", function () {
+            excluirHorario(item.id);
+        });
+
+        tdAcoes.appendChild(btnEditar);
+        tdAcoes.appendChild(btnExcluir);
+
+        tr.appendChild(tdHorario);
+        tr.appendChild(tdViagem);
+        tr.appendChild(tdAcoes);
+
+        tbody.appendChild(tr);
+    });
+}
+
+
+/*
+==========================================================
+EDITAR HORÁRIO
+==========================================================
+*/
+
+function editarHorario(id) {
+
+    const registro =
+        horariosCadastrados.find(item => item.id === id);
+
+    if (!registro) {
+        return;
+    }
+
+    const novoHorario = prompt(
+        "Informe o novo horário:",
+        registro.horario
+    );
+
+    if (novoHorario === null) {
+        return;
+    }
+
+    const horario = novoHorario.trim();
+
+    if (!horarioValido(horario)) {
+        alert("Horário inválido. Use HH:MM.");
+        return;
+    }
+
+    const duplicado = horariosCadastrados.some(item =>
+        item.id !== id &&
+        item.horario === horario &&
+        item.viagem === registro.viagem
+    );
+
+    if (duplicado) {
+        alert("Este horário já existe nesta viagem.");
+        return;
+    }
+
+    registro.horario = horario;
+
+    ordenarHorarios();
+    exibirHorarios();
+}
+
+
+/*
+==========================================================
+EXCLUIR HORÁRIO
+==========================================================
+*/
+
+function excluirHorario(id) {
+
+    if (!confirm("Deseja excluir este horário?")) {
+        return;
+    }
+
+    horariosCadastrados =
+        horariosCadastrados.filter(item => item.id !== id);
+
+    exibirHorarios();
+}
+
+
+/*
+==========================================================
+INICIALIZAR EVENTOS DA PARTE 4
+==========================================================
+*/
+
+document.addEventListener(
+    "DOMContentLoaded",
+    configurarEventosHorarios
+);
