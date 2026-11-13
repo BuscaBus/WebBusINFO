@@ -1,0 +1,390 @@
+
+/*
+==========================================================
+IDENTIFICAÇÃO DA LINHA
+==========================================================
+*/
+
+.identificacao-linha {
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+
+    padding: 15px 20px;
+    margin-bottom: 20px;
+
+    text-align: center;
+}
+
+.identificacao-linha h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #333333;
+}
+
+
+/*
+==========================================================
+CONTAINER PRINCIPAL
+==========================================================
+*/
+
+.horarios-container {
+    display: grid;
+    grid-template-columns: 40% 60%;
+
+    gap: 20px;
+    align-items: start;
+    padding-right: 20px;
+}
+
+
+/*
+==========================================================
+PAINÉIS
+==========================================================
+*/
+
+.painel-horarios {
+    min-width: 0;
+
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+
+    padding: 20px;
+}
+
+.painel-horarios h3 {
+    margin: 0 0 20px;
+
+    padding-bottom: 12px;
+    border-bottom: 1px solid #dddddd;
+
+    font-size: 18px;
+    color: #333333;
+}
+
+
+/*
+==========================================================
+CAMPOS DO FORMULÁRIO
+==========================================================
+*/
+
+.campo-horarios {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+    margin-bottom: 18px;
+}
+
+.campo-horarios label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.campo-horarios select,
+.campo-horarios input {
+    width: 100%;
+    height: 38px;
+
+    padding: 8px 10px;
+
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+
+    background: #ffffff;
+    font-size: 14px;
+}
+
+
+/*
+==========================================================
+HORÁRIO E BOTÃO LISTA
+==========================================================
+*/
+
+.horario-acoes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.horario-acoes input {
+    flex: 1;
+    min-width: 0;
+}
+
+.btn-lista {
+    height: 38px;
+    padding: 0 16px;
+
+    background: #e9ecef;
+    color: #333333;
+
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-lista:hover {
+    background: #d6d8db;
+}
+
+
+/*
+==========================================================
+BOTÃO ADICIONAR
+==========================================================
+*/
+
+.btn-adicionar-horario {
+    padding: 10px 18px;
+
+    background: #008f50;
+    color: #ffffff;
+
+    border: none;
+    border-radius: 5px;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.btn-adicionar-horario:hover {
+    background: #007440;
+}
+
+
+/*
+==========================================================
+TABELA DE HORÁRIOS
+==========================================================
+*/
+
+#tabelaHorarios {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#tabelaHorarios th,
+#tabelaHorarios td {
+    padding: 10px 12px;
+
+    border-bottom: 1px solid #dddddd;
+
+    text-align: center;
+    font-size: 13px;
+}
+
+#tabelaHorarios th {
+    background: #eeeeee;
+    font-weight: bold;
+}
+
+#tabelaHorarios td:nth-child(2) {
+    text-align: left;
+}
+
+
+/*
+==========================================================
+BOTÕES DA TABELA
+==========================================================
+*/
+
+.btn-editar-horario,
+.btn-excluir-horario {
+    padding: 6px 10px;
+    margin: 0 2px;
+
+    border: none;
+    border-radius: 4px;
+
+    background: #e9ecef;
+    color: #333333;
+
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.btn-editar-horario:hover,
+.btn-excluir-horario:hover {
+    background: #d6d8db;
+}
+
+
+/*
+==========================================================
+MODAL LISTA DE HORÁRIOS
+==========================================================
+*/
+
+.modal-lista-horarios {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+
+    z-index: 2000;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    padding: 20px;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-lista-horarios.ativo {
+    display: flex;
+}
+
+.modal-lista-conteudo {
+    width: 100%;
+    max-width: 550px;
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: #ffffff;
+    border-radius: 8px;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+
+/*
+==========================================================
+CABEÇALHO DO MODAL
+==========================================================
+*/
+
+.modal-lista-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 18px 20px;
+
+    border-bottom: 1px solid #dddddd;
+}
+
+.modal-lista-cabecalho h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.btn-fechar-lista {
+    background: transparent;
+    border: none;
+
+    font-size: 26px;
+    cursor: pointer;
+}
+
+
+/*
+==========================================================
+CORPO DO MODAL
+==========================================================
+*/
+
+.modal-lista-corpo {
+    padding: 20px;
+}
+
+.modal-lista-corpo label {
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#listaHorariosTexto {
+    width: 100%;
+    min-height: 220px;
+
+    padding: 12px;
+
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+
+    resize: vertical;
+}
+
+
+/*
+==========================================================
+RODAPÉ DO MODAL
+==========================================================
+*/
+
+.modal-lista-rodape {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    padding: 15px 20px;
+
+    border-top: 1px solid #dddddd;
+}
+
+.btn-cancelar-lista,
+.btn-salvar-lista {
+    padding: 9px 15px;
+
+    border: none;
+    border-radius: 5px;
+
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-cancelar-lista {
+    background: #e9ecef;
+    color: #333333;
+}
+
+.btn-salvar-lista {
+    background: #008f50;
+    color: #ffffff;
+}
+
+.btn-salvar-lista:hover {
+    background: #007440;
+}
+
+
+/*
+==========================================================
+RESPONSIVIDADE
+==========================================================
+*/
+
+@media (max-width: 850px) {
+
+    .horarios-container {
+        grid-template-columns: 1fr;
+        padding-right: 0;
+    }
+
+    .painel-horarios {
+        padding: 15px;
+    }
+
+    .modal-lista-rodape {
+        flex-wrap: wrap;
+    }
+}

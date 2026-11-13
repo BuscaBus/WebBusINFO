@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cadastro de Horários</title>
+
+    <link
+        rel="stylesheet"
+        href="./css/style.css?v=11"
+    >
+
+    <link
+        rel="stylesheet"
+        href="./css/horarios.css?v=1"
+    >
+
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+
+    <header>
+        <h1>Cadastro de Horários</h1>
+    </header>
+
+    <main>
+
+        <!-- BARRA DE AÇÕES -->
+
+        <div class="barra-acoes">
+
+            <div class="acoes-esquerda">
+
+                <a
+                    href="./index.html"
+                    class="btn-voltar"
+                    id="btnVoltar"
+                >
+                    VOLTAR
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- IDENTIFICAÇÃO DA LINHA -->
+
+        <section class="identificacao-linha">
+
+            <h2 id="tituloLinha">
+                Carregando linha...
+            </h2>
+
+        </section>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+
+        <div class="horarios-container">
+
+            <!-- CADASTRO DE HORÁRIOS -->
+
+            <section class="painel-horarios">
+
+                <h3>Adicionar horários</h3>
+
+                <div class="campo-horarios">
+
+                    <label for="viagem">
+                        Viagem
+                    </label>
+
+                    <select id="viagem">
+
+                        <option value="">
+                            Selecione a viagem
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="campo-horarios">
+
+                    <label for="horario">
+                        Horário
+                    </label>
+
+                    <div class="horario-acoes">
+
+                        <input
+                            type="time"
+                            id="horario"
+                        >
+
+                        <button
+                            type="button"
+                            id="btnListaHorarios"
+                            class="btn-lista"
+                        >
+                            LISTA
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="button"
+                    id="btnAdicionarHorario"
+                    class="btn-adicionar-horario"
+                >
+                    ADICIONAR
+                </button>
+
+            </section>
+
+            <!-- LISTAGEM DE HORÁRIOS -->
+
+            <section class="painel-horarios">
+
+                <h3>Horários cadastrados</h3>
+
+                <div class="tabela-container">
+
+                    <table id="tabelaHorarios">
+
+                        <thead>
+
+                            <tr>
+                                <th>Horário</th>
+                                <th>Viagem</th>
+                                <th>Ações</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="listaHorarios">
+
+                            <tr>
+                                <td colspan="3">
+                                    Nenhum horário cadastrado.
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </div>
+
+        <!-- MENSAGENS -->
+
+        <div
+            id="mensagemHorarios"
+            class="mensagem"
+        ></div>
+
+    </main>
+
+    <!-- MODAL LISTA DE HORÁRIOS -->
+
+    <div
+        id="modalListaHorarios"
+        class="modal-lista-horarios"
+    >
+
+        <div class="modal-lista-conteudo">
+
+            <div class="modal-lista-cabecalho">
+
+                <h3>Adicionar lista de horários</h3>
+
+                <button
+                    type="button"
+                    id="btnFecharLista"
+                    class="btn-fechar-lista"
+                >
+                    &times;
+                </button>
+
+            </div>
+
+            <div class="modal-lista-corpo">
+
+                <label for="listaHorariosTexto">
+                    Informe os horários, um por linha:
+                </label>
+
+                <textarea
+                    id="listaHorariosTexto"
+                    rows="10"
+                    placeholder="06:00&#10;06:30&#10;07:00&#10;07:30"
+                ></textarea>
+
+            </div>
+
+            <div class="modal-lista-rodape">
+
+                <button
+                    type="button"
+                    id="btnCancelarLista"
+                    class="btn-cancelar-lista"
+                >
+                    CANCELAR
+                </button>
+
+                <button
+                    type="button"
+                    id="btnSalvarLista"
+                    class="btn-salvar-lista"
+                >
+                    ADICIONAR HORÁRIOS
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+
+    <script src="./js/horarios.js?v=1"></script>
+
+</body>
+
+</html>
